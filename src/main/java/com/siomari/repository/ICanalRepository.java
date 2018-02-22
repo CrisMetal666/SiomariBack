@@ -19,7 +19,7 @@ public interface ICanalRepository extends JpaRepository<Canal, Integer> {
 	 * @param id. Id de la seccion
 	 * @return lista de canales con solo su nombre e id
 	 */
-	@Query("select new com.siomari.model.Canal(c.id, c.nombre) from Canal c where c.seccionId.id = ?1")
+	@Query("select new com.siomari.model.Canal(c.id, c.nombre) from Canal c inner join c.lstSeccionCanal sc where sc.seccionId.id = ?1")
 	List<Canal> buscarPorSeccionId(int id);
 	
 	/**

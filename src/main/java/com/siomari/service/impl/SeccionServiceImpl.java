@@ -64,7 +64,7 @@ public class SeccionServiceImpl implements ISeccionService {
 		// dejamos el objeto con solo el id para que no haya referencias ciclicas
 		lst.forEach(x -> {
 			x.setZonaId(new Zona(x.getZonaId().getId()));
-			x.setLstCanal(null);
+			x.setLstSeccionCanal(null);
 		});
 
 		return lst;
@@ -78,9 +78,13 @@ public class SeccionServiceImpl implements ISeccionService {
 
 		Seccion seccion = seccionRepo.findOne(id);
 
-		// dejamos el objeto con solo el id para que no haya referencias ciclicas
-		seccion.setZonaId(new Zona(seccion.getZonaId().getId()));
-		seccion.setLstCanal(null);
+		if(seccion != null) {
+			// dejamos el objeto con solo el id para que no haya referencias ciclicas
+			seccion.setZonaId(new Zona(seccion.getZonaId().getId()));
+			seccion.setLstSeccionCanal(null);
+		} else {
+			seccion = new Seccion();
+		}
 		
 		return seccion;
 	}

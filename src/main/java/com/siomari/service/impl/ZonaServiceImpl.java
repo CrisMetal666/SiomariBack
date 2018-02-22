@@ -80,9 +80,13 @@ public class ZonaServiceImpl implements IZonaService {
 
 		Zona zona = zonaRepo.findOne(id);
 
-		// dejamos el objeto con solo el id para que no haya referencias ciclicas
-		zona.setUnidadId(new Unidad(zona.getUnidadId().getId()));
-		zona.setLstSeccion(null);
+		if(zona != null) {
+			// dejamos el objeto con solo el id para que no haya referencias ciclicas
+			zona.setUnidadId(new Unidad(zona.getUnidadId().getId()));
+			zona.setLstSeccion(null);
+		} else {
+			zona = new Zona();
+		}
 		
 		return zona;
 	}

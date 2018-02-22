@@ -34,12 +34,11 @@ public class Seccion {
 	private Zona zonaId;
 	
 	@OneToMany(mappedBy = "seccionId", fetch = FetchType.LAZY)
-	private List<Canal> lstCanal;
+	private List<SeccionCanal> lstSeccionCanal;
 	
 	public Seccion() {
-		
 	}
-	
+
 	public Seccion(int id) {
 		this.id = id;
 	}
@@ -48,18 +47,18 @@ public class Seccion {
 		this.id = id;
 		this.nombre = nombre;
 	}
-
+	
 	public Seccion(int id, String nombre, Zona zonaId) {
 		this.id = id;
 		this.nombre = nombre;
 		this.zonaId = zonaId;
 	}
-
-	public Seccion(int id, String nombre, Zona zonaId, List<Canal> lstCanal) {
+	
+	public Seccion(int id, String nombre, Zona zonaId, List<SeccionCanal> lstSeccionCanal) {
 		this.id = id;
 		this.nombre = nombre;
 		this.zonaId = zonaId;
-		this.lstCanal = lstCanal;
+		this.lstSeccionCanal = lstSeccionCanal;
 	}
 
 	public int getId() {
@@ -86,13 +85,14 @@ public class Seccion {
 		this.zonaId = zonaId;
 	}
 
-	public List<Canal> getLstCanal() {
-		return lstCanal;
+	public List<SeccionCanal> getLstSeccionCanal() {
+		return lstSeccionCanal;
 	}
 
-	public void setLstCanal(List<Canal> lstCanal) {
-		this.lstCanal = lstCanal;
+	public void setLstSeccionCanal(List<SeccionCanal> lstSeccionCanal) {
+		this.lstSeccionCanal = lstSeccionCanal;
 	}
+	
 	
 	
 }

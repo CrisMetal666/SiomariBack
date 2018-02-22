@@ -55,7 +55,7 @@ public class Predio {
 	
 	@ManyToOne
 	@JoinColumn(name = "canal_id", nullable = false)
-	private Cultivo cultivoId;
+	private Canal canalId;
 
 	public Predio() {
 	}
@@ -76,23 +76,6 @@ public class Predio {
 		this.moduloRiego = moduloRiego;
 		this.numero_tomas = numero_tomas;
 		this.tipoSuelo = tipoSuelo;
-	}
-	
-	public Predio(int id, String codigo, String nombre, String nombrePropietario, double areaTotal,
-			double areaPotencialRiego, double areaBajoRiego, double moduloRiego, int numero_tomas, String tipoSuelo,
-			Usuario usuarioId, Cultivo cultivoId) {
-		this.id = id;
-		this.codigo = codigo;
-		this.nombre = nombre;
-		this.nombrePropietario = nombrePropietario;
-		this.areaTotal = areaTotal;
-		this.areaPotencialRiego = areaPotencialRiego;
-		this.areaBajoRiego = areaBajoRiego;
-		this.moduloRiego = moduloRiego;
-		this.numero_tomas = numero_tomas;
-		this.tipoSuelo = tipoSuelo;
-		this.usuarioId = usuarioId;
-		this.cultivoId = cultivoId;
 	}
 
 	public int getId() {
@@ -183,12 +166,12 @@ public class Predio {
 		this.usuarioId = usuarioId;
 	}
 
-	public Cultivo getCultivoId() {
-		return cultivoId;
+	public Canal getCanalId() {
+		return canalId;
 	}
 
-	public void setCultivoId(Cultivo cultivoId) {
-		this.cultivoId = cultivoId;
+	public void setCanalId(Canal canalId) {
+		this.canalId = canalId;
 	}
 	
 	

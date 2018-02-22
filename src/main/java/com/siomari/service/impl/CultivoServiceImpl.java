@@ -76,8 +76,12 @@ public class CultivoServiceImpl implements ICultivoService {
 
 		Cultivo cultivo = cultivoRepo.findOne(id);
 
-		if (cultivo.getLstKc() != null) {
-			cultivo.getLstKc().forEach(y -> y.setCultivoId(null));
+		if(cultivo != null) {
+			if (cultivo.getLstKc() != null) {
+				cultivo.getLstKc().forEach(y -> y.setCultivoId(null));
+			}
+		} else {
+			cultivo = new Cultivo();
 		}
 
 		return cultivo;

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.siomari.model.Canal;
-import com.siomari.model.Seccion;
 import com.siomari.repository.ICanalRepository;
 import com.siomari.service.ICanalService;
 
@@ -37,12 +36,20 @@ public class CanalServiceImpl implements ICanalService {
 		if (canal.getLstObra() != null) {
 			canal.getLstObra().forEach(x -> x.setCanalId(canal));
 		}
+		
+		if(canal.getLstSeccionCanal() != null) {
+			canal.getLstSeccionCanal().forEach(x -> x.setCanalId(canal));
+		}
 
 		canalRepo.save(canal);
 
 		// dejamos el objeto con solo el id para que no haya referencias ciclicas
 		if (canal.getLstObra() != null) {
 			canal.getLstObra().forEach(x -> x.setCanalId(null));
+		}
+		
+		if(canal.getLstSeccionCanal() != null) {
+			canal.getLstSeccionCanal().forEach(x -> x.setCanalId(null));
 		}
 
 	}
@@ -77,7 +84,20 @@ public class CanalServiceImpl implements ICanalService {
 		// dejamos el objeto con solo el id para que no haya referencias ciclicas
 		lst.forEach(x -> {
 
-			x.setSeccionId(new Seccion(x.getSeccionId().getId()));
+			if (x.getLstCanal() != null) {
+				x.getLstCanal().forEach(y -> y.setCanalId(null));
+			}
+			
+			if (x.getLstPredio() != null) {
+				x.getLstPredio().forEach(y -> y.setCanalId(null));
+			}
+			
+			if (x.getLstSeccionCanal() != null) {
+				x.getLstSeccionCanal().forEach(y -> {
+					y.setCanalId(null);
+					y.setSeccionId(null);
+				});
+			}
 
 			if (x.getLstObra() != null) {
 				x.getLstObra().forEach(y -> y.setCanalId(null));
@@ -95,11 +115,28 @@ public class CanalServiceImpl implements ICanalService {
 
 		Canal canal = canalRepo.findOne(id);
 
-		// dejamos el objeto con solo el id para que no haya referencias ciclicas
-		canal.setSeccionId(new Seccion(canal.getSeccionId().getId()));
+		if(canal != null) {
+			// dejamos el objeto con solo el id para que no haya referencias ciclicas
+			if (canal.getLstCanal() != null) {
+				canal.getLstCanal().forEach(y -> y.setCanalId(null));
+			}
+			
+			if (canal.getLstPredio() != null) {
+				canal.getLstPredio().forEach(y -> y.setCanalId(null));
+			}
+			
+			if (canal.getLstSeccionCanal() != null) {
+				canal.getLstSeccionCanal().forEach(y -> {
+					y.setCanalId(null);
+					y.setSeccionId(null);
+				});
+			}
 
-		if (canal.getLstObra() != null) {
-			canal.getLstObra().forEach(y -> y.setCanalId(null));
+			if (canal.getLstObra() != null) {
+				canal.getLstObra().forEach(y -> y.setCanalId(null));
+			}
+		} else {
+			canal = new Canal();
 		}
 
 		return canal;

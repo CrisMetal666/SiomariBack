@@ -74,8 +74,12 @@ public class UnidadServiceImpl implements IUnidadService {
 
 		Unidad unidad = unidadRepo.findOne(id);
 
-		// dejamos el objeto con solo el id para que no haya referencias ciclicas
-		unidad.setLstZona(null);
+		if(unidad != null) {
+			// dejamos el objeto con solo el id para que no haya referencias ciclicas
+			unidad.setLstZona(null);
+		} else {
+			unidad = new Unidad();
+		}
 		
 		return unidad;
 	}
