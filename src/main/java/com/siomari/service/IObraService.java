@@ -1,16 +1,16 @@
 package com.siomari.service;
 
-import com.siomari.model.Unidad;
+import com.siomari.model.Obra;
 
 /**
  * 
  * @author crismetal
  *
  */
-public interface IUnidadService extends IService<Unidad> {
+public interface IObraService extends IService<Obra> {
 
 	/**
-	 * se verificara si existe una unidad por su nombre
+	 * se verificara si existe una obra por su nombre
 	 * @param nombre
 	 * @return true si existe, false si no existe
 	 */

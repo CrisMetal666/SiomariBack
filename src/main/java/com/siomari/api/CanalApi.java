@@ -140,9 +140,9 @@ public class CanalApi {
 			}
 			
 		}catch(Exception e) {
-
-			response = new ResponseEntity<Canal>(new Canal(), HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
+			response = new ResponseEntity<Canal>(new Canal(), HttpStatus.INTERNAL_SERVER_ERROR);
+			
 		}
 		
 		return response;

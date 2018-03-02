@@ -1,5 +1,6 @@
 package com.siomari.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class CanalServiceImpl implements ICanalService {
 
 		// si la lista esta llena, vinculamos las obras al canal, para que haga una
 		// persistencia en cascada
-		if (canal.getLstObra() != null) {
-			canal.getLstObra().forEach(x -> x.setCanalId(canal));
+		if (canal.getLstCanalObra() != null) {
+			canal.getLstCanalObra().forEach(x -> x.setCanalId(canal));
 		}
 		
 		if(canal.getLstSeccionCanal() != null) {
@@ -44,8 +45,8 @@ public class CanalServiceImpl implements ICanalService {
 		canalRepo.save(canal);
 
 		// dejamos el objeto con solo el id para que no haya referencias ciclicas
-		if (canal.getLstObra() != null) {
-			canal.getLstObra().forEach(x -> x.setCanalId(null));
+		if (canal.getLstCanalObra() != null) {
+			canal.getLstCanalObra().forEach(x -> x.setCanalId(null));
 		}
 		
 		if(canal.getLstSeccionCanal() != null) {
@@ -99,8 +100,8 @@ public class CanalServiceImpl implements ICanalService {
 				});
 			}
 
-			if (x.getLstObra() != null) {
-				x.getLstObra().forEach(y -> y.setCanalId(null));
+			if (x.getLstCanalObra() != null) {
+				x.getLstCanalObra().forEach(y -> y.setCanalId(null));
 			}
 		});
 
@@ -118,7 +119,9 @@ public class CanalServiceImpl implements ICanalService {
 		if(canal != null) {
 			// dejamos el objeto con solo el id para que no haya referencias ciclicas
 			if (canal.getLstCanal() != null) {
-				canal.getLstCanal().forEach(y -> y.setCanalId(null));
+				List<Canal> lst = new ArrayList<>();
+				canal.getLstCanal().forEach(y -> lst.add(new Canal(y.getId())));
+				canal.setLstCanal(lst);
 			}
 			
 			if (canal.getLstPredio() != null) {
@@ -132,8 +135,12 @@ public class CanalServiceImpl implements ICanalService {
 				});
 			}
 
-			if (canal.getLstObra() != null) {
-				canal.getLstObra().forEach(y -> y.setCanalId(null));
+			if (canal.getLstCanalObra() != null) {
+				canal.getLstCanalObra().forEach(y -> y.setCanalId(null));
+			}
+			
+			if(canal.getCanalId() != null) {
+				canal.setCanalId(new Canal(canal.getCanalId().getId()));
 			}
 		} else {
 			canal = new Canal();

@@ -195,4 +195,31 @@ public class SeccionApi {
 		
 		return response;
 	}
+	
+	/**
+	 * se verificara si existe una obra por su nombre, si el nombre tiene espacios tiene que reemplazarse por '+'
+	 * @param nombre
+	 * @return true si existe, false si no existe
+	 */
+	@RequestMapping(value = "/existe/nombreYZona/{nombre}/{zona}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> existeCanalPorCodigo(@PathVariable("nombre") String nombre, @PathVariable("zona") int zona) {
+		
+		ResponseEntity<?> response = null;
+		
+		Map<String, Boolean> map = new HashMap<>();
+		
+		try {
+			
+			map.put("existe", seccionService.existePorNombreYZona(nombre.replace("+", " "), zona));
+			
+			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.OK);
+				
+		}catch(Exception e) {
+			map.put("existe", false);
+			
+			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return response;
+	}
 }

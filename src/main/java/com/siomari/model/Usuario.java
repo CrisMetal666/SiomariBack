@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -44,8 +46,12 @@ public class Usuario {
 	@Column(name = "correo", length = 200, nullable = true)
 	private String correo;
 	
-	@Column(name = "rol", length = 50, nullable = true)
-	private String rol;
+	@Column(name = "propietario", length = 200, nullable = true)
+	private boolean propietario;
+	
+	@ManyToOne
+	@JoinColumn(name = "predio_id", nullable = true)
+	private Predio predioId;
 	
 	public Usuario() {
 	}
@@ -55,7 +61,7 @@ public class Usuario {
 	}
 	
 	public Usuario(int id, String cedula, String nombre, String apellido, String direccion, String ciudad,
-			String telefono, String celular, String correo, String rol) {
+			String telefono, String celular, String correo, boolean propietario) {
 		this.id = id;
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -65,7 +71,7 @@ public class Usuario {
 		this.telefono = telefono;
 		this.celular = celular;
 		this.correo = correo;
-		this.rol = rol;
+		this.propietario = propietario;
 	}
 
 	public int getId() {
@@ -140,12 +146,20 @@ public class Usuario {
 		this.correo = correo;
 	}
 
-	public String getRol() {
-		return rol;
+	public Predio getPredioId() {
+		return predioId;
 	}
 
-	public void setRol(String rol) {
-		this.rol = rol;
+	public void setPredioId(Predio predioId) {
+		this.predioId = predioId;
+	}
+
+	public boolean isPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(boolean propietario) {
+		this.propietario = propietario;
 	}
 	
 	

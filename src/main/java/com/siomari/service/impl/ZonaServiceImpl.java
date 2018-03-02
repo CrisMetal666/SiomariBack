@@ -80,21 +80,38 @@ public class ZonaServiceImpl implements IZonaService {
 
 		Zona zona = zonaRepo.findOne(id);
 
-		if(zona != null) {
+		if (zona != null) {
 			// dejamos el objeto con solo el id para que no haya referencias ciclicas
 			zona.setUnidadId(new Unidad(zona.getUnidadId().getId()));
 			zona.setLstSeccion(null);
 		} else {
 			zona = new Zona();
 		}
-		
+
 		return zona;
 	}
 
+	/**
+	 * @see com.siomari.repository.IZonaRepository
+	 */
 	@Override
 	public List<Zona> buscarPorUnidadId(int id) {
-		
+
 		return zonaRepo.buscarPorUnidadId(id);
+	}
+
+	/**
+	 * @see com.siomari.service.IZonaService
+	 */
+	@Override
+	public boolean existePorNombreYUnidad(String nombre, int unidad) {
+
+		boolean res = false;
+
+		if (zonaRepo.buscarIdPorNombreYUnidad(nombre, unidad) != null)
+			res = true;
+
+		return res;
 	}
 
 }

@@ -44,14 +44,10 @@ public class Predio {
 	private double moduloRiego;
 	
 	@Column(name = "numero_tomas", nullable = false)
-	private int numero_tomas;
+	private int numeroTomas;
 	
 	@Column(name = "tipo_suelo", length = 100, nullable = false)
 	private String tipoSuelo;
-	
-	@ManyToOne
-	@JoinColumn(name = "usuario_id", nullable = true)
-	private Usuario usuarioId;
 	
 	@ManyToOne
 	@JoinColumn(name = "canal_id", nullable = false)
@@ -64,6 +60,12 @@ public class Predio {
 		this.id = id;
 	}
 	
+	public Predio(int id, String codigo, String nombre) {
+		this.id = id;
+		this.codigo = codigo;
+		this.nombre = nombre;
+	}
+	
 	public Predio(int id, String codigo, String nombre, String nombrePropietario, double areaTotal,
 			double areaPotencialRiego, double areaBajoRiego, double moduloRiego, int numero_tomas, String tipoSuelo) {
 		this.id = id;
@@ -74,7 +76,7 @@ public class Predio {
 		this.areaPotencialRiego = areaPotencialRiego;
 		this.areaBajoRiego = areaBajoRiego;
 		this.moduloRiego = moduloRiego;
-		this.numero_tomas = numero_tomas;
+		this.numeroTomas = numero_tomas;
 		this.tipoSuelo = tipoSuelo;
 	}
 
@@ -142,14 +144,6 @@ public class Predio {
 		this.moduloRiego = moduloRiego;
 	}
 
-	public int getNumero_tomas() {
-		return numero_tomas;
-	}
-
-	public void setNumero_tomas(int numero_tomas) {
-		this.numero_tomas = numero_tomas;
-	}
-
 	public String getTipoSuelo() {
 		return tipoSuelo;
 	}
@@ -158,20 +152,20 @@ public class Predio {
 		this.tipoSuelo = tipoSuelo;
 	}
 
-	public Usuario getUsuarioId() {
-		return usuarioId;
-	}
-
-	public void setUsuarioId(Usuario usuarioId) {
-		this.usuarioId = usuarioId;
-	}
-
 	public Canal getCanalId() {
 		return canalId;
 	}
 
 	public void setCanalId(Canal canalId) {
 		this.canalId = canalId;
+	}
+
+	public int getNumeroTomas() {
+		return numeroTomas;
+	}
+
+	public void setNumeroTomas(int numeroTomas) {
+		this.numeroTomas = numeroTomas;
 	}
 	
 	

@@ -89,10 +89,27 @@ public class SeccionServiceImpl implements ISeccionService {
 		return seccion;
 	}
 
+	/**
+	 * @see com.siomari.repository.ISeccionRepository
+	 */
 	@Override
 	public List<Seccion> buscarPorZonaId(int id) {
 		
 		return seccionRepo.buscarPorZonaId(id);
+	}
+
+	/**
+	 * @see com.siomari.service.ISeccionService
+	 */
+	@Override
+	public boolean existePorNombreYZona(String nombre, int zona) {
+		
+		boolean res = false;
+
+		if (seccionRepo.buscarIdPorNombreYZona(nombre, zona) != null)
+			res = true;
+
+		return res;
 	}
 
 }

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.siomari.model.Zona;
-import com.siomari.service.IZonaService;
+import com.siomari.model.Cultivo;
+import com.siomari.service.ICultivoService;
 
 /**
  * 
@@ -24,30 +24,30 @@ import com.siomari.service.IZonaService;
  *
  */
 @RestController
-@RequestMapping("/api/zona")
-public class ZonaApi {
+@RequestMapping("/api/cultivo")
+public class CultivoApi {
 
 	@Autowired
-	private IZonaService zonaService;
+	private ICultivoService cultivoService;
 
 	/**
-	 * Se registrara una zona
-	 * @param zona
-	 * @return zona registrada
+	 * Se registrara un cultivo
+	 * @param cultivo
+	 * @return cultivo registrado
 	 */
 	@RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> registrar(@RequestBody Zona zona) {
+	public ResponseEntity<?> registrar(@RequestBody Cultivo cultivo) {
 		
 		ResponseEntity<?> response = null;
 		
 		try {
 			
-			zonaService.registrar(zona); 
-			response = new ResponseEntity<Zona>(zona, HttpStatus.OK);
+			cultivoService.registrar(cultivo); 
+			response = new ResponseEntity<Cultivo>(cultivo, HttpStatus.OK);
 			
 		}catch(Exception e) {
 
-			response = new ResponseEntity<Zona>(new Zona(), HttpStatus.INTERNAL_SERVER_ERROR);
+			response = new ResponseEntity<Cultivo>(new Cultivo(), HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 		
@@ -55,23 +55,23 @@ public class ZonaApi {
 	}
 	
 	/**
-	 * Se actualizara una zona
-	 * @param zona
-	 * @return zona actualizada
+	 * Se actualizara un cultivo
+	 * @param cultivo
+	 * @return cultivo actualizado
 	 */
 	@RequestMapping(value = "", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> actualizar(@RequestBody Zona zona) {
+	public ResponseEntity<?> actualizar(@RequestBody Cultivo cultivo) {
 		
 		ResponseEntity<?> response = null;
 		
 		try {
 			
-			zonaService.actualizar(zona); 
-			response = new ResponseEntity<Zona>(zona, HttpStatus.OK);
+			cultivoService.actualizar(cultivo); 
+			response = new ResponseEntity<Cultivo>(cultivo, HttpStatus.OK);
 			
 		}catch(Exception e) {
 
-			response = new ResponseEntity<Zona>(new Zona(), HttpStatus.INTERNAL_SERVER_ERROR);
+			response = new ResponseEntity<Cultivo>(new Cultivo(), HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 		
@@ -79,7 +79,7 @@ public class ZonaApi {
 	}
 	
 	/**
-	 * se eliminara una zona por su id
+	 * se eliminara un cultivo por su id
 	 * @param id
 	 * @return mensaje del servidor, si fue exitoso o no la eliminacion
 	 */
@@ -96,7 +96,7 @@ public class ZonaApi {
 			//verificamos que el id sea valido
 			if(id != null && id > 0) {
 				
-				zonaService.eliminar(id);
+				cultivoService.eliminar(id);
 				
 				mensaje.put("estado", true);
 				response = new ResponseEntity<Map<String, Boolean>>(mensaje, HttpStatus.OK);
@@ -117,9 +117,9 @@ public class ZonaApi {
 	}
 	
 	/**
-	 * se listara una zona por su id
+	 * se listara un cultivo por su id
 	 * @param id
-	 * @return zona
+	 * @return cultivo
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> listar(@PathVariable("id") Integer id) {
@@ -131,17 +131,17 @@ public class ZonaApi {
 			//verificamos que el id sea valido
 			if(id != null && id > 0) {
 				
-				Zona zona = zonaService.listar(id);
+				Cultivo cultivo = cultivoService.listar(id);
 				
-				response = new ResponseEntity<Zona>(zona, HttpStatus.OK);
+				response = new ResponseEntity<Cultivo>(cultivo, HttpStatus.OK);
 			} else {
 				
-				response = new ResponseEntity<Zona>(new Zona(), HttpStatus.OK);
+				response = new ResponseEntity<Cultivo>(new Cultivo(), HttpStatus.OK);
 			}
 			
 		}catch(Exception e) {
 
-			response = new ResponseEntity<Zona>(new Zona(), HttpStatus.INTERNAL_SERVER_ERROR);
+			response = new ResponseEntity<Cultivo>(new Cultivo(), HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 		
@@ -149,8 +149,8 @@ public class ZonaApi {
 	}
 	
 	/**
-	 * Se listaran todos las zonaes
-	 * @return lista de zonaes
+	 * Se listaran todos los cultivos
+	 * @return lista de cultivos
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> registrar() {
@@ -159,12 +159,12 @@ public class ZonaApi {
 		
 		try {
 			
-			List<Zona> lst = zonaService.listar();
-			response = new ResponseEntity<List<Zona>>(lst, HttpStatus.OK);
+			List<Cultivo> lst = cultivoService.listar();
+			response = new ResponseEntity<List<Cultivo>>(lst, HttpStatus.OK);
 			
 		}catch(Exception e) {
 
-			response = new ResponseEntity<List<Zona>>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+			response = new ResponseEntity<List<Cultivo>>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 		
@@ -172,65 +172,34 @@ public class ZonaApi {
 	}
 	
 	/**
-	 * Se listaran las zonas pertenecientes a una unidad
-	 * @param id. Id de la unidad
-	 * @return lista de zonas con su nombre e id
-	 */
-	@RequestMapping(value = "/unidadId/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> buscarPorUnidadId(@PathVariable("id") Integer id) {
-		
-		ResponseEntity<?> response = null;
-		
-		try {
-			
-			if(id != null) {
-				List<Zona> lst = zonaService.buscarPorUnidadId(id);
-				response = new ResponseEntity<List<Zona>>(lst, HttpStatus.OK);
-			} else {
-				response = new ResponseEntity<List<Zona>>(new ArrayList<>(), HttpStatus.OK);
-			}
-		}catch(Exception e) {
-			response = new ResponseEntity<List<Zona>>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		return response;
-	}
-	
-	/**
-	 * se verificara si existe una obra por su nombre, si el nombre tiene espacios tiene que reemplazarse por '+'
+	 * Se buscara un cultivo por su nombre
 	 * @param nombre
-	 * @return true si existe, false si no existe
+	 * @return verdadero si existe, falso si no existo
 	 */
-	@RequestMapping(value = "/existe/nombreYUnidad/{nombre}/{unidad}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> existeCanalPorCodigo(@PathVariable("nombre") String nombre, @PathVariable("unidad") int unidad) {
+	@RequestMapping(value = "/existe/nombre/{nombre}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> buscarPorZonaId(@PathVariable("nombre") String nombre) {
 		
 		ResponseEntity<?> response = null;
 		
 		Map<String, Boolean> map = new HashMap<>();
+		boolean res = false;
 		
 		try {
 			
-			map.put("existe", zonaService.existePorNombreYUnidad(nombre.replace("+", " "), unidad));
-			
-			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.OK);
+			if(nombre != null) {
 				
-		}catch(Exception e) {
-			map.put("existe", false);
+				res = cultivoService.existeCultivoPorNombre(nombre.replace("+", " "));
+				
+			}
 			
+			map.put("existe", res);
+			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.OK);
+			
+		}catch(Exception e) {
+			map.put("existe", res);
 			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		return response;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-

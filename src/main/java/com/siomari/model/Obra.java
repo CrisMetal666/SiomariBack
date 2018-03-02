@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -24,18 +22,13 @@ public class Obra {
 	
 	@Column(name = "nombre", length = 100, nullable = false)
 	private String nombre;
-	
-	@ManyToOne
-	@JoinColumn(name = "canal_id", nullable = false)
-	private Canal canalId;
 
 	public Obra() {
 	}
 
-	public Obra(int id, String nombre, Canal canalId) {
+	public Obra(int id, String nombre) {
 		this.id = id;
 		this.nombre = nombre;
-		this.canalId = canalId;
 	}
 
 	public int getId() {
@@ -52,14 +45,6 @@ public class Obra {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public Canal getCanalId() {
-		return canalId;
-	}
-
-	public void setCanalId(Canal canalId) {
-		this.canalId = canalId;
 	}
 	
 }

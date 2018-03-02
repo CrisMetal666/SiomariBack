@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.siomari.model.Zona;
-import com.siomari.service.IZonaService;
+import com.siomari.model.Usuario;
+import com.siomari.service.IUsuarioService;
 
 /**
  * 
@@ -24,30 +24,30 @@ import com.siomari.service.IZonaService;
  *
  */
 @RestController
-@RequestMapping("/api/zona")
-public class ZonaApi {
+@RequestMapping("/api/usuario")
+public class UsuarioApi {
 
 	@Autowired
-	private IZonaService zonaService;
+	private IUsuarioService usuarioService;
 
 	/**
-	 * Se registrara una zona
-	 * @param zona
-	 * @return zona registrada
+	 * Se registrara un usuario
+	 * @param usuario
+	 * @return usuario registrado
 	 */
 	@RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> registrar(@RequestBody Zona zona) {
+	public ResponseEntity<?> registrar(@RequestBody Usuario usuario) {
 		
 		ResponseEntity<?> response = null;
 		
 		try {
 			
-			zonaService.registrar(zona); 
-			response = new ResponseEntity<Zona>(zona, HttpStatus.OK);
+			usuarioService.registrar(usuario); 
+			response = new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 			
 		}catch(Exception e) {
 
-			response = new ResponseEntity<Zona>(new Zona(), HttpStatus.INTERNAL_SERVER_ERROR);
+			response = new ResponseEntity<Usuario>(new Usuario(), HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 		
@@ -55,23 +55,23 @@ public class ZonaApi {
 	}
 	
 	/**
-	 * Se actualizara una zona
-	 * @param zona
-	 * @return zona actualizada
+	 * Se actualizara un usuario
+	 * @param usuario
+	 * @return usuario actualizado
 	 */
 	@RequestMapping(value = "", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> actualizar(@RequestBody Zona zona) {
+	public ResponseEntity<?> actualizar(@RequestBody Usuario usuario) {
 		
 		ResponseEntity<?> response = null;
 		
 		try {
 			
-			zonaService.actualizar(zona); 
-			response = new ResponseEntity<Zona>(zona, HttpStatus.OK);
+			usuarioService.actualizar(usuario); 
+			response = new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 			
 		}catch(Exception e) {
 
-			response = new ResponseEntity<Zona>(new Zona(), HttpStatus.INTERNAL_SERVER_ERROR);
+			response = new ResponseEntity<Usuario>(new Usuario(), HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 		
@@ -79,7 +79,7 @@ public class ZonaApi {
 	}
 	
 	/**
-	 * se eliminara una zona por su id
+	 * se eliminara un usuario por su id
 	 * @param id
 	 * @return mensaje del servidor, si fue exitoso o no la eliminacion
 	 */
@@ -96,7 +96,7 @@ public class ZonaApi {
 			//verificamos que el id sea valido
 			if(id != null && id > 0) {
 				
-				zonaService.eliminar(id);
+				usuarioService.eliminar(id);
 				
 				mensaje.put("estado", true);
 				response = new ResponseEntity<Map<String, Boolean>>(mensaje, HttpStatus.OK);
@@ -117,9 +117,9 @@ public class ZonaApi {
 	}
 	
 	/**
-	 * se listara una zona por su id
+	 * se listara un usuario por su id
 	 * @param id
-	 * @return zona
+	 * @return usuario
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> listar(@PathVariable("id") Integer id) {
@@ -131,17 +131,17 @@ public class ZonaApi {
 			//verificamos que el id sea valido
 			if(id != null && id > 0) {
 				
-				Zona zona = zonaService.listar(id);
+				Usuario usuario = usuarioService.listar(id);
 				
-				response = new ResponseEntity<Zona>(zona, HttpStatus.OK);
+				response = new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 			} else {
 				
-				response = new ResponseEntity<Zona>(new Zona(), HttpStatus.OK);
+				response = new ResponseEntity<Usuario>(new Usuario(), HttpStatus.OK);
 			}
 			
 		}catch(Exception e) {
 
-			response = new ResponseEntity<Zona>(new Zona(), HttpStatus.INTERNAL_SERVER_ERROR);
+			response = new ResponseEntity<Usuario>(new Usuario(), HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 		
@@ -149,8 +149,8 @@ public class ZonaApi {
 	}
 	
 	/**
-	 * Se listaran todos las zonaes
-	 * @return lista de zonaes
+	 * Se listaran todos los usuarios
+	 * @return lista de usuarios
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> registrar() {
@@ -159,50 +159,20 @@ public class ZonaApi {
 		
 		try {
 			
-			List<Zona> lst = zonaService.listar();
-			response = new ResponseEntity<List<Zona>>(lst, HttpStatus.OK);
+			List<Usuario> lst = usuarioService.listar();
+			response = new ResponseEntity<List<Usuario>>(lst, HttpStatus.OK);
 			
 		}catch(Exception e) {
 
-			response = new ResponseEntity<List<Zona>>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+			response = new ResponseEntity<List<Usuario>>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 		
 		return response;
 	}
 	
-	/**
-	 * Se listaran las zonas pertenecientes a una unidad
-	 * @param id. Id de la unidad
-	 * @return lista de zonas con su nombre e id
-	 */
-	@RequestMapping(value = "/unidadId/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> buscarPorUnidadId(@PathVariable("id") Integer id) {
-		
-		ResponseEntity<?> response = null;
-		
-		try {
-			
-			if(id != null) {
-				List<Zona> lst = zonaService.buscarPorUnidadId(id);
-				response = new ResponseEntity<List<Zona>>(lst, HttpStatus.OK);
-			} else {
-				response = new ResponseEntity<List<Zona>>(new ArrayList<>(), HttpStatus.OK);
-			}
-		}catch(Exception e) {
-			response = new ResponseEntity<List<Zona>>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		return response;
-	}
-	
-	/**
-	 * se verificara si existe una obra por su nombre, si el nombre tiene espacios tiene que reemplazarse por '+'
-	 * @param nombre
-	 * @return true si existe, false si no existe
-	 */
-	@RequestMapping(value = "/existe/nombreYUnidad/{nombre}/{unidad}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> existeCanalPorCodigo(@PathVariable("nombre") String nombre, @PathVariable("unidad") int unidad) {
+	@RequestMapping(value = "/existe/identificacion/{identificacion}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> existeCanalPorCodigo(@PathVariable("identificacion") String identificacion) {
 		
 		ResponseEntity<?> response = null;
 		
@@ -210,7 +180,7 @@ public class ZonaApi {
 		
 		try {
 			
-			map.put("existe", zonaService.existePorNombreYUnidad(nombre.replace("+", " "), unidad));
+			map.put("existe", usuarioService.existePorIdentificacion(identificacion));
 			
 			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.OK);
 				
@@ -223,14 +193,3 @@ public class ZonaApi {
 		return response;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-

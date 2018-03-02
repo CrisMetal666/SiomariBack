@@ -3,20 +3,20 @@ package com.siomari.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.siomari.model.Unidad;
+import com.siomari.model.Obra;
 
 /**
  * 
  * @author crismetal
  *
  */
-public interface IUnidadRepository extends JpaRepository<Unidad, Integer> {
+public interface IObraRepository extends JpaRepository<Obra, Integer> {
 
 	/**
-	 * Se buscara una unidad por su nombre
+	 * Se buscara una obra por su nombre
 	 * @param nombre
-	 * @return id de la unidad
+	 * @return id de la obra
 	 */
-	@Query("select u.id from Unidad u where u.nombre = ?1")
+	@Query("select o.id from Obra o where o.nombre = ?1")
 	Integer buscarIdPorNombre(String nombre);
 }

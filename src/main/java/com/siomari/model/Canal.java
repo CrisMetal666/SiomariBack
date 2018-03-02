@@ -33,8 +33,8 @@ public class Canal {
 	@Column(name = "nombre", length = 100, nullable = false)
 	private String nombre;
 	
-	@Column(name = "caudal_disenio", length = 45, nullable = false)
-	private String caudalDisenio;
+	@Column(name = "caudal_disenio", nullable = false)
+	private double caudalDisenio;
 	
 	@Column(name = "longitud", length = 100, nullable = false)
 	private double longitud;
@@ -54,12 +54,15 @@ public class Canal {
 	@Column(name = "estado", length = 100, nullable = false)
 	private String estado;
 	
-	@ManyToOne
+	@Column(name = "estado_descripcion", columnDefinition = "text")
+	private String estadoDescripcion;
+	
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	@JoinColumn(name = "canal_id", nullable = false)
 	private Canal canalId;
 	
 	@OneToMany(mappedBy = "canalId", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-	private List<Obra> lstObra;
+	private List<CanalObra> lstCanalObra;
 	
 	@OneToMany(mappedBy = "canalId", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<SeccionCanal> lstSeccionCanal;
@@ -106,11 +109,11 @@ public class Canal {
 		this.nombre = nombre;
 	}
 
-	public String getCaudalDisenio() {
+	public double getCaudalDisenio() {
 		return caudalDisenio;
 	}
 
-	public void setCaudalDisenio(String caudalDisenio) {
+	public void setCaudalDisenio(double caudalDisenio) {
 		this.caudalDisenio = caudalDisenio;
 	}
 
@@ -162,6 +165,14 @@ public class Canal {
 		this.estado = estado;
 	}
 
+	public String getEstadoDescripcion() {
+		return estadoDescripcion;
+	}
+
+	public void setEstadoDescripcion(String estadoDescripcion) {
+		this.estadoDescripcion = estadoDescripcion;
+	}
+
 	public Canal getCanalId() {
 		return canalId;
 	}
@@ -170,12 +181,12 @@ public class Canal {
 		this.canalId = canalId;
 	}
 
-	public List<Obra> getLstObra() {
-		return lstObra;
+	public List<CanalObra> getLstCanalObra() {
+		return lstCanalObra;
 	}
 
-	public void setLstObra(List<Obra> lstObra) {
-		this.lstObra = lstObra;
+	public void setLstCanalObra(List<CanalObra> lstCanalObra) {
+		this.lstCanalObra = lstCanalObra;
 	}
 
 	public List<SeccionCanal> getLstSeccionCanal() {
@@ -201,9 +212,7 @@ public class Canal {
 	public void setLstPredio(List<Predio> lstPredio) {
 		this.lstPredio = lstPredio;
 	}
-	
-	
-	
+
 	
 	
 }
