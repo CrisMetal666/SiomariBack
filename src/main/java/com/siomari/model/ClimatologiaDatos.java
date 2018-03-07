@@ -87,6 +87,12 @@ public class ClimatologiaDatos {
 	public void setqPrecipitacion(float qPrecipitacion) {
 		this.qPrecipitacion = qPrecipitacion;
 	}
+
+	@Override
+	public String toString() {
+		return "ClimatologiaDatos [id=" + id + ", evaporacion=" + evaporacion + ", precipitacionEfecto="
+				+ precipitacionEfecto + ", precipitacion=" + precipitacion + ", qPrecipitacion=" + qPrecipitacion + "]";
+	}
 	
 	
 	

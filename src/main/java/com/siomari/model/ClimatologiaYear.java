@@ -1,6 +1,8 @@
 package com.siomari.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,62 +19,62 @@ public class ClimatologiaYear {
 
 	@Id
 	private int year;
-	
-	@ManyToOne
-	@JoinColumn(name = "enero", nullable = false)
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "enero", nullable = true)
 	private ClimatologiaDatos enero;
-	
-	@ManyToOne
-	@JoinColumn(name = "febrero", nullable = false)
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "febrero", nullable = true)
 	private ClimatologiaDatos febrero;
-	
-	@ManyToOne
-	@JoinColumn(name = "marzo", nullable = false)
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "marzo", nullable = true)
 	private ClimatologiaDatos marzo;
-	
-	@ManyToOne
-	@JoinColumn(name = "abril", nullable = false)
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "abril", nullable = true)
 	private ClimatologiaDatos abril;
-	
-	@ManyToOne
-	@JoinColumn(name = "mayo", nullable = false)
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "mayo", nullable = true)
 	private ClimatologiaDatos mayo;
-	
-	@ManyToOne
-	@JoinColumn(name = "junio", nullable = false)
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "junio", nullable = true)
 	private ClimatologiaDatos junio;
-	
-	@ManyToOne
-	@JoinColumn(name = "julio", nullable = false)
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "julio", nullable = true)
 	private ClimatologiaDatos julio;
-	
-	@ManyToOne
-	@JoinColumn(name = "agosto", nullable = false)
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "agosto", nullable = true)
 	private ClimatologiaDatos agosto;
-	
-	@ManyToOne
-	@JoinColumn(name = "septiembre", nullable = false)
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "septiembre", nullable = true)
 	private ClimatologiaDatos septiembre;
-	
-	@ManyToOne
-	@JoinColumn(name = "octubre", nullable = false)
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "octubre", nullable = true)
 	private ClimatologiaDatos octubre;
-	
-	@ManyToOne
-	@JoinColumn(name = "noviembre", nullable = false)
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "noviembre", nullable = true)
 	private ClimatologiaDatos noviembre;
-	
-	@ManyToOne
-	@JoinColumn(name = "diciembre", nullable = false)
+
+	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "diciembre", nullable = true)
 	private ClimatologiaDatos diciembre;
 
 	public ClimatologiaYear() {
 	}
-	
+
 	public ClimatologiaYear(int year) {
 		this.year = year;
 	}
-	
+
 	public ClimatologiaYear(int year, ClimatologiaDatos enero, ClimatologiaDatos febrero, ClimatologiaDatos marzo,
 			ClimatologiaDatos abril, ClimatologiaDatos mayo, ClimatologiaDatos junio, ClimatologiaDatos julio,
 			ClimatologiaDatos agosto, ClimatologiaDatos septiembre, ClimatologiaDatos octubre,
@@ -90,6 +92,23 @@ public class ClimatologiaYear {
 		this.octubre = octubre;
 		this.noviembre = noviembre;
 		this.diciembre = diciembre;
+	}
+
+	public ClimatologiaYear(int year, int enero, int febrero, int marzo, int abril, int mayo, int junio, int julio,
+			int agosto, int septiembre, int octubre, int noviembre, int diciembre) {
+		this.year = year;
+		this.enero = new ClimatologiaDatos(enero);
+		this.febrero = new ClimatologiaDatos(febrero);
+		this.marzo = new ClimatologiaDatos(marzo);
+		this.abril = new ClimatologiaDatos(abril);
+		this.mayo = new ClimatologiaDatos(mayo);
+		this.junio = new ClimatologiaDatos(junio);
+		this.julio = new ClimatologiaDatos(julio);
+		this.agosto = new ClimatologiaDatos(agosto);
+		this.septiembre = new ClimatologiaDatos(septiembre);
+		this.octubre = new ClimatologiaDatos(octubre);
+		this.noviembre = new ClimatologiaDatos(noviembre);
+		this.diciembre = new ClimatologiaDatos(diciembre);
 	}
 
 	public int getYear() {
@@ -195,7 +214,5 @@ public class ClimatologiaYear {
 	public void setDiciembre(ClimatologiaDatos diciembre) {
 		this.diciembre = diciembre;
 	}
-	
-	
 
 }

@@ -49,6 +49,12 @@ public class Predio {
 	@Column(name = "tipo_suelo", length = 100, nullable = false)
 	private String tipoSuelo;
 	
+	@Column(name = "longitud")
+	private Double longitud;
+	
+	@Column(name = "latitud")
+	private Double latitud;
+	
 	@ManyToOne
 	@JoinColumn(name = "canal_id", nullable = false)
 	private Canal canalId;
@@ -167,6 +173,24 @@ public class Predio {
 	public void setNumeroTomas(int numeroTomas) {
 		this.numeroTomas = numeroTomas;
 	}
+
+	public Double getLongitud() {
+		return longitud;
+	}
+
+	public void setLongitud(Double longitud) {
+		this.longitud = longitud;
+	}
+
+	public Double getLatitud() {
+		return latitud;
+	}
+
+	public void setLatitud(Double latitud) {
+		this.latitud = latitud;
+	}
+
+
 	
 	
 

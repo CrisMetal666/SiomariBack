@@ -6,21 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.siomari.repository.ISeccionRepository;
+import com.siomari.repository.IClimatologiaYearRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SiomariBackApplicationTests {
 	
-
-	
 	@Autowired
-	private ISeccionRepository service;
+	private IClimatologiaYearRepository repo;
+	
+	
 
 	@Test
 	public void contextLoads() {
 		
-		System.out.println( service.buscarIdPorNombreYZona("seccion 1", 10));
+		repo.buscarPorId(2018);
 		
 	}
 

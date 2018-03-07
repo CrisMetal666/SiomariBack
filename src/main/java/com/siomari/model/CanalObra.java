@@ -25,6 +25,13 @@ public class CanalObra {
 	@Column(name = "descripcion", columnDefinition = "text")
 	private String descripcion;
 	
+	
+	@Column(name = "longitud")
+	private Double longitud;
+	
+	@Column(name = "latitud")
+	private Double latitud;
+	
 	@ManyToOne
 	@JoinColumn(name = "canal_id", nullable = false)
 	private Canal canalId;
@@ -71,6 +78,23 @@ public class CanalObra {
 	public void setObraId(Obra obraId) {
 		this.obraId = obraId;
 	}
+
+	public Double getLongitud() {
+		return longitud;
+	}
+
+	public void setLongitud(Double longitud) {
+		this.longitud = longitud;
+	}
+
+	public Double getLatitud() {
+		return latitud;
+	}
+
+	public void setLatitud(Double latitud) {
+		this.latitud = latitud;
+	}
+
 
 	
 	
