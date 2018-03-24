@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 /**
  * 
  * @author crismetal
@@ -27,6 +30,7 @@ public class Unidad {
 	@Column(name = "nombre", length = 100, nullable = false)
 	private String nombre;
 	
+	@LazyCollection(LazyCollectionOption.TRUE)
 	@OneToMany(mappedBy = "unidadId", fetch = FetchType.LAZY)
 	private List<Zona> lstZona;
 	

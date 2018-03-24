@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 /**
  * 
  * @author crismetal
@@ -67,9 +70,11 @@ public class Canal {
 	@OneToMany(mappedBy = "canalId", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<SeccionCanal> lstSeccionCanal;
 	
+	@LazyCollection(LazyCollectionOption.TRUE)
 	@OneToMany(mappedBy = "canalId", fetch = FetchType.LAZY)
 	private List<Canal> lstCanal;
 	
+	@LazyCollection(LazyCollectionOption.TRUE)
 	@OneToMany(mappedBy = "canalId", fetch = FetchType.LAZY)
 	private List<Predio> lstPredio;
 
@@ -84,6 +89,34 @@ public class Canal {
 		this.id = id;
 		this.nombre = nombre;
 	}
+	
+	public Canal(int id, String nombre, String codigo) {
+		this.id = id;
+		this.nombre = nombre;
+		this.codigo = codigo;
+	}
+
+	public Canal(int id, String codigo, String nombre, double caudalDisenio, double longitud, String seccionTipica,
+			String clase, String tipo, String categoria, String estado, String estadoDescripcion, Canal canalId,
+			List<CanalObra> lstCanalObra, List<SeccionCanal> lstSeccionCanal) {
+		
+		this.id = id;
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.caudalDisenio = caudalDisenio;
+		this.longitud = longitud;
+		this.seccionTipica = seccionTipica;
+		this.clase = clase;
+		this.tipo = tipo;
+		this.categoria = categoria;
+		this.estado = estado;
+		this.estadoDescripcion = estadoDescripcion;
+		this.canalId = canalId;
+		this.lstCanalObra = lstCanalObra;
+		this.lstSeccionCanal = lstSeccionCanal;
+	}
+	
+	public Canal(List<SeccionCanal> lstSeccionCanal) {}
 
 	public int getId() {
 		return id;

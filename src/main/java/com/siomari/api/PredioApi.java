@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siomari.model.Predio;
@@ -222,4 +223,52 @@ public class PredioApi {
 
 		return response;
 	}
+	
+	/**
+	 * listar todos los predios
+	 * @return solo se listan el id, nombre, codigo, areaTotal
+	 */
+	@RequestMapping(value = "/datosBasicos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> listarDatosBasicos() {
+
+		ResponseEntity<?> response = null;
+
+		try {
+
+			List<Predio> lst = predioService.listarDatosBasicos();
+			response = new ResponseEntity<List<Predio>>(lst, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
+
+		return response;
+	}
+	
+	/**
+	 * Se listaran los predios que contengan en su nombre o codigo la cadena
+	 * @param query cadena con el que se buscaran coincidencias 
+	 * @return solo se listan el id, nombre
+	 */
+	@RequestMapping(value = "/nombreOCodigo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> listarNombreIdPorNombre(@RequestParam("s") String query) {
+
+		ResponseEntity<?> response = null;
+
+		try {
+
+			List<Predio> lst = predioService.listarIdCodigoNombrePorNombreOCodigo(query);
+			response = new ResponseEntity<List<Predio>>(lst, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
+
+		return response;
+	}
+
 }

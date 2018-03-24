@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siomari.model.Canal;
@@ -71,7 +72,7 @@ public class CanalApi {
 			
 		}catch(Exception e) {
 
-			response = new ResponseEntity<Canal>(new Canal(), HttpStatus.INTERNAL_SERVER_ERROR);
+			response = new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 		
@@ -216,5 +217,25 @@ public class CanalApi {
 		}
 		
 		return response;
+	}
+	
+	
+	@RequestMapping(value = "/buscarPorNombreOCodigo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> buscarPorNombreOCodigo(@RequestParam("s") String query) {
+		
+		ResponseEntity<?> response = null;
+		
+		try {
+			
+			List<Canal> lst = canalService.buscarPorNombreOCodigo(query);
+			
+			response = new ResponseEntity<List<Canal>>(lst, HttpStatus.OK);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return response;	
 	}
 }

@@ -17,4 +17,14 @@ public interface IPredioService extends IService<Predio> {
 	 * @see com.siomari.repository.IPredioRepository
 	 */
 	List<Predio> buscarSinUsuario();
+	
+	/**
+	 * @see com.siomari.model.IPredioRepository
+	 */
+	List<Predio> listarDatosBasicos();
+	
+	/**
+	 * @see com.siomari.model.IPredioRepository
+	 */
+	List<Predio> listarIdCodigoNombrePorNombreOCodigo(String query);
 }

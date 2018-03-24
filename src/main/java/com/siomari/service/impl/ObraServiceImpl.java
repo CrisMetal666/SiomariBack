@@ -88,4 +88,10 @@ public class ObraServiceImpl implements IObraService {
 		
 		return res;
 	}
+
+	@Override
+	public List<Obra> buscarPorNombre(String query) {
+		
+		return obraRepo.buscarPorNombre(query);
+	}
 }

@@ -22,4 +22,10 @@ public interface ICanalService extends IService<Canal> {
 	 * @return true si existe, false si no existe
 	 */
 	boolean existeCanalPorCodigo(String codigo);
+	
+	/**
+	 * @see com.siomari.repository.ICanalRepository
+	 */
+	List<Canal> buscarPorNombreOCodigo(String query);
+	
 }

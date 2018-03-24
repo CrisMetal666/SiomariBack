@@ -1,5 +1,7 @@
 package com.siomari.service;
 
+import java.util.List;
+
 import com.siomari.model.Obra;
 
 /**
@@ -15,4 +17,9 @@ public interface IObraService extends IService<Obra> {
 	 * @return true si existe, false si no existe
 	 */
 	boolean existePorNombre(String nombre);
+	
+	/**
+	 * @see com.siomari.repository.IObraRepository
+	 */
+	List<Obra> buscarPorNombre(String query);
 }

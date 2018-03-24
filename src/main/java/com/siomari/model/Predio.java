@@ -49,11 +49,14 @@ public class Predio {
 	@Column(name = "tipo_suelo", length = 100, nullable = false)
 	private String tipoSuelo;
 	
-	@Column(name = "longitud")
-	private Double longitud;
+	@Column(name = "x")
+	private Double x;
 	
-	@Column(name = "latitud")
-	private Double latitud;
+	@Column(name = "y")
+	private Double y;
+	
+	@Column(name = "altitud")
+	private Double altitud;
 	
 	@ManyToOne
 	@JoinColumn(name = "canal_id", nullable = false)
@@ -66,10 +69,22 @@ public class Predio {
 		this.id = id;
 	}
 	
+	public Predio(int id, String nombre) {
+		this.id = id;
+		this.nombre = nombre;
+	}
+	
 	public Predio(int id, String codigo, String nombre) {
 		this.id = id;
 		this.codigo = codigo;
 		this.nombre = nombre;
+	}
+	
+	public Predio(int id, String codigo, String nombre, double areaTotal) {
+		this.id = id;
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.areaTotal = areaTotal;
 	}
 	
 	public Predio(int id, String codigo, String nombre, String nombrePropietario, double areaTotal,
@@ -174,21 +189,30 @@ public class Predio {
 		this.numeroTomas = numeroTomas;
 	}
 
-	public Double getLongitud() {
-		return longitud;
+	public Double getX() {
+		return x;
 	}
 
-	public void setLongitud(Double longitud) {
-		this.longitud = longitud;
+	public void setX(Double x) {
+		this.x = x;
 	}
 
-	public Double getLatitud() {
-		return latitud;
+	public Double getY() {
+		return y;
 	}
 
-	public void setLatitud(Double latitud) {
-		this.latitud = latitud;
+	public void setY(Double y) {
+		this.y = y;
 	}
+
+	public Double getAltitud() {
+		return altitud;
+	}
+
+	public void setAltitud(Double altitud) {
+		this.altitud = altitud;
+	}
+
 
 
 	

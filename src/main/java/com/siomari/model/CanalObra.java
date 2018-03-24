@@ -2,6 +2,7 @@ package com.siomari.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,14 +26,16 @@ public class CanalObra {
 	@Column(name = "descripcion", columnDefinition = "text")
 	private String descripcion;
 	
+	@Column(name = "x")
+	private Double x;
 	
-	@Column(name = "longitud")
-	private Double longitud;
+	@Column(name = "y")
+	private Double y;
 	
-	@Column(name = "latitud")
-	private Double latitud;
+	@Column(name = "altitud")
+	private Double altitud;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "canal_id", nullable = false)
 	private Canal canalId;
 	
@@ -79,21 +82,31 @@ public class CanalObra {
 		this.obraId = obraId;
 	}
 
-	public Double getLongitud() {
-		return longitud;
+	public Double getX() {
+		return x;
 	}
 
-	public void setLongitud(Double longitud) {
-		this.longitud = longitud;
+	public void setX(Double x) {
+		this.x = x;
 	}
 
-	public Double getLatitud() {
-		return latitud;
+	public Double getY() {
+		return y;
 	}
 
-	public void setLatitud(Double latitud) {
-		this.latitud = latitud;
+	public void setY(Double y) {
+		this.y = y;
 	}
+
+	public Double getAltitud() {
+		return altitud;
+	}
+
+	public void setAltitud(Double altitud) {
+		this.altitud = altitud;
+	}
+
+
 
 
 	

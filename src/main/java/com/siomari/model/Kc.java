@@ -25,8 +25,8 @@ public class Kc {
 	@Column(name = "kc", nullable = false)
 	private float kc;
 	
-	@Column(name = "mes", nullable = false)
-	private int mes;
+	@Column(name = "decada", nullable = false)
+	private int decada;
 	
 	@ManyToOne
 	@JoinColumn(name = "cultivo_id", nullable = false)
@@ -39,16 +39,16 @@ public class Kc {
 		this.id = id;
 	}
 	
-	public Kc(int id, float kc, int mes) {
+	public Kc(int id, float kc, int decada) {
 		this.id = id;
 		this.kc = kc;
-		this.mes = mes;
+		this.decada = decada;
 	}
 	
-	public Kc(int id, float kc, int mes, Cultivo cultivoId) {
+	public Kc(int id, float kc, int decada, Cultivo cultivoId) {
 		this.id = id;
 		this.kc = kc;
-		this.mes = mes;
+		this.decada = decada;
 		this.cultivoId = cultivoId;
 	}
 
@@ -76,13 +76,15 @@ public class Kc {
 		this.cultivoId = cultivoId;
 	}
 
-	public int getMes() {
-		return mes;
+	public int getDecada() {
+		return decada;
 	}
 
-	public void setMes(int mes) {
-		this.mes = mes;
+	public void setDecada(int decada) {
+		this.decada = decada;
 	}
+
+
 	
 	
 }

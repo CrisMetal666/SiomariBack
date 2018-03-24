@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siomari.model.Cultivo;
@@ -200,6 +201,53 @@ public class CultivoApi {
 			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
+		return response;
+	}
+	
+	/**
+	 * listar todos los cultivos
+	 * @return solo se listan el id, nombre
+	 */
+	@RequestMapping(value = "/datosBasicos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> listarDatosBasicos() {
+
+		ResponseEntity<?> response = null;
+
+		try {
+
+			List<Cultivo> lst = cultivoService.listarDatosBasicos();
+			response = new ResponseEntity<List<Cultivo>>(lst, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
+
+		return response;
+	}
+	
+	/**
+	 * Se listaran los cultivos que contengan en su nombre la cadena
+	 * @param query cadena con el que se buscaran coincidencias 
+	 * @return solo se listan el id, nombre
+	 */
+	@RequestMapping(value = "/nombre", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> listarNombreIdPorNombre(@RequestParam("s") String query) {
+
+		ResponseEntity<?> response = null;
+
+		try {
+
+			List<Cultivo> lst = cultivoService.listarIdNombrePorNombre(query);
+			response = new ResponseEntity<List<Cultivo>>(lst, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
+
 		return response;
 	}
 }

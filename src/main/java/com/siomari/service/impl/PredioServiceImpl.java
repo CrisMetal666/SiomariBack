@@ -76,8 +76,11 @@ public class PredioServiceImpl implements IPredioService {
 		Predio predio = predioRepo.findOne(id);
 
 		if(predio != null) {
-			// dejamos el objeto con solo el id para que no haya referencias ciclicas
-			predio.setCanalId(new Canal(predio.getCanalId().getId()));
+			// dejamos el objeto con solo el id y el nombre para que no haya referencias ciclicas
+			Canal canal = new Canal();
+			canal.setId(predio.getCanalId().getId());
+			canal.setNombre(predio.getCanalId().getNombre());
+			predio.setCanalId(canal);
 		} else {
 			predio = new Predio();
 		}
@@ -107,5 +110,19 @@ public class PredioServiceImpl implements IPredioService {
 	public List<Predio> buscarSinUsuario() {
 		
 		return predioRepo.buscarSinUsuario();
+	}
+
+	@Override
+	public List<Predio> listarDatosBasicos() {
+		
+		return predioRepo.listarDatosBasicos();
+	}
+
+	@Override
+	public List<Predio> listarIdCodigoNombrePorNombreOCodigo(String query) {
+		
+		//necesario para indicar que traiga los elementos que tengan coincidencia con el parametro query
+				String parameter = "%" + query + "%";
+		return predioRepo.listarIdCodigoNombrePorNombreOCodigo(parameter);
 	}
 }

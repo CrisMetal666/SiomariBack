@@ -46,7 +46,19 @@ public class CultivoServiceImpl implements ICultivoService {
 	@Override
 	public void actualizar(Cultivo cultivo) {
 
+		// si la lista esta llena, vinculamos el kc al cultivo, para que haga una
+		// persistencia en cascada
+		if (cultivo.getLstKc() != null) {
+			cultivo.getLstKc().forEach(x -> x.setCultivoId(cultivo));
+		}
+
 		cultivoRepo.save(cultivo);
+
+		// dejamos el objeto con solo el id para que no haya referencias ciclicas
+		if (cultivo.getLstKc() != null) {
+			cultivo.getLstKc().forEach(x -> x.setCultivoId(null));
+		}
+
 	}
 
 	@Override
@@ -76,7 +88,7 @@ public class CultivoServiceImpl implements ICultivoService {
 
 		Cultivo cultivo = cultivoRepo.findOne(id);
 
-		if(cultivo != null) {
+		if (cultivo != null) {
 			if (cultivo.getLstKc() != null) {
 				cultivo.getLstKc().forEach(y -> y.setCultivoId(null));
 			}
@@ -89,7 +101,7 @@ public class CultivoServiceImpl implements ICultivoService {
 
 	@Override
 	public boolean existeCultivoPorNombre(String nombre) {
-		
+
 		boolean respuesta = false;
 
 		Integer id = cultivoRepo.buscarIdPorNombre(nombre);
@@ -99,6 +111,21 @@ public class CultivoServiceImpl implements ICultivoService {
 		}
 
 		return respuesta;
+	}
+
+	@Override
+	public List<Cultivo> listarDatosBasicos() {
+
+		return cultivoRepo.listarDatosBasicos();
+	}
+
+	@Override
+	public List<Cultivo> listarIdNombrePorNombre(String query) {
+
+		// necesario para indicar que traiga los elementos que tengan coincidencia con
+		// el parametro query
+		String parameter = "%" + query + "%";
+		return cultivoRepo.listarIdNombrePorNombre(parameter);
 	}
 
 }

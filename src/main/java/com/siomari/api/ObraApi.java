@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siomari.model.Obra;
@@ -193,6 +194,23 @@ public class ObraApi {
 			map.put("existe", false);
 			
 			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return response;
+	}
+	
+	@RequestMapping(value = "/nombre", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> buscarPorNombre(@RequestParam("s") String query) {
+		
+		ResponseEntity<?> response = null;
+		
+		try {
+			
+			response = new ResponseEntity<List<Obra>>(obraService.buscarPorNombre(query), HttpStatus.OK);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		return response;

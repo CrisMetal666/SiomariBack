@@ -31,9 +31,6 @@ public class Cultivo {
 	@OneToMany(mappedBy = "cultivoId", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Kc> lstKc;
 	
-	@OneToMany(mappedBy = "cultivoId", fetch = FetchType.LAZY)
-	private List<PlanSiembra> lstPlanSiembra;
-	
 	public Cultivo() {
 	}
 	
@@ -43,13 +40,13 @@ public class Cultivo {
 	
 	public Cultivo(int id, String nombre) {
 		this.id = id;
+		this.nombre = nombre;
 	}
 
-	public Cultivo(int id, String nombre, List<Kc> lstKc, List<PlanSiembra> lstPlanSiembra) {
+	public Cultivo(int id, String nombre, List<Kc> lstKc) {
 		this.id = id;
 		this.nombre = nombre;
 		this.lstKc = lstKc;
-		this.lstPlanSiembra = lstPlanSiembra;
 	}
 
 	public int getId() {
@@ -76,13 +73,4 @@ public class Cultivo {
 		this.lstKc = lstKc;
 	}
 
-	public List<PlanSiembra> getLstPlanSiembra() {
-		return lstPlanSiembra;
-	}
-
-	public void setLstPlanSiembra(List<PlanSiembra> lstPlanSiembra) {
-		this.lstPlanSiembra = lstPlanSiembra;
-	}
-	
-	
 }

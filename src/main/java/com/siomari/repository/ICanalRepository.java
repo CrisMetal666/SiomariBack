@@ -29,4 +29,21 @@ public interface ICanalRepository extends JpaRepository<Canal, Integer> {
 	 */
 	@Query("select c.id from Canal c where c.codigo = ?1")
 	Integer buscarIdPorCodigo(String codigo);
+	
+	/**
+	 * se buscara los canales por nombre o codigo
+	 * @param query nombre o codigo
+	 * @return lista de canales solo con el nombre, codigo y id
+	 */
+	@Query("select new com.siomari.model.Canal(c.id,c.nombre,c.codigo) from Canal c where c.nombre like "
+			+ "concat('%', ?1 ,'%') or c.codigo like concat('%', ?1 ,'%') order by c.id")
+	List<Canal> buscarPorNombreOCodigo(String query);
+	
+	/**
+	 * Se buscara el canal por su id
+	 * @param id
+	 * @return canal con datos basicos, seccionCana, canalObra, canalId
+	 */
+	@Query("select c from Canal c  where c.id = ?1")
+	Canal buscarPorId(int id);
 }

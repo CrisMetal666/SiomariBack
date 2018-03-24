@@ -1,6 +1,7 @@
 package com.siomari.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +26,7 @@ public class SeccionCanal {
 	@JoinColumn(name = "seccion_id", nullable = false)
 	private Seccion seccionId;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "canal_id", nullable = false)
 	private Canal canalId;
 	

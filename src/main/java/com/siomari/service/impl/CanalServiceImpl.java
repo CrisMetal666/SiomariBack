@@ -1,12 +1,13 @@
 package com.siomari.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.siomari.model.Canal;
+import com.siomari.model.CanalObra;
+import com.siomari.model.SeccionCanal;
 import com.siomari.repository.ICanalRepository;
 import com.siomari.service.ICanalService;
 
@@ -37,8 +38,8 @@ public class CanalServiceImpl implements ICanalService {
 		if (canal.getLstCanalObra() != null) {
 			canal.getLstCanalObra().forEach(x -> x.setCanalId(canal));
 		}
-		
-		if(canal.getLstSeccionCanal() != null) {
+
+		if (canal.getLstSeccionCanal() != null) {
 			canal.getLstSeccionCanal().forEach(x -> x.setCanalId(canal));
 		}
 
@@ -48,8 +49,8 @@ public class CanalServiceImpl implements ICanalService {
 		if (canal.getLstCanalObra() != null) {
 			canal.getLstCanalObra().forEach(x -> x.setCanalId(null));
 		}
-		
-		if(canal.getLstSeccionCanal() != null) {
+
+		if (canal.getLstSeccionCanal() != null) {
 			canal.getLstSeccionCanal().forEach(x -> x.setCanalId(null));
 		}
 
@@ -61,7 +62,26 @@ public class CanalServiceImpl implements ICanalService {
 	@Override
 	public void actualizar(Canal canal) {
 
+		// si la lista esta llena, vinculamos las obras al canal, para que haga una
+		// persistencia en cascada
+		if (canal.getLstCanalObra() != null) {
+			canal.getLstCanalObra().forEach(x -> x.setCanalId(canal));
+		}
+
+		if (canal.getLstSeccionCanal() != null) {
+			canal.getLstSeccionCanal().forEach(x -> x.setCanalId(canal));
+		}
+
 		canalRepo.save(canal);
+
+		// dejamos el objeto con solo el id para que no haya referencias ciclicas
+		if (canal.getLstCanalObra() != null) {
+			canal.getLstCanalObra().forEach(x -> x.setCanalId(null));
+		}
+
+		if (canal.getLstSeccionCanal() != null) {
+			canal.getLstSeccionCanal().forEach(x -> x.setCanalId(null));
+		}
 
 	}
 
@@ -88,11 +108,11 @@ public class CanalServiceImpl implements ICanalService {
 			if (x.getLstCanal() != null) {
 				x.getLstCanal().forEach(y -> y.setCanalId(null));
 			}
-			
+
 			if (x.getLstPredio() != null) {
 				x.getLstPredio().forEach(y -> y.setCanalId(null));
 			}
-			
+
 			if (x.getLstSeccionCanal() != null) {
 				x.getLstSeccionCanal().forEach(y -> {
 					y.setCanalId(null);
@@ -114,37 +134,40 @@ public class CanalServiceImpl implements ICanalService {
 	@Override
 	public Canal listar(int id) {
 
-		Canal canal = canalRepo.findOne(id);
+		Canal canal = canalRepo.buscarPorId(id);
 
-		if(canal != null) {
-			// dejamos el objeto con solo el id para que no haya referencias ciclicas
-			if (canal.getLstCanal() != null) {
-				List<Canal> lst = new ArrayList<>();
-				canal.getLstCanal().forEach(y -> lst.add(new Canal(y.getId())));
-				canal.setLstCanal(lst);
-			}
-			
-			if (canal.getLstPredio() != null) {
-				canal.getLstPredio().forEach(y -> y.setCanalId(null));
-			}
-			
-			if (canal.getLstSeccionCanal() != null) {
-				canal.getLstSeccionCanal().forEach(y -> {
-					y.setCanalId(null);
-					y.setSeccionId(null);
-				});
-			}
-
-			if (canal.getLstCanalObra() != null) {
-				canal.getLstCanalObra().forEach(y -> y.setCanalId(null));
-			}
-			
-			if(canal.getCanalId() != null) {
-				canal.setCanalId(new Canal(canal.getCanalId().getId()));
-			}
-		} else {
+		// nos aseguramos de no devolver valores nulos
+		if (canal == null) {
 			canal = new Canal();
 		}
+
+		// eliminamos las referencias ciclicas
+		if (canal.getLstCanalObra() != null) {
+
+			for (CanalObra item : canal.getLstCanalObra()) {
+
+				item.setCanalId(new Canal(canal.getId()));
+
+			}
+
+		}
+
+		// eliminamos las referencias ciclicas
+		if (canal.getLstSeccionCanal() != null) {
+
+			for (SeccionCanal item : canal.getLstSeccionCanal()) {
+
+				item.setCanalId(new Canal(canal.getId()));
+				item.getSeccionId().getZonaId().getUnidadId().setLstZona(null);
+				item.getSeccionId().getZonaId().setLstSeccion(null);
+				item.getSeccionId().setLstSeccionCanal(null);
+
+			}
+
+		}
+
+		canal.setLstPredio(null);
+		canal.setLstCanal(null);
 
 		return canal;
 	}
@@ -154,7 +177,7 @@ public class CanalServiceImpl implements ICanalService {
 	 */
 	@Override
 	public List<Canal> buscarPorSeccionId(int id) {
-		
+
 		return canalRepo.buscarPorSeccionId(id);
 	}
 
@@ -163,16 +186,22 @@ public class CanalServiceImpl implements ICanalService {
 	 */
 	@Override
 	public boolean existeCanalPorCodigo(String codigo) {
-		
+
 		boolean respuesta = false;
-		
+
 		Integer id = canalRepo.buscarIdPorCodigo(codigo);
-		
-		if(id != null) {
+
+		if (id != null) {
 			respuesta = true;
 		}
-		
+
 		return respuesta;
+	}
+
+	@Override
+	public List<Canal> buscarPorNombreOCodigo(String query) {
+
+		return canalRepo.buscarPorNombreOCodigo(query);
 	}
 
 }
