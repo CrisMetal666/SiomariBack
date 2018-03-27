@@ -84,17 +84,16 @@ public class UnidadServiceImpl implements IUnidadService {
 		return unidad;
 	}
 	
-	/**
-	 * @see com.siomari.service.IUnidadService
-	 */
 	@Override
-	public boolean existePorNombre(String nombre) {
+	public int buscarIdPorNombre(String nombre) {
 		
-		boolean res = false;
+		Integer id = unidadRepo.buscarIdPorNombre(nombre);
 		
-		if(unidadRepo.buscarIdPorNombre(nombre) != null) res = true;
+		if(id == null) {
+			id = 0;
+		}
 		
-		return res;
+		return id;
 	}
 
 }

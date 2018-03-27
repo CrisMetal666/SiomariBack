@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siomari.model.Usuario;
@@ -175,21 +176,44 @@ public class UsuarioApi {
 	public ResponseEntity<?> existeCanalPorCodigo(@PathVariable("identificacion") String identificacion) {
 		
 		ResponseEntity<?> response = null;
-		
-		Map<String, Boolean> map = new HashMap<>();
-		
+
+		Map<String, Integer> map = new HashMap<>();
+
 		try {
-			
-			map.put("existe", usuarioService.existePorIdentificacion(identificacion));
-			
-			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.OK);
-				
-		}catch(Exception e) {
-			map.put("existe", false);
-			
-			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+
+			map.put("existe", usuarioService.buscarIdPorIdentificacion(identificacion));
+
+			response = new ResponseEntity<Map<String, Integer>>(map, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+
+		return response;
+	}
+	
+	/**
+	 * se buscara los usuarios que contenga la cadena en la identificacion
+	 * @param identificacion
+	 * @return lista de personas con id, nombre, apellido, identificacion
+	 */
+	@RequestMapping(value = "/buscarPorIdentificacion", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> buscarPorIdentificacion(@RequestParam("s") String identificacion) {
 		
+		ResponseEntity<?> response = null;
+
+		try {
+
+			List<Usuario> lst = usuarioService.buscarIdNombreIdentificacionPorNombreOIdentificacion(identificacion);
+
+			response = new ResponseEntity<List<Usuario>>(lst, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 		return response;
 	}
 }

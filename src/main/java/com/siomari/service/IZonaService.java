@@ -17,10 +17,7 @@ public interface IZonaService extends IService<Zona> {
 	List<Zona> buscarPorUnidadId(int id);
 	
 	/**
-	 * se verificara si existe una zona por su nombre e id de la unidad
-	 * @param nombre. Nombre de la zona
-	 * @param unidad. Id de la unidad
-	 * @return true si existe, false si no existe
+	 * @see com.siomari.repository.IZonaRepository
 	 */
-	boolean existePorNombreYUnidad(String nombre, int unidad);
+	int buscarIdPorNombreYUnidad(String nombre, int unidad);
 }

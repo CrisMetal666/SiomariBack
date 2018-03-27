@@ -17,11 +17,9 @@ public interface ICanalService extends IService<Canal> {
 	List<Canal> buscarPorSeccionId(int id);
 	
 	/**
-	 * se verificara si existe un canal por su codigo
-	 * @param codigo. Codigo del canal
-	 * @return true si existe, false si no existe
-	 */
-	boolean existeCanalPorCodigo(String codigo);
+	 * @see com.siomari.repository.ICanalRepository
+	 */ 
+	int buscarIdPorCodigo(String codigo);
 	
 	/**
 	 * @see com.siomari.repository.ICanalRepository

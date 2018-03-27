@@ -89,21 +89,6 @@ public class PredioServiceImpl implements IPredioService {
 	}
 
 	/**
-	 * @see com.siomari.service.IPredioService
-	 */
-	@Override
-	public boolean existePorCodigo(String codigo) {
-		
-		boolean res = false;
-		
-		if(predioRepo.buscarIdPorCodigo(codigo) != null) {
-			res = true;
-		}
-		
-		return res;
-	}
-
-	/**
 	 * @see com.siomari.repository.IPredioRepository
 	 */
 	@Override
@@ -124,5 +109,17 @@ public class PredioServiceImpl implements IPredioService {
 		//necesario para indicar que traiga los elementos que tengan coincidencia con el parametro query
 				String parameter = "%" + query + "%";
 		return predioRepo.listarIdCodigoNombrePorNombreOCodigo(parameter);
+	}
+
+	@Override
+	public int buscarIdPorCodigo(String codigo) {
+		
+		Integer id = predioRepo.buscarIdPorCodigo(codigo);
+
+		if (id == null) {
+			id = 0;
+		}
+
+		return id;
 	}
 }

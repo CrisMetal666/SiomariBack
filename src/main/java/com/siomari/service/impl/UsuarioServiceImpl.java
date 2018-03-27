@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.siomari.model.Predio;
 import com.siomari.model.Usuario;
 import com.siomari.repository.IUsuarioRepository;
 import com.siomari.service.IUsuarioService;
@@ -71,20 +72,39 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 		Usuario usuario = usuarioRepo.findOne(id);
 
+		//nos aseguramos de no devilver objetos nulos
 		if(usuario == null) {
 			usuario = new Usuario();
+		}
+		
+		//eliminamos los datos que no necesitamos del predio para no tener errores ciclicos
+		if(usuario.getPredioId() != null) {
+			
+			Predio predio = new Predio();
+			predio.setNombre(usuario.getPredioId().getNombre());
+			predio.setId(usuario.getPredioId().getId());
+			
+			usuario.setPredioId(predio);
 		}
 		
 		return usuario;
 	}
 
 	@Override
-	public boolean existePorIdentificacion(String identificacion) {
+	public int buscarIdPorIdentificacion(String identificacion) {
 		
-		boolean res = false;
+		Integer id = usuarioRepo.buscarIdPorIdentificacion(identificacion);
+
+		if (id == null) {
+			id = 0;
+		}
+
+		return id;
+	}
+
+	@Override
+	public List<Usuario> buscarIdNombreIdentificacionPorNombreOIdentificacion(String query) {
 		
-		if(usuarioRepo.buscarIdPorIdentificacion(identificacion) != null) res = true;
-		
-		return res;
+		return usuarioRepo.buscarIdNombreIdentificacionPorNombreOIdentificacion(query);
 	}
 }

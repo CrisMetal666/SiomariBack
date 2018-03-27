@@ -7,11 +7,9 @@ import com.siomari.model.Predio;
 public interface IPredioService extends IService<Predio> {
 
 	/**
-	 * se verificara si existe un predio por su codigo
-	 * @param codigo
-	 * @return true si existe, false si no existe
-	 */
-	boolean existePorCodigo(String codigo);
+	 * @see com.siomari.repository.IPredioRepository
+	 */ 
+	int buscarIdPorCodigo(String codigo);
 	
 	/**
 	 * @see com.siomari.repository.IPredioRepository

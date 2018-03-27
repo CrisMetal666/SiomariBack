@@ -1,5 +1,7 @@
 package com.siomari.service;
 
+import java.util.List;
+
 import com.siomari.model.Usuario;
 
 /**
@@ -10,9 +12,13 @@ import com.siomari.model.Usuario;
 public interface IUsuarioService extends IService<Usuario> {
 
 	/**
-	 * Se buscara un usuario por su identificacion
-	 * @param identificacion
-	 * @return true si existe, false si no existe
+	 * @see com.siomari.repository.ICanalRepository
+	 */ 
+	int buscarIdPorIdentificacion(String identificacion);
+	
+	/**
+	 * @see com.siomari.repository.ICanalRepository
 	 */
-	boolean existePorIdentificacion(String identificacion);
+	List<Usuario> buscarIdNombreIdentificacionPorNombreOIdentificacion(String query);
+	
 }

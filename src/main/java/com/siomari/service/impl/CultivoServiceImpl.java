@@ -100,20 +100,6 @@ public class CultivoServiceImpl implements ICultivoService {
 	}
 
 	@Override
-	public boolean existeCultivoPorNombre(String nombre) {
-
-		boolean respuesta = false;
-
-		Integer id = cultivoRepo.buscarIdPorNombre(nombre);
-
-		if (id != null) {
-			respuesta = true;
-		}
-
-		return respuesta;
-	}
-
-	@Override
 	public List<Cultivo> listarDatosBasicos() {
 
 		return cultivoRepo.listarDatosBasicos();
@@ -126,6 +112,18 @@ public class CultivoServiceImpl implements ICultivoService {
 		// el parametro query
 		String parameter = "%" + query + "%";
 		return cultivoRepo.listarIdNombrePorNombre(parameter);
+	}
+
+	@Override
+	public int buscarIdPorNombre(String nombre) {
+		
+		Integer id = cultivoRepo.buscarIdPorNombre(nombre);
+
+		if (id == null) {
+			id = 0;
+		}
+
+		return id;
 	}
 
 }

@@ -181,26 +181,20 @@ public class CultivoApi {
 	public ResponseEntity<?> buscarPorZonaId(@PathVariable("nombre") String nombre) {
 		
 		ResponseEntity<?> response = null;
-		
-		Map<String, Boolean> map = new HashMap<>();
-		boolean res = false;
-		
+
+		Map<String, Integer> map = new HashMap<>();
+
 		try {
-			
-			if(nombre != null) {
-				
-				res = cultivoService.existeCultivoPorNombre(nombre.replace("+", " "));
-				
-			}
-			
-			map.put("existe", res);
-			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.OK);
-			
-		}catch(Exception e) {
-			map.put("existe", res);
-			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+
+			map.put("existe", cultivoService.buscarIdPorNombre(nombre.replace("+", " ")));
+
+			response = new ResponseEntity<Map<String, Integer>>(map, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return response;
 	}
 	

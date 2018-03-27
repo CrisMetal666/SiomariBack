@@ -181,27 +181,22 @@ public class CanalServiceImpl implements ICanalService {
 		return canalRepo.buscarPorSeccionId(id);
 	}
 
-	/**
-	 * @see com.siomari.service.ICanalService
-	 */
-	@Override
-	public boolean existeCanalPorCodigo(String codigo) {
-
-		boolean respuesta = false;
-
-		Integer id = canalRepo.buscarIdPorCodigo(codigo);
-
-		if (id != null) {
-			respuesta = true;
-		}
-
-		return respuesta;
-	}
-
 	@Override
 	public List<Canal> buscarPorNombreOCodigo(String query) {
 
 		return canalRepo.buscarPorNombreOCodigo(query);
+	}
+
+	@Override
+	public int buscarIdPorCodigo(String codigo) {
+
+		Integer id = canalRepo.buscarIdPorCodigo(codigo);
+
+		if (id == null) {
+			id = 0;
+		}
+
+		return id;
 	}
 
 }

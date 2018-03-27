@@ -17,10 +17,7 @@ public interface ISeccionService extends IService<Seccion> {
 	List<Seccion> buscarPorZonaId(int id);
 	
 	/**
-	 * se verificara si existe una seccion por su nombre e id de la zona
-	 * @param nombre. Nombre de la zona
-	 * @param zona. Id de la zona
-	 * @return true si existe, false si no existe
+	 * @see com.siomari.repository.ISeccionRepository
 	 */
-	boolean existePorNombreYZona(String nombre, int zona);
+	int buscarIdPorNombreYZona(String nombre, int zona);
 }

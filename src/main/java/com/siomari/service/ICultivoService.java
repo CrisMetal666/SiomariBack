@@ -12,11 +12,9 @@ import com.siomari.model.Cultivo;
 public interface ICultivoService extends IService<Cultivo> {
 
 	/**
-	 * se verificara si existe un cultivo por su nombre
-	 * @param nombre. Nombre del cultivo
-	 * @return true si existe, false si no existe
+	 * @see com.siomari.repository.ICultivoRepository
 	 */
-	boolean existeCultivoPorNombre(String codigo);
+	int buscarIdPorNombre(String codigo);
 	
 	/**
 	 * @see com.siomari.model.ICultivoRepository

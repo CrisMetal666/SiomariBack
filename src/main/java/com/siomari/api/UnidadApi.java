@@ -181,18 +181,17 @@ public class UnidadApi {
 		
 		ResponseEntity<?> response = null;
 		
-		Map<String, Boolean> map = new HashMap<>();
+		Map<String, Integer> map = new HashMap<>();
 		
 		try {
 			
-			map.put("existe", unidadService.existePorNombre(nombre.replace("+", " ")));
+			map.put("existe", unidadService.buscarIdPorNombre(nombre.replace("+", " ")));
 			
-			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.OK);
+			response = new ResponseEntity<Map<String, Integer>>(map, HttpStatus.OK);
 				
 		}catch(Exception e) {
-			map.put("existe", false);
 			
-			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		return response;

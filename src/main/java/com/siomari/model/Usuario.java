@@ -60,6 +60,15 @@ public class Usuario {
 		this.id = id;
 	}
 	
+	
+	
+	public Usuario(int id, String nombre, String apellido, String cedula) {
+		this.id = id;
+		this.cedula = cedula;
+		this.nombre = nombre;
+		this.apellido = apellido;
+	}
+
 	public Usuario(int id, String cedula, String nombre, String apellido, String direccion, String ciudad,
 			String telefono, String celular, String correo, boolean propietario) {
 		this.id = id;

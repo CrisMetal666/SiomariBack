@@ -27,9 +27,11 @@ public class SeccionServiceImpl implements ISeccionService {
 	@Override
 	public void registrar(Seccion seccion) {
 
-		// nos aseguramos que no tenga un id para que no sobre escriba un registro existente
-		if(seccion.getId() != 0) return;
-		
+		// nos aseguramos que no tenga un id para que no sobre escriba un registro
+		// existente
+		if (seccion.getId() != 0)
+			return;
+
 		seccionRepo.save(seccion);
 
 	}
@@ -41,7 +43,7 @@ public class SeccionServiceImpl implements ISeccionService {
 	public void actualizar(Seccion seccion) {
 
 		seccionRepo.save(seccion);
-		
+
 	}
 
 	/**
@@ -78,14 +80,14 @@ public class SeccionServiceImpl implements ISeccionService {
 
 		Seccion seccion = seccionRepo.findOne(id);
 
-		if(seccion != null) {
+		if (seccion != null) {
 			// dejamos el objeto con solo el id para que no haya referencias ciclicas
 			seccion.setZonaId(new Zona(seccion.getZonaId().getId()));
 			seccion.setLstSeccionCanal(null);
 		} else {
 			seccion = new Seccion();
 		}
-		
+
 		return seccion;
 	}
 
@@ -94,22 +96,20 @@ public class SeccionServiceImpl implements ISeccionService {
 	 */
 	@Override
 	public List<Seccion> buscarPorZonaId(int id) {
-		
+
 		return seccionRepo.buscarPorZonaId(id);
 	}
 
-	/**
-	 * @see com.siomari.service.ISeccionService
-	 */
 	@Override
-	public boolean existePorNombreYZona(String nombre, int zona) {
-		
-		boolean res = false;
+	public int buscarIdPorNombreYZona(String nombre, int zona) {
 
-		if (seccionRepo.buscarIdPorNombreYZona(nombre, zona) != null)
-			res = true;
+		Integer id = seccionRepo.buscarIdPorNombreYZona(nombre, zona);
 
-		return res;
+		if (id == null) {
+			id = 0;
+		}
+
+		return id;
 	}
 
 }

@@ -100,18 +100,16 @@ public class ZonaServiceImpl implements IZonaService {
 		return zonaRepo.buscarPorUnidadId(id);
 	}
 
-	/**
-	 * @see com.siomari.service.IZonaService
-	 */
 	@Override
-	public boolean existePorNombreYUnidad(String nombre, int unidad) {
+	public int buscarIdPorNombreYUnidad(String nombre, int unidad) {
+		
+		Integer id = zonaRepo.buscarIdPorNombreYUnidad(nombre, unidad);
 
-		boolean res = false;
+		if (id == null) {
+			id = 0;
+		}
 
-		if (zonaRepo.buscarIdPorNombreYUnidad(nombre, unidad) != null)
-			res = true;
-
-		return res;
+		return id;
 	}
 
 }

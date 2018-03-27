@@ -201,21 +201,20 @@ public class CanalApi {
 	public ResponseEntity<?> existeCanalPorCodigo(@PathVariable("codigo") String codigo) {
 		
 		ResponseEntity<?> response = null;
-		
-		Map<String, Boolean> map = new HashMap<>();
-		
+
+		Map<String, Integer> map = new HashMap<>();
+
 		try {
-			
-			map.put("existe", canalService.existeCanalPorCodigo(codigo));
-			
-			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.OK);
-				
-		}catch(Exception e) {
-			map.put("existe", false);
-			
-			response = new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+
+			map.put("existe", canalService.buscarIdPorCodigo(codigo));
+
+			response = new ResponseEntity<Map<String, Integer>>(map, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return response;
 	}
 	

@@ -10,9 +10,7 @@ import com.siomari.model.Unidad;
 public interface IUnidadService extends IService<Unidad> {
 
 	/**
-	 * se verificara si existe una unidad por su nombre
-	 * @param nombre
-	 * @return true si existe, false si no existe
+	 * @see com.siomari.repository.IUnidadRepository
 	 */
-	boolean existePorNombre(String nombre);
+	int buscarIdPorNombre(String nombre);
 }
