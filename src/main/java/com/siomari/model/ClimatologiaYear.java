@@ -22,94 +22,51 @@ public class ClimatologiaYear {
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "enero", nullable = true)
-	private ClimatologiaDatos enero;
+	private Decada enero;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "febrero", nullable = true)
-	private ClimatologiaDatos febrero;
+	private Decada febrero;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "marzo", nullable = true)
-	private ClimatologiaDatos marzo;
+	private Decada marzo;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "abril", nullable = true)
-	private ClimatologiaDatos abril;
+	private Decada abril;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "mayo", nullable = true)
-	private ClimatologiaDatos mayo;
+	private Decada mayo;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "junio", nullable = true)
-	private ClimatologiaDatos junio;
+	private Decada junio;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "julio", nullable = true)
-	private ClimatologiaDatos julio;
+	private Decada julio;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "agosto", nullable = true)
-	private ClimatologiaDatos agosto;
+	private Decada agosto;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "septiembre", nullable = true)
-	private ClimatologiaDatos septiembre;
+	private Decada septiembre;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "octubre", nullable = true)
-	private ClimatologiaDatos octubre;
+	private Decada octubre;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "noviembre", nullable = true)
-	private ClimatologiaDatos noviembre;
+	private Decada noviembre;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "diciembre", nullable = true)
-	private ClimatologiaDatos diciembre;
-
-	public ClimatologiaYear() {
-	}
-
-	public ClimatologiaYear(int year) {
-		this.year = year;
-	}
-
-	public ClimatologiaYear(int year, ClimatologiaDatos enero, ClimatologiaDatos febrero, ClimatologiaDatos marzo,
-			ClimatologiaDatos abril, ClimatologiaDatos mayo, ClimatologiaDatos junio, ClimatologiaDatos julio,
-			ClimatologiaDatos agosto, ClimatologiaDatos septiembre, ClimatologiaDatos octubre,
-			ClimatologiaDatos noviembre, ClimatologiaDatos diciembre) {
-		this.year = year;
-		this.enero = enero;
-		this.febrero = febrero;
-		this.marzo = marzo;
-		this.abril = abril;
-		this.mayo = mayo;
-		this.junio = junio;
-		this.julio = julio;
-		this.agosto = agosto;
-		this.septiembre = septiembre;
-		this.octubre = octubre;
-		this.noviembre = noviembre;
-		this.diciembre = diciembre;
-	}
-
-	public ClimatologiaYear(int year, int enero, int febrero, int marzo, int abril, int mayo, int junio, int julio,
-			int agosto, int septiembre, int octubre, int noviembre, int diciembre) {
-		this.year = year;
-		this.enero = new ClimatologiaDatos(enero);
-		this.febrero = new ClimatologiaDatos(febrero);
-		this.marzo = new ClimatologiaDatos(marzo);
-		this.abril = new ClimatologiaDatos(abril);
-		this.mayo = new ClimatologiaDatos(mayo);
-		this.junio = new ClimatologiaDatos(junio);
-		this.julio = new ClimatologiaDatos(julio);
-		this.agosto = new ClimatologiaDatos(agosto);
-		this.septiembre = new ClimatologiaDatos(septiembre);
-		this.octubre = new ClimatologiaDatos(octubre);
-		this.noviembre = new ClimatologiaDatos(noviembre);
-		this.diciembre = new ClimatologiaDatos(diciembre);
-	}
+	private Decada diciembre;
 
 	public int getYear() {
 		return year;
@@ -119,99 +76,99 @@ public class ClimatologiaYear {
 		this.year = year;
 	}
 
-	public ClimatologiaDatos getEnero() {
+	public Decada getEnero() {
 		return enero;
 	}
 
-	public void setEnero(ClimatologiaDatos enero) {
+	public void setEnero(Decada enero) {
 		this.enero = enero;
 	}
 
-	public ClimatologiaDatos getFebrero() {
+	public Decada getFebrero() {
 		return febrero;
 	}
 
-	public void setFebrero(ClimatologiaDatos febrero) {
+	public void setFebrero(Decada febrero) {
 		this.febrero = febrero;
 	}
 
-	public ClimatologiaDatos getMarzo() {
+	public Decada getMarzo() {
 		return marzo;
 	}
 
-	public void setMarzo(ClimatologiaDatos marzo) {
+	public void setMarzo(Decada marzo) {
 		this.marzo = marzo;
 	}
 
-	public ClimatologiaDatos getAbril() {
+	public Decada getAbril() {
 		return abril;
 	}
 
-	public void setAbril(ClimatologiaDatos abril) {
+	public void setAbril(Decada abril) {
 		this.abril = abril;
 	}
 
-	public ClimatologiaDatos getMayo() {
+	public Decada getMayo() {
 		return mayo;
 	}
 
-	public void setMayo(ClimatologiaDatos mayo) {
+	public void setMayo(Decada mayo) {
 		this.mayo = mayo;
 	}
 
-	public ClimatologiaDatos getJunio() {
+	public Decada getJunio() {
 		return junio;
 	}
 
-	public void setJunio(ClimatologiaDatos junio) {
+	public void setJunio(Decada junio) {
 		this.junio = junio;
 	}
 
-	public ClimatologiaDatos getJulio() {
+	public Decada getJulio() {
 		return julio;
 	}
 
-	public void setJulio(ClimatologiaDatos julio) {
+	public void setJulio(Decada julio) {
 		this.julio = julio;
 	}
 
-	public ClimatologiaDatos getAgosto() {
+	public Decada getAgosto() {
 		return agosto;
 	}
 
-	public void setAgosto(ClimatologiaDatos agosto) {
+	public void setAgosto(Decada agosto) {
 		this.agosto = agosto;
 	}
 
-	public ClimatologiaDatos getSeptiembre() {
+	public Decada getSeptiembre() {
 		return septiembre;
 	}
 
-	public void setSeptiembre(ClimatologiaDatos septiembre) {
+	public void setSeptiembre(Decada septiembre) {
 		this.septiembre = septiembre;
 	}
 
-	public ClimatologiaDatos getOctubre() {
+	public Decada getOctubre() {
 		return octubre;
 	}
 
-	public void setOctubre(ClimatologiaDatos octubre) {
+	public void setOctubre(Decada octubre) {
 		this.octubre = octubre;
 	}
 
-	public ClimatologiaDatos getNoviembre() {
+	public Decada getNoviembre() {
 		return noviembre;
 	}
 
-	public void setNoviembre(ClimatologiaDatos noviembre) {
+	public void setNoviembre(Decada noviembre) {
 		this.noviembre = noviembre;
 	}
 
-	public ClimatologiaDatos getDiciembre() {
+	public Decada getDiciembre() {
 		return diciembre;
 	}
 
-	public void setDiciembre(ClimatologiaDatos diciembre) {
+	public void setDiciembre(Decada diciembre) {
 		this.diciembre = diciembre;
 	}
 

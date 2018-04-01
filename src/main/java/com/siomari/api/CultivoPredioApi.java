@@ -187,4 +187,23 @@ public class CultivoPredioApi {
 
 		return response;
 	}
+	
+	@RequestMapping(value = "/planeacionInfoDemanda/{year}/{campania}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> test(@PathVariable("year") Integer year, 
+			@PathVariable("campania") Character campania ) {
+
+		ResponseEntity<?> response = null;
+
+		try {
+			List<List<PlaneacionInfo>> lst = cultivoPredioService.informacionSiembrasDemanda(year, campania);
+			response = new ResponseEntity<List<List<PlaneacionInfo>>>(lst, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
+
+		return response;
+	}
 }

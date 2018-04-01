@@ -53,4 +53,13 @@ public interface ICultivoPredioService {
 	 * @return
 	 */
 	List<PlaneacionInfo> informacionSiembras(int cultivo, int year, char campania);
+	
+	/**
+	 * se mostraran todos los cultivos sembrados en la campaña, con su respectivo cantidad de hectareas sembradas
+	 * cada decada, su demanda de agua decalmente
+	 * @param year año de la campaña
+	 * @param campania campaña
+	 * @return lista con informacion de cada cultivo que se haya sembrado en la campaña especificada
+	 */
+	List<List<PlaneacionInfo>> informacionSiembrasDemanda(int year, char campania);
 }

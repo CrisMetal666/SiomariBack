@@ -1,8 +1,15 @@
 package com.siomari.model;
 
+import java.util.List;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
- * Este modelo sirve para mostrar la informacion de planeacion mejor estructurada, es ella se muestra el mes de la
- * planeacion (lo convierte de valor numerico a texto), las hectareas de los tres periodos y la suma de estos 3
+ * Este modelo sirve para mostrar la informacion de planeacion mejor estructurada, es ella se muestra el mes 
+ * de la planeacion (lo convierte de valor numerico a texto), las hectareas de los tres periodos, la suma de 
+ * estos 3 y el cultivo, tambien se usa para mostrar la demanda de agua
+ * 
  * 
  * @author crismetal
  *
@@ -10,6 +17,7 @@ package com.siomari.model;
 public class PlaneacionInfo {
 	
 	//guardamos el valor numerico del mes que nos llega de la base de datos para despues convertirla a texto
+	@JsonIgnore
 	private int mesNumerico;
 	//mes que que mostrara en el json
 	private String mes;
@@ -17,6 +25,9 @@ public class PlaneacionInfo {
 	private float periodo2;
 	private float periodo3;
 	private float total;
+	private String cultivo;
+	//se guardara el nombre del mes y su respectiva demanda de agua
+	private List<Map<String,Object>> demanda;
 	
 	public PlaneacionInfo() {
 	}
@@ -130,6 +141,35 @@ public class PlaneacionInfo {
 	public void setTotal(float total) {
 		this.total = total;
 	}
+
+	public String getCultivo() {
+		return cultivo;
+	}
+
+	public void setCultivo(String cultivo) {
+		this.cultivo = cultivo;
+	}
+
+	public int getMesNumerico() {
+		return mesNumerico;
+	}
+
+	public void setMesNumerico(int mesNumerico) {
+		this.mesNumerico = mesNumerico;
+	}
+
+	public List<Map<String, Object>> getDemanda() {
+		return demanda;
+	}
+
+	public void setDemanda(List<Map<String, Object>> demanda) {
+		this.demanda = demanda;
+	}
+
+	
+
+	
+
 	
 	
 	

@@ -56,16 +56,9 @@ public class ClimatologiaYearApi {
 		
 		try {
 			
-			if(id == null) {
-				
-				response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-				
-			} else {
-				
-				ClimatologiaYear climatologiaYear = climatologiaYearService.buscarPorId(id);
-				
-				response = new ResponseEntity<ClimatologiaYear>(climatologiaYear, HttpStatus.OK);
-			}
+			ClimatologiaYear climatologiaYear = climatologiaYearService.buscarPorId(id);
+			
+			response = new ResponseEntity<ClimatologiaYear>(climatologiaYear, HttpStatus.OK);
 			
 		} catch(Exception e) {
 			
