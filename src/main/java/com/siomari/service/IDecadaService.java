@@ -16,4 +16,12 @@ public interface IDecadaService {
 	 * @return informacion climatologica decadalmente
 	 */
 	Decada buscarPorMesYYear(int mes, int year);
+	
+	/**
+	 * se calculara la probabilidad del 75% de los datos climatologicos en el mes espeficicados en los ultimos
+	 * 10 años
+	 * @param mes debe de ser del 1 - 12 siendo 1 = enero, 12 = diciembre
+	 * @return
+	 */
+	Decada probabilidadDel75(int mes);
 }

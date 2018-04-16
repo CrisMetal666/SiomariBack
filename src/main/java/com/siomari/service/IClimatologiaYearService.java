@@ -19,4 +19,6 @@ public interface IClimatologiaYearService {
 	 * @see com.siomari.repository.IClimatologiaYearRepository
 	 */
 	ClimatologiaYear buscarPorId(int year);
+	
+	int ultimoYearRegistrado();
 }

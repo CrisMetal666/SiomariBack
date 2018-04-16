@@ -62,4 +62,15 @@ public interface ICultivoPredioService {
 	 * @return lista con informacion de cada cultivo que se haya sembrado en la campaña especificada
 	 */
 	List<List<PlaneacionInfo>> informacionSiembrasDemanda(int year, char campania);
+	
+	
+	/**
+	 * Calcula la demanda hidrica total decadalmente del año y la campaña especificadas
+	 * @param year año
+	 * @param campania campaña (A - B)
+	 * @return
+	 */
+	List<PlaneacionInfo> demandaDecadalTodal(int year, char campania);
+	
+	
 }

@@ -23,9 +23,6 @@ public class ClimatologiaDatos {
 	@Column(name = "evaporacion", nullable = false)
 	private float evaporacion;
 	
-	@Column(name = "precipitacion_efecto", nullable = false)
-	private float precipitacionEfecto;
-	
 	@Column(name = "precipitacion", nullable = false)
 	private float precipitacion;
 	
@@ -39,11 +36,9 @@ public class ClimatologiaDatos {
 		this.id = id;
 	}
 	
-	public ClimatologiaDatos(int id, float evaporacion, float precipitacionEfecto, float precipitacion,
-			float qPrecipitacion) {
+	public ClimatologiaDatos(int id, float evaporacion, float precipitacion, float qPrecipitacion) {
 		this.id = id;
 		this.evaporacion = evaporacion;
-		this.precipitacionEfecto = precipitacionEfecto;
 		this.precipitacion = precipitacion;
 		this.qPrecipitacion = qPrecipitacion;
 	}
@@ -64,14 +59,6 @@ public class ClimatologiaDatos {
 		this.evaporacion = evaporacion;
 	}
 
-	public float getPrecipitacionEfecto() {
-		return precipitacionEfecto;
-	}
-
-	public void setPrecipitacionEfecto(float precipitacionEfecto) {
-		this.precipitacionEfecto = precipitacionEfecto;
-	}
-
 	public float getPrecipitacion() {
 		return precipitacion;
 	}
@@ -86,6 +73,12 @@ public class ClimatologiaDatos {
 
 	public void setqPrecipitacion(float qPrecipitacion) {
 		this.qPrecipitacion = qPrecipitacion;
+	}
+
+	@Override
+	public String toString() {
+		return "ClimatologiaDatos [id=" + id + ", evaporacion=" + evaporacion + ", precipitacion=" + precipitacion
+				+ ", qPrecipitacion=" + qPrecipitacion + "]";
 	}
 	
 	

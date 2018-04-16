@@ -6,29 +6,32 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Este modelo sirve para mostrar la informacion de planeacion mejor estructurada, es ella se muestra el mes 
- * de la planeacion (lo convierte de valor numerico a texto), las hectareas de los tres periodos, la suma de 
- * estos 3 y el cultivo, tambien se usa para mostrar la demanda de agua
+ * Este modelo sirve para mostrar la informacion de planeacion mejor
+ * estructurada, es ella se muestra el mes de la planeacion (lo convierte de
+ * valor numerico a texto), las hectareas de los tres periodos, la suma de estos
+ * 3 y el cultivo, tambien se usa para mostrar la demanda de agua
  * 
  * 
  * @author crismetal
  *
  */
 public class PlaneacionInfo {
-	
-	//guardamos el valor numerico del mes que nos llega de la base de datos para despues convertirla a texto
+
+	// guardamos el valor numerico del mes que nos llega de la base de datos para
+	// despues convertirla a texto
 	@JsonIgnore
 	private int mesNumerico;
-	//mes que que mostrara en el json
+	// mes que que mostrara en el json
 	private String mes;
 	private float periodo1;
 	private float periodo2;
 	private float periodo3;
 	private float total;
 	private String cultivo;
-	//se guardara el nombre del mes y su respectiva demanda de agua
-	private List<Map<String,Object>> demanda;
-	
+	private double oferta;
+	// se guardara el nombre del mes y su respectiva demanda de agua
+	private List<Map<String, Object>> demanda;
+
 	public PlaneacionInfo() {
 	}
 
@@ -38,7 +41,7 @@ public class PlaneacionInfo {
 		this.periodo2 = periodo2;
 		this.periodo3 = periodo3;
 	}
-	
+
 	public PlaneacionInfo(short mesNumerico, float periodos[]) {
 		this.mesNumerico = mesNumerico;
 		this.periodo1 = periodos[0];
@@ -47,60 +50,60 @@ public class PlaneacionInfo {
 	}
 
 	public String getMes() {
-		
-		//Convertimos el mes numerico a text		
-		if(mesNumerico == 1) {
-			
+
+		// Convertimos el mes numerico a text
+		if (mesNumerico == 1) {
+
 			mes = "Enero";
-			
-		} else if(mesNumerico == 2) {
-			
+
+		} else if (mesNumerico == 2) {
+
 			mes = "Febrero";
-			
-		} else if(mesNumerico == 3) {
-			
+
+		} else if (mesNumerico == 3) {
+
 			mes = "Marzo";
-			
-		} else if(mesNumerico == 4) {
-			
+
+		} else if (mesNumerico == 4) {
+
 			mes = "Abril";
-			
-		} else if(mesNumerico == 5) {
-			
+
+		} else if (mesNumerico == 5) {
+
 			mes = "Mayo";
-			
-		} else if(mesNumerico == 6) {
-			
+
+		} else if (mesNumerico == 6) {
+
 			mes = "Junio";
-			
-		} else if(mesNumerico == 7) {
-			
+
+		} else if (mesNumerico == 7) {
+
 			mes = "Julio";
-			
-		} else if(mesNumerico == 8) {
-			
+
+		} else if (mesNumerico == 8) {
+
 			mes = "Agosto";
-			
-		} else if(mesNumerico == 9) {
-			
+
+		} else if (mesNumerico == 9) {
+
 			mes = "Septiembre";
-			
-		} else if(mesNumerico == 10) {
-			
+
+		} else if (mesNumerico == 10) {
+
 			mes = "Octubre";
-			
-		} else if(mesNumerico == 11) {
-			
+
+		} else if (mesNumerico == 11) {
+
 			mes = "Noviembre";
-			
+
 		} else {
-			
+
 			mes = "Diciembre";
-			
+
 		}
-		
+
 		return mes;
-		
+
 	}
 
 	public void setMes(String mes) {
@@ -132,9 +135,9 @@ public class PlaneacionInfo {
 	}
 
 	public float getTotal() {
-		
+
 		total = periodo1 + periodo2 + periodo3;
-		
+
 		return total;
 	}
 
@@ -166,13 +169,12 @@ public class PlaneacionInfo {
 		this.demanda = demanda;
 	}
 
-	
+	public double getOferta() {
+		return oferta;
+	}
 
-	
-
-	
-	
-	
-	
+	public void setOferta(double oferta) {
+		this.oferta = oferta;
+	}
 
 }

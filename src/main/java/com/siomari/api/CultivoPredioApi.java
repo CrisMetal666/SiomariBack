@@ -189,7 +189,7 @@ public class CultivoPredioApi {
 	}
 	
 	@RequestMapping(value = "/planeacionInfoDemanda/{year}/{campania}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> test(@PathVariable("year") Integer year, 
+	public ResponseEntity<?> informacionSiembrasDemanda(@PathVariable("year") Integer year, 
 			@PathVariable("campania") Character campania ) {
 
 		ResponseEntity<?> response = null;
@@ -197,6 +197,25 @@ public class CultivoPredioApi {
 		try {
 			List<List<PlaneacionInfo>> lst = cultivoPredioService.informacionSiembrasDemanda(year, campania);
 			response = new ResponseEntity<List<List<PlaneacionInfo>>>(lst, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
+
+		return response;
+	}
+	
+	@RequestMapping(value = "/demandaTotalDecadal/{year}/{campania}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> demandaTotalDecadal(@PathVariable("year") Integer year, 
+			@PathVariable("campania") Character campania ) {
+
+		ResponseEntity<?> response = null;
+
+		try {
+			List<PlaneacionInfo> lst = cultivoPredioService.demandaDecadalTodal(year, campania);
+			response = new ResponseEntity<List<PlaneacionInfo>>(lst, HttpStatus.OK);
 
 		} catch (Exception e) {
 

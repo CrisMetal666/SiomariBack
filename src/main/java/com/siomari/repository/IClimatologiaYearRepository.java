@@ -22,4 +22,11 @@ public interface IClimatologiaYearRepository extends JpaRepository<ClimatologiaY
 			+ "left join fetch cy.julio left join fetch cy.agosto left join fetch cy.septiembre left join fetch cy.octubre "
 			+ "left join fetch cy.noviembre left join fetch cy.diciembre where cy.year = ?1")
 	ClimatologiaYear buscarPorId(int year);
+	
+	/**
+	 * ultimo año registrado
+	 * @return año
+	 */
+	@Query("select max(cy.year) from ClimatologiaYear cy")
+	Integer ultimoYearRegistrado();
 }

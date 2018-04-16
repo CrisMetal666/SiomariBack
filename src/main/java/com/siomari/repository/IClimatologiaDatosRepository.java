@@ -10,5 +10,7 @@ import com.siomari.model.ClimatologiaDatos;
  *
  */
 public interface IClimatologiaDatosRepository extends JpaRepository<ClimatologiaDatos, Integer> {
+	
+	
 
 }

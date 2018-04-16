@@ -36,4 +36,14 @@ public class ClimatologiaYearServiceImpl implements IClimatologiaYearService {
 		return climatologiaYearRepo.buscarPorId(year);
 	}
 
+	@Override
+	public int ultimoYearRegistrado() {
+		
+		Integer year = climatologiaYearRepo.ultimoYearRegistrado();
+		
+		if(year == 0) year = 0;
+		
+		return year;
+	}
+
 }
