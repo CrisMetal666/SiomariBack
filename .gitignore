@@ -22,3 +22,6 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### Archivos angular ###
+src/main/resources/static/
