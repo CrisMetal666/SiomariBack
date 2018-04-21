@@ -122,4 +122,10 @@ public class PredioServiceImpl implements IPredioService {
 
 		return id;
 	}
+	
+	@Override
+	public List<Predio> listarIdCodigoNombrePorNombreOCodigoSinUsuarios(String query) {
+		
+		return predioRepo.listarIdCodigoNombrePorNombreOCodigoSinUsuarios(query);
+	}
 }

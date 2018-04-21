@@ -205,13 +205,13 @@ public class PredioApi {
 	 * @return lista de predios
 	 */
 	@RequestMapping(value = "/sinUsuarios", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> listarSinUsuarios() {
+	public ResponseEntity<?> listarSinUsuarios(@RequestParam("s") String query) {
 
 		ResponseEntity<?> response = null;
 
 		try {
 
-			List<Predio> lst = predioService.buscarSinUsuario();
+			List<Predio> lst = predioService.listarIdCodigoNombrePorNombreOCodigoSinUsuarios(query);
 			response = new ResponseEntity<List<Predio>>(lst, HttpStatus.OK);
 
 		} catch (Exception e) {

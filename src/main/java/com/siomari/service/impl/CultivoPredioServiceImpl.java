@@ -587,6 +587,26 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 					almacenamiento = config.getLamina() - config.getLamina() * 0.5;
 
 				}
+				
+				/*
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 */
 
 				// calculamos el volumen de la demanda de agua
 				double valores[] = calcularVolumenDemanda(pricipitacion, evaporacion, kc.getKc(), areaTotal,

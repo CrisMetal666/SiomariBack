@@ -19,11 +19,14 @@ public class SiomariBackApplicationTests {
 	@Test
 	public void contextLoads() {
 
-		Decada d = service.probabilidadDel75(4);
+		Decada d = service.probabilidadDel75(1);
 		
 		System.out.println(d.getDecada1());
 		System.out.println(d.getDecada2());
 		System.out.println(d.getDecada3());
+		System.out.println(d.getDecada3().getEvaporacion() * 0.8);
+		
+		
 
 	}
 

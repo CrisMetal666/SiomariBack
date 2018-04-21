@@ -165,6 +165,16 @@ public class CanalServiceImpl implements ICanalService {
 			}
 
 		}
+		
+		if(canal.getCanalId() != null) {
+			
+			Canal c = new Canal();
+			c.setId(canal.getCanalId().getId());
+			c.setNombre(canal.getCanalId().getNombre());
+			
+			canal.setCanalId(c);
+			
+		}
 
 		canal.setLstPredio(null);
 		canal.setLstCanal(null);

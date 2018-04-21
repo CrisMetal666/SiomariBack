@@ -107,4 +107,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		
 		return usuarioRepo.buscarIdNombreIdentificacionPorNombreOIdentificacion(query);
 	}
+
+	
 }

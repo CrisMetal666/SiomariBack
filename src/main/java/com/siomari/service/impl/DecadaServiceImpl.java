@@ -195,15 +195,15 @@ public class DecadaServiceImpl implements IDecadaService {
 		
 		//hacemos la prediccion
 		ClimatologiaDatos climatologiaDatos1 = new ClimatologiaDatos();
-		climatologiaDatos1.setEvaporacion(this.probabilidadDel75(evaporacionDecada1));
+		climatologiaDatos1.setEvaporacion(this.promedio(evaporacionDecada1));
 		climatologiaDatos1.setPrecipitacion(this.probabilidadDel75(precipitacionDecada1));
 		
 		ClimatologiaDatos climatologiaDatos2 = new ClimatologiaDatos();
-		climatologiaDatos2.setEvaporacion(this.probabilidadDel75(evaporacionDecada2));
+		climatologiaDatos2.setEvaporacion(this.promedio(evaporacionDecada2));
 		climatologiaDatos2.setPrecipitacion(this.probabilidadDel75(precipitacionDecada2));
 		
 		ClimatologiaDatos climatologiaDatos3 = new ClimatologiaDatos();
-		climatologiaDatos3.setEvaporacion(this.probabilidadDel75(evaporacionDecada3));
+		climatologiaDatos3.setEvaporacion(this.promedio(evaporacionDecada3));
 		climatologiaDatos3.setPrecipitacion(this.probabilidadDel75(precipitacionDecada3));
 		
 		//guardamos los datos climatologicos que se predicieron en cada decada
@@ -268,6 +268,24 @@ public class DecadaServiceImpl implements IDecadaService {
 				/ (probabilidadSuperior - probabilidadInferior);
 
 		return (float)valor;
+	}
+	
+	/**
+	 * se calculara el promedio
+	 * @param datos
+	 * @return promedio
+	 */
+	private float promedio(Double datos[]) {
+		
+		double suma = 0;
+		
+		for(double dato : datos) {
+			suma += dato;
+		}
+		
+		double promedio = suma / datos.length;
+		
+		return (float) promedio;
 	}
 
 }
