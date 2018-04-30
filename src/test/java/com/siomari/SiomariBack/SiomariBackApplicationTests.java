@@ -6,26 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.siomari.model.Decada;
-import com.siomari.service.IDecadaService;
+import com.siomari.repository.IEstructuraControlRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SiomariBackApplicationTests {
 
 	@Autowired
-	private IDecadaService service;
+	private IEstructuraControlRepository repo;
 
 	@Test
 	public void contextLoads() {
 
-		Decada d = service.probabilidadDel75(1);
-		
-		System.out.println(d.getDecada1());
-		System.out.println(d.getDecada2());
-		System.out.println(d.getDecada3());
-		System.out.println(d.getDecada3().getEvaporacion() * 0.8);
-		
+		repo.listarPorCodigo("");
 		
 
 	}
