@@ -30,4 +30,9 @@ public interface IPredioService extends IService<Predio> {
 	 * @see com.siomari.model.IPredioRepository
 	 */
 	List<Predio> listarIdCodigoNombrePorNombreOCodigoSinUsuarios(String query);
+	
+	/**
+	 * @see com.siomari.model.IPredioRepository
+	 */
+	Double listarModuloRiegoPorId(int predio);
 }

@@ -27,9 +27,11 @@ public class PredioServiceImpl implements IPredioService {
 	@Override
 	public void registrar(Predio predio) {
 
-		// nos aseguramos que no tenga un id para que no sobre escriba un registro existente
-		if(predio.getId() != 0) return;
-		
+		// nos aseguramos que no tenga un id para que no sobre escriba un registro
+		// existente
+		if (predio.getId() != 0)
+			return;
+
 		predioRepo.save(predio);
 
 	}
@@ -41,7 +43,7 @@ public class PredioServiceImpl implements IPredioService {
 	public void actualizar(Predio predio) {
 
 		predioRepo.save(predio);
-		
+
 	}
 
 	/**
@@ -75,8 +77,9 @@ public class PredioServiceImpl implements IPredioService {
 
 		Predio predio = predioRepo.findOne(id);
 
-		if(predio != null) {
-			// dejamos el objeto con solo el id y el nombre para que no haya referencias ciclicas
+		if (predio != null) {
+			// dejamos el objeto con solo el id y el nombre para que no haya referencias
+			// ciclicas
 			Canal canal = new Canal();
 			canal.setId(predio.getCanalId().getId());
 			canal.setNombre(predio.getCanalId().getNombre());
@@ -84,7 +87,7 @@ public class PredioServiceImpl implements IPredioService {
 		} else {
 			predio = new Predio();
 		}
-		
+
 		return predio;
 	}
 
@@ -93,27 +96,28 @@ public class PredioServiceImpl implements IPredioService {
 	 */
 	@Override
 	public List<Predio> buscarSinUsuario() {
-		
+
 		return predioRepo.buscarSinUsuario();
 	}
 
 	@Override
 	public List<Predio> listarDatosBasicos() {
-		
+
 		return predioRepo.listarDatosBasicos();
 	}
 
 	@Override
 	public List<Predio> listarIdCodigoNombrePorNombreOCodigo(String query) {
-		
-		//necesario para indicar que traiga los elementos que tengan coincidencia con el parametro query
-				String parameter = "%" + query + "%";
+
+		// necesario para indicar que traiga los elementos que tengan coincidencia con
+		// el parametro query
+		String parameter = "%" + query + "%";
 		return predioRepo.listarIdCodigoNombrePorNombreOCodigo(parameter);
 	}
 
 	@Override
 	public int buscarIdPorCodigo(String codigo) {
-		
+
 		Integer id = predioRepo.buscarIdPorCodigo(codigo);
 
 		if (id == null) {
@@ -122,10 +126,18 @@ public class PredioServiceImpl implements IPredioService {
 
 		return id;
 	}
-	
+
 	@Override
 	public List<Predio> listarIdCodigoNombrePorNombreOCodigoSinUsuarios(String query) {
-		
+
 		return predioRepo.listarIdCodigoNombrePorNombreOCodigoSinUsuarios(query);
+	}
+
+	@Override
+	public Double listarModuloRiegoPorId(int predio) {
+
+		Double moduloRiego = predioRepo.listarModuloRiegoPorId(predio);
+
+		return moduloRiego == null ? 0 : moduloRiego;
 	}
 }

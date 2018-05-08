@@ -31,7 +31,7 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	@Query("select new com.siomari.model.Predio(p.id,p.codigo,p.nombre) from Predio p where p.id not in "
 			+ "(select u.predioId.id from Usuario u)")
 	List<Predio> buscarSinUsuario();
-	
+
 	/**
 	 * Se listaran los predios que contangan la cadena enviana en su nombre o codigo
 	 * y no tenga un usuario registrado
@@ -64,5 +64,14 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 			+ "p.nombre like ?1 or p.codigo like ?1 group by p.id")
 	List<Predio> listarIdCodigoNombrePorNombreOCodigo(String query);
 
-	
+	/**
+	 * se buscara el modulo de riego de un predio por su id
+	 * 
+	 * @param predio
+	 *            id del predio
+	 * @return modulo de riego
+	 */
+	@Query("select p.moduloRiego from Predio p where p.id = ?1")
+	Double listarModuloRiegoPorId(int predio);
+
 }
