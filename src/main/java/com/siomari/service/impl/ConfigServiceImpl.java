@@ -13,7 +13,7 @@ import com.siomari.service.IConfigService;
  *
  */
 @Service
-public class IConfigServiceImpl implements IConfigService {
+public class ConfigServiceImpl implements IConfigService {
 	
 	@Autowired
 	private IConfigRepository configRepo;
@@ -32,6 +32,14 @@ public class IConfigServiceImpl implements IConfigService {
 		config.setId(1);		
 		
 		configRepo.save(config);
+	}
+
+	@Override
+	public double getCosto() {
+		
+		Double costo = configRepo.getCosto();
+		
+		return costo == null ? 0 : costo;
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.siomari.api;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siomari.model.Entrega;
+import com.siomari.model.EntregaInfo;
 import com.siomari.service.IEntregaService;
 
 /**
@@ -56,12 +56,9 @@ public class EntregaApi {
 
 		try {
 
-			double segundos = entregaService.caudalServidoPorRangoFecha(inicio, fin, predio);
+			List<EntregaInfo> entregas = entregaService.caudalServidoPorRangoFecha(inicio, fin, predio);
 
-			Map<String, Double> map = new HashMap<>();
-			map.put("caudal", segundos);
-
-			response = new ResponseEntity<Map<String, Double>>(map, HttpStatus.OK);
+			response = new ResponseEntity<List<EntregaInfo>>(entregas, HttpStatus.OK);
 
 		} catch (Exception e) {
 

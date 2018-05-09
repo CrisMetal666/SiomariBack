@@ -31,6 +31,9 @@ public class Config {
 	
 	@Column(name = "horas", nullable = false)
 	private double horas;
+	
+	@Column(name = "costo", nullable = false)
+	private double costo;
 
 	public int getId() {
 		return id;
@@ -70,6 +73,14 @@ public class Config {
 
 	public void setHoras(double horas) {
 		this.horas = horas;
+	}
+
+	public double getCosto() {
+		return costo;
+	}
+
+	public void setCosto(double costo) {
+		this.costo = costo;
 	}
 	
 	

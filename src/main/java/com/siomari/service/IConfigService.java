@@ -16,4 +16,6 @@ public interface IConfigService {
 	Config listar();
 	
 	void registrar(Config config);
+	
+	double getCosto();
 }

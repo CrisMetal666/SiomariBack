@@ -1,6 +1,9 @@
 package com.siomari.service;
 
+import java.util.List;
+
 import com.siomari.model.Entrega;
+import com.siomari.model.EntregaInfo;
 
 /**
  * 
@@ -27,7 +30,7 @@ public interface IEntregaService {
 	 *            fecha superior (yyyy-mm-dd)
 	 * @param predio
 	 *            id del predio
-	 * @return
+	 * @return lista con fecha, metros cubicos y precio
 	 */
-	double caudalServidoPorRangoFecha(String incio, String fin, int predio);
+	List<EntregaInfo> caudalServidoPorRangoFecha(String incio, String fin, int predio);
 }

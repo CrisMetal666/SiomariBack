@@ -1,6 +1,7 @@
 package com.siomari.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.siomari.model.Config;
 
@@ -11,6 +12,11 @@ import com.siomari.model.Config;
  */
 public interface IConfigRepository extends JpaRepository<Config, Integer> {
 	
-	
+	/**
+	 * obtentra el costo del metro cubico de agua
+	 * @return
+	 */
+	@Query("select c.costo from Config c where c.id = 1")
+	Double getCosto();
 
 }
