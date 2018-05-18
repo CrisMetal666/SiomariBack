@@ -47,6 +47,18 @@ public class ManejoAgua {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "canal_id", nullable = false)
 	private Canal canalId;
+	
+	public ManejoAgua() {
+	}
+
+	public ManejoAgua(LocalDate fecha, double qExtraido, double qServido, double area) {
+		this.fecha = fecha;
+		this.qExtraido = qExtraido;
+		this.qServido = qServido;
+		this.area = area;
+	}
+
+
 
 	public int getId() {
 		return id;

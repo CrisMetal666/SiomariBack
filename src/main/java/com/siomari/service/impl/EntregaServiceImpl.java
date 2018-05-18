@@ -85,15 +85,16 @@ public class EntregaServiceImpl implements IEntregaService {
 			// costo del agua servida
 			double costo = m3 * valor;
 
+			//Le damos el formato deseado a la fecha
+			DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy h:m a");
 			// rango de fecha en string
-			String fecha = e.getEntrega().toString() + " - " + e.getSuspension().toString();
+			String fecha = e.getEntrega().format(formato) + " - " + e.getSuspension().format(formato);
 
 			// armamos el objeto para adicionarlo a la lista
 			EntregaInfo entrega = new EntregaInfo();
 
 			entrega.setFecha(fecha);
 			entrega.setCosto(costo);
-			entrega.setSegundos(segundos);
 			entrega.setM3(m3);
 
 			entregas.add(entrega);
@@ -110,7 +111,6 @@ public class EntregaServiceImpl implements IEntregaService {
 			EntregaInfo entrega = new EntregaInfo();
 
 			entrega.setCosto(costo);
-			entrega.setSegundos(sumSeconds);
 			entrega.setM3(m3);
 
 			entregas.add(entrega);
