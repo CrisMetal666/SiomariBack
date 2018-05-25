@@ -140,9 +140,9 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 			double efic = qServido * 100 / qExtraido;
 
 			// agregamos los datos a las listas
-			lstLn.add((double)Math.round(ln * 100d) / 100d);
-			lstLam.add((double)Math.round(lam * 100d) / 100d);
-			lstEfic.add((double)Math.round(efic * 100d) / 100d);
+			lstLn.add((double) Math.round(ln * 100d) / 100d);
+			lstLam.add((double) Math.round(lam * 100d) / 100d);
+			lstEfic.add((double) Math.round(efic * 100d) / 100d);
 
 			// aumentamos un dia a la fecha inicial
 			fecha1 = fecha1.plusDays(1);
@@ -213,6 +213,13 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 		lstFinal.add(manejoAgua);
 
 		return lstFinal;
+	}
+
+	@Override
+	public ManejoAgua buscarUltimoRegistroPorCanalId(int canal) {
+
+		return manejoAguaRepo.buscarUltimoRegistroPorCanalId(canal);
+
 	}
 
 }

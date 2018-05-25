@@ -42,9 +42,16 @@ public interface IManejoAguaService {
 	 * @param fecha2
 	 *            limite superior (yyyy-mm-dd)
 	 * @param tipo
-	 *            determinara si calculamos por canal, seccion, zona, unidad
+	 *            determinara si calculamos por canal, seccion, zona, unidad. 1 =
+	 *            unidad, 2 = zona, 3 = seccion, 4 = canal
 	 * @return lista de arrays, posicion 0 = lamina neta, 1 = lamina bruta, 2
 	 *         eficiencia
 	 */
 	List<List<Double>> lnLamEficiencia(int id, String fecha1, String fecha2, int tipo);
+
+
+	/**
+	 * @see com.siomari.repository.IManejoAguaRepository
+	 */
+	ManejoAgua buscarUltimoRegistroPorCanalId(int canal);
 }

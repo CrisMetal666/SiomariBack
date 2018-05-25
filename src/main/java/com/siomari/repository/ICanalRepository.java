@@ -46,4 +46,14 @@ public interface ICanalRepository extends JpaRepository<Canal, Integer> {
 	 */
 	@Query("select c from Canal c  where c.id = ?1")
 	Canal buscarPorId(int id);
+	
+	/**
+	 * se buscara en caudal diseño de un canal
+	 * 
+	 * @param canal
+	 *            id del canal
+	 * @return caudal diseño
+	 */
+	@Query("select c.caudalDisenio from Canal c where c.id = ?1")
+	Double buscarCaudalDisenioPorId(int canal);
 }

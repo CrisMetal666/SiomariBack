@@ -85,4 +85,14 @@ public interface IManejoAguaRepository extends JpaRepository<ManejoAgua, Integer
 			+ "sc where sc.seccionId.zonaId.unidadId.id = ?1) and ma.fecha >= ?2 and ma.fecha <= ?3 "
 			+ "order by ma.fecha")
 	List<ManejoAgua> buscarPorUnidadIdYRangoFecha(int unidad, LocalDate fecha1, LocalDate fecha2);
+
+	/**
+	 * se obtendra el registro con la fecha mas reciente del canal especificado
+	 * 
+	 * @param canal
+	 *            id del canal
+	 * @return registro que cumpla las condiciones
+	 */
+	@Query(value = "select * from manejo_agua where canal_id = ?1 order by fecha desc limit 1", nativeQuery = true)
+	ManejoAgua buscarUltimoRegistroPorCanalId(int canal);
 }

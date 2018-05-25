@@ -209,4 +209,12 @@ public class CanalServiceImpl implements ICanalService {
 		return id;
 	}
 
+	@Override
+	public double buscarCaudalDisenioPorId(int canal) {
+		
+		Double cudalDisenio = canalRepo.buscarCaudalDisenioPorId(canal);
+		
+		return cudalDisenio == null ? 0 : cudalDisenio;
+	}
+
 }

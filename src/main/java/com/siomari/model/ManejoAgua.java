@@ -58,7 +58,11 @@ public class ManejoAgua {
 		this.area = area;
 	}
 
-
+	public ManejoAgua(double qExtraido, double qServido, double area) {
+		this.qExtraido = qExtraido;
+		this.qServido = qServido;
+		this.area = area;
+	}
 
 	public int getId() {
 		return id;
@@ -114,6 +118,12 @@ public class ManejoAgua {
 
 	public void setCanalId(Canal canalId) {
 		this.canalId = canalId;
+	}
+
+	@Override
+	public String toString() {
+		return "ManejoAgua [id=" + id + ", fecha=" + fecha + ", qSolicitado=" + qSolicitado + ", qExtraido=" + qExtraido
+				+ ", qServido=" + qServido + ", area=" + area + "]";
 	}
 	
 	
