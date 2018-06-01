@@ -30,6 +30,9 @@ public class Unidad {
 	@Column(name = "nombre", length = 100, nullable = false)
 	private String nombre;
 	
+	@Column(name = "canal_servidor")
+	private Integer canalServidor;
+	
 	@LazyCollection(LazyCollectionOption.TRUE)
 	@OneToMany(mappedBy = "unidadId", fetch = FetchType.LAZY)
 	private List<Zona> lstZona;
@@ -75,6 +78,14 @@ public class Unidad {
 
 	public void setLstZona(List<Zona> lstZona) {
 		this.lstZona = lstZona;
+	}
+
+	public Integer getCanalServidor() {
+		return canalServidor;
+	}
+
+	public void setCanalServidor(Integer canalServidor) {
+		this.canalServidor = canalServidor;
 	}
 	
 	

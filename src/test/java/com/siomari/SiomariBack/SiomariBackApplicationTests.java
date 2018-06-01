@@ -6,22 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.siomari.repository.ICanalRepository;
+import com.siomari.service.IProgramacionSemanalService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SiomariBackApplicationTests {
 
 	@Autowired
-	private ICanalRepository repo;
+	private IProgramacionSemanalService service;
 
 	@Test
 	public void contextLoads() {
 		
-		System.out.println(repo.buscarCaudalDisenioPorId(3));
-		
-		
+		String txtFecha = "2018-05-14";
+
+		System.out.println(service.programacionSemanal(3, txtFecha));
 
 	}
-	
+
 }

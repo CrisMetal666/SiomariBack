@@ -26,9 +26,11 @@ public class UnidadServiceImpl implements IUnidadService {
 	@Override
 	public void registrar(Unidad unidad) {
 
-		// nos aseguramos que no tenga un id para que no sobre escriba un registro existente
-		if(unidad.getId() != 0) return;
-		
+		// nos aseguramos que no tenga un id para que no sobre escriba un registro
+		// existente
+		if (unidad.getId() != 0)
+			return;
+
 		unidadRepo.save(unidad);
 
 	}
@@ -40,7 +42,7 @@ public class UnidadServiceImpl implements IUnidadService {
 	public void actualizar(Unidad unidad) {
 
 		unidadRepo.save(unidad);
-		
+
 	}
 
 	/**
@@ -74,26 +76,40 @@ public class UnidadServiceImpl implements IUnidadService {
 
 		Unidad unidad = unidadRepo.findOne(id);
 
-		if(unidad != null) {
+		if (unidad != null) {
 			// dejamos el objeto con solo el id para que no haya referencias ciclicas
 			unidad.setLstZona(null);
 		} else {
 			unidad = new Unidad();
 		}
-		
+
 		return unidad;
 	}
-	
+
 	@Override
 	public int buscarIdPorNombre(String nombre) {
-		
+
 		Integer id = unidadRepo.buscarIdPorNombre(nombre);
-		
-		if(id == null) {
+
+		if (id == null) {
 			id = 0;
 		}
-		
+
 		return id;
+	}
+
+	@Override
+	public int buscarCanalServidorPorId(int id) {
+
+		Integer canalServidor = unidadRepo.buscarCanalServidorPorId(id);
+
+		return canalServidor == null ? 0 : canalServidor;
+	}
+
+	@Override
+	public void updateCanalServidor(int id, int canalServidor) {
+		
+		unidadRepo.updateCanalServidor(id, canalServidor);
 	}
 
 }

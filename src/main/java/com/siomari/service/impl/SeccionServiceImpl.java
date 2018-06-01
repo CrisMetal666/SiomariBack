@@ -112,4 +112,24 @@ public class SeccionServiceImpl implements ISeccionService {
 		return id;
 	}
 
+	@Override
+	public int buscarCanalServidorPorId(int id) {
+
+		Integer canalServidor = seccionRepo.buscarCanalServidorPorId(id);
+
+		return canalServidor == null ? 0 : canalServidor;
+	}
+
+	@Override
+	public List<Integer> buscarCanalServidor(int id) {
+
+		return seccionRepo.buscarCanalServidor(id);
+	}
+
+	@Override
+	public void updateCanalServidor(int id, int canalServidor) {
+
+		seccionRepo.updateCanalServidor(id, canalServidor);
+	}
+
 }

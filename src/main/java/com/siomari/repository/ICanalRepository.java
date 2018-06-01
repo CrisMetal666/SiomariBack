@@ -13,40 +13,74 @@ import com.siomari.model.Canal;
  *
  */
 public interface ICanalRepository extends JpaRepository<Canal, Integer> {
-	
+
 	/**
 	 * se buscara los canales pertenecientes a una seccion
-	 * @param id. Id de la seccion
+	 * 
+	 * @param id.
+	 *            Id de la seccion
 	 * @return lista de canales con solo su nombre e id
 	 */
-	@Query("select new com.siomari.model.Canal(c.id, c.nombre) from Canal c inner join c.lstSeccionCanal sc where sc.seccionId.id = ?1")
+	@Query("select new com.siomari.model.Canal(c.id, c.nombre) from Canal c inner join c.lstSeccionCanal "
+			+ "sc where sc.seccionId.id = ?1")
 	List<Canal> buscarPorSeccionId(int id);
-	
+
 	/**
 	 * Se buscara un canal por su codigo
-	 * @param codigo. Codigo del canal
+	 * 
+	 * @param codigo.
+	 *            Codigo del canal
 	 * @return id del canal
 	 */
 	@Query("select c.id from Canal c where c.codigo = ?1")
 	Integer buscarIdPorCodigo(String codigo);
-	
+
 	/**
 	 * se buscara los canales por nombre o codigo
-	 * @param query nombre o codigo
+	 * 
+	 * @param query
+	 *            nombre o codigo
 	 * @return lista de canales solo con el nombre, codigo y id
 	 */
 	@Query("select new com.siomari.model.Canal(c.id,c.nombre,c.codigo) from Canal c where c.nombre like "
 			+ "concat('%', ?1 ,'%') or c.codigo like concat('%', ?1 ,'%') order by c.id")
 	List<Canal> buscarPorNombreOCodigo(String query);
-	
+
+	/**
+	 * se buscara los canales por nombre o codigo que no sean de distribucion o
+	 * principal
+	 * 
+	 * @param query
+	 *            nombre o codigo
+	 * @return lista de canales solo con el nombre, codigo y id
+	 */
+	@Query("select new com.siomari.model.Canal(c.id,c.nombre,c.codigo) from Canal c where (c.nombre like "
+			+ "concat('%', ?1 ,'%') or c.codigo like concat('%', ?1 ,'%')) and c.categoria not in "
+			+ "('CANAL_PRINCIPAL', 'CANAL_DISTRIBUCION') ")
+	List<Canal> buscarPorNombreOCodigoNoServidores(String query);
+
+	/**
+	 * se buscara los canales por nombre o codigo que sean de distribucion o
+	 * principal
+	 * 
+	 * @param query
+	 *            nombre o codigo
+	 * @return lista de canales solo con el nombre, codigo y id
+	 */
+	@Query("select new com.siomari.model.Canal(c.id,c.nombre,c.codigo) from Canal c where (c.nombre like "
+			+ "concat('%', ?1 ,'%') or c.codigo like concat('%', ?1 ,'%')) and c.categoria in "
+			+ "('CANAL_PRINCIPAL', 'CANAL_DISTRIBUCION') ")
+	List<Canal> buscarPorNombreOCodigoServidores(String query);
+
 	/**
 	 * Se buscara el canal por su id
+	 * 
 	 * @param id
 	 * @return canal con datos basicos, seccionCana, canalObra, canalId
 	 */
 	@Query("select c from Canal c  where c.id = ?1")
 	Canal buscarPorId(int id);
-	
+
 	/**
 	 * se buscara en caudal diseño de un canal
 	 * 
@@ -56,4 +90,14 @@ public interface ICanalRepository extends JpaRepository<Canal, Integer> {
 	 */
 	@Query("select c.caudalDisenio from Canal c where c.id = ?1")
 	Double buscarCaudalDisenioPorId(int canal);
+
+	/**
+	 * se buscara el nombre del canal por su id
+	 * 
+	 * @param id
+	 *            id del canal
+	 * @return nombre del canal
+	 */
+	@Query("select c.nombre from Canal c where c.id = ?1")
+	String buscarNombrePorId(int id);
 }

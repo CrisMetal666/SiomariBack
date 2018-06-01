@@ -63,6 +63,11 @@ public class ManejoAgua {
 		this.qServido = qServido;
 		this.area = area;
 	}
+	
+	public ManejoAgua(double qExtraido, double qServido) {
+		this.qExtraido = qExtraido;
+		this.qServido = qServido;
+	}
 
 	public int getId() {
 		return id;

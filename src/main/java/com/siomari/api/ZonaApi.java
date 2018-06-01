@@ -9,13 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.siomari.model.Canal;
 import com.siomari.model.Zona;
+import com.siomari.service.ICanalService;
 import com.siomari.service.IZonaService;
 
 /**
@@ -30,6 +34,9 @@ public class ZonaApi {
 	@Autowired
 	private IZonaService zonaService;
 
+	@Autowired
+	private ICanalService canalService;
+	
 	/**
 	 * Se registrara una zona
 	 * 
@@ -226,6 +233,75 @@ public class ZonaApi {
 			response = new ResponseEntity<Map<String, Integer>>(map, HttpStatus.OK);
 
 		} catch (Exception e) {
+
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
+	}
+	
+	/**
+	 * Se actualizara el canal servidor
+	 * 
+	 * @param id
+	 *            id de la zona
+	 * @param canalServidor
+	 *            id del canal servidor
+	 * @return
+	 */
+	@PutMapping(value = "/canalServidor/{id}/{canalServidor}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> updateCanalServidor(@PathVariable("id") int id,
+			@PathVariable("canalServidor") int canalServidor) {
+
+		ResponseEntity<?> response = null;
+
+		try {
+
+			zonaService.updateCanalServidor(id, canalServidor);
+
+			response = new ResponseEntity<>(HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
+	}
+	
+	/**
+	 * Se buscara el canal servidor
+	 * @param id id de la zona
+	 * @return canal servidor
+	 */
+	@GetMapping(value = "/buscarCanalServidorPorId/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> buscarCanalServidor(@PathVariable("id") int id) {
+
+		ResponseEntity<?> response = null;
+
+		try {
+
+			Canal canal = null;
+
+			int canalServidor = zonaService.buscarCanalServidorPorId(id);
+			
+			if(canalServidor != 0) {
+				
+				String nombre = canalService.buscarNombrePorId(canalServidor);
+				
+				canal = new Canal();
+				canal.setId(canalServidor);
+				canal.setNombre(nombre);
+				
+			}
+
+			response = new ResponseEntity<Canal>(canal,HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
 
 			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

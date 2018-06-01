@@ -29,6 +29,9 @@ public class Seccion {
 	@Column(name = "nombre", length = 100, nullable = false)
 	private String nombre;
 	
+	@Column(name = "canal_servidor")
+	private Integer canalServidor;
+	
 	@ManyToOne
 	@JoinColumn(name = "zona_id", nullable = false)
 	private Zona zonaId;
@@ -91,6 +94,14 @@ public class Seccion {
 
 	public void setLstSeccionCanal(List<SeccionCanal> lstSeccionCanal) {
 		this.lstSeccionCanal = lstSeccionCanal;
+	}
+
+	public Integer getCanalServidor() {
+		return canalServidor;
+	}
+
+	public void setCanalServidor(Integer canalServidor) {
+		this.canalServidor = canalServidor;
 	}
 	
 	

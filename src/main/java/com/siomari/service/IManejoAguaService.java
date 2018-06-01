@@ -54,4 +54,14 @@ public interface IManejoAguaService {
 	 * @see com.siomari.repository.IManejoAguaRepository
 	 */
 	ManejoAgua buscarUltimoRegistroPorCanalId(int canal);
+	
+	/**
+	 * @see com.siomari.repository.IManejoAguaRepository
+	 */
+	List<ManejoAgua> buscarPorCanalIdYRangoFecha(int canal, LocalDate fecha1, LocalDate fecha2);
+	
+	/**
+	 * @see com.siomari.repository.IManejoAguaRepository
+	 */
+	List<ManejoAgua> buscarServidoExtraidoPorRangoFechaCanalId(int canal, LocalDate fecha1, LocalDate fecha2);
 }

@@ -95,4 +95,21 @@ public interface IManejoAguaRepository extends JpaRepository<ManejoAgua, Integer
 	 */
 	@Query(value = "select * from manejo_agua where canal_id = ?1 order by fecha desc limit 1", nativeQuery = true)
 	ManejoAgua buscarUltimoRegistroPorCanalId(int canal);
+
+	/**
+	 * Se buscara el caudal extraido y el caudal servido del un canal delimitado por
+	 * un rango de fecha
+	 * 
+	 * @param canal
+	 *            id del canal
+	 * @param fecha1
+	 *            fecha inferior
+	 * @param fecha2
+	 *            fecha superior
+	 * @return caudal extraido y el caudal servido
+	 */
+	@Query("select new com.siomari.model.ManejoAgua(ma.qExtraido,ma.qServido) from ManejoAgua ma where "
+			+ "ma.canalId.id = ?1 and ma.fecha between ?2 and ?3")
+	List<ManejoAgua> buscarServidoExtraidoPorRangoFechaCanalId(int canal, LocalDate fecha1, LocalDate fecha2);
+
 }

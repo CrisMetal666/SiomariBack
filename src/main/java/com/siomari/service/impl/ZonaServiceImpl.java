@@ -102,7 +102,7 @@ public class ZonaServiceImpl implements IZonaService {
 
 	@Override
 	public int buscarIdPorNombreYUnidad(String nombre, int unidad) {
-		
+
 		Integer id = zonaRepo.buscarIdPorNombreYUnidad(nombre, unidad);
 
 		if (id == null) {
@@ -110,6 +110,32 @@ public class ZonaServiceImpl implements IZonaService {
 		}
 
 		return id;
+	}
+
+	@Override
+	public int buscarCanalServidorPorId(int id) {
+
+		Integer canalServidor = zonaRepo.buscarCanalServidorPorId(id);
+
+		return canalServidor == null ? 0 : canalServidor;
+	}
+
+	@Override
+	public List<Integer> buscarCanalServidor(int id) {
+		
+		return zonaRepo.buscarCanalServidor(id);
+	}
+
+	@Override
+	public void updateCanalServidor(int id, int canalServidor) {
+		
+		zonaRepo.updateCanalServidor(id, canalServidor);
+	}
+
+	@Override
+	public List<Zona> buscarIdCanalServidorPorUnidadId(int id) {
+		
+		return zonaRepo.buscarIdCanalServidorPorUnidadId(id);
 	}
 
 }

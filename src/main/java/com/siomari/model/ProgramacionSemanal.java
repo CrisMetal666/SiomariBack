@@ -4,9 +4,12 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -38,12 +41,48 @@ public class ProgramacionSemanal {
 
 	@Column(name = "eficiencia", nullable = false)
 	private double eficiencia;
+	
+	@Column(name = "caudal", nullable = false)
+	private double caudal;
+	
+	@Column(name = "unidad_zona")
+	private Integer unidadZona;
 
-	@Column(name = "canal_id", nullable = false)
-	private int canalId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "canal_id", nullable = false)
+	private Canal canalId;
 
 	@Transient
 	private double capacidadCanal;
+	
+	public ProgramacionSemanal() {
+	}
+	
+	public ProgramacionSemanal(int id) {
+		this.id = id;
+	}
+
+	public ProgramacionSemanal(int id, double lamina, double area, LocalDate fecha, double eficiencia, int canalId, double caudal) {
+		this.id = id;
+		this.lamina = lamina;
+		this.area = area;
+		this.fecha = fecha;
+		this.eficiencia = eficiencia;
+		this.canalId = new Canal(canalId);
+		this.caudal = caudal;
+	}
+	
+	public ProgramacionSemanal(int id, double lamina, double area, LocalDate fecha, double eficiencia, double caudal,
+			Integer unidadZona, int canalId) {
+		this.id = id;
+		this.lamina = lamina;
+		this.area = area;
+		this.fecha = fecha;
+		this.eficiencia = eficiencia;
+		this.caudal = caudal;
+		this.unidadZona = unidadZona;
+		this.canalId = new Canal(canalId);
+	}
 
 	public int getId() {
 		return id;
@@ -77,11 +116,11 @@ public class ProgramacionSemanal {
 		this.fecha = fecha;
 	}
 
-	public int getCanalId() {
+	public Canal getCanalId() {
 		return canalId;
 	}
 
-	public void setCanalId(int canalId) {
+	public void setCanalId(Canal canalId) {
 		this.canalId = canalId;
 	}
 
@@ -101,4 +140,23 @@ public class ProgramacionSemanal {
 		this.eficiencia = eficiencia;
 	}
 
+	public double getCaudal() {
+		return caudal;
+	}
+
+	public void setCaudal(double caudal) {
+		this.caudal = caudal;
+	}
+
+	public Integer getUnidadZona() {
+		return unidadZona;
+	}
+
+	public void setUnidadZona(Integer unidadZona) {
+		this.unidadZona = unidadZona;
+	}
+
+	
+
+	
 }

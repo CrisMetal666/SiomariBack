@@ -15,21 +15,20 @@ public interface IProgramacionSemanalService {
 	 * @see com.siomari.repository.IProgramacionSemanalRepository
 	 */
 	ProgramacionSemanal buscarPorFechaYCanalId(LocalDate fecha, int canal);
-	
+
 	/**
 	 * se guardara el modelo enviado
-	 * @param programacionSemanal modelo 
+	 * 
+	 * @param programacionSemanal
+	 *            modelo
 	 * @return modelo guardado
 	 */
 	ProgramacionSemanal guardar(ProgramacionSemanal programacionSemanal);
-	
+
 	/**
 	 * se calculara la lamina neta y los valores necesarios para hacer la
-	 * programacion semanal del canal, seccion, zona o unidad
+	 * programacion semanal del canal
 	 * 
-	 * @param tipo
-	 *            especifiracara si los valores corresponden a canal, seccion, zona
-	 *            o unidad.1 = unidad, 2 = zona, 3 = seccion, 4 = canal
 	 * 
 	 * @param id
 	 *            id correspondiente del tipo seleccionado
@@ -40,5 +39,20 @@ public interface IProgramacionSemanalService {
 	 * 
 	 * @return lamina neta (m), area, capacidad del canal, eficiencia
 	 */
-	ProgramacionSemanal programacionSemanal(int id, int tipo, String txtFecha);
+	ProgramacionSemanal programacionSemanal(int id, String txtFecha);
+
+	/**
+	 * se calculara el caudal necesario para la semana segun la programacion semanal
+	 * 
+	 * @param id
+	 *            id de la unidad, zona, seccion o canal
+	 * @param txtFecha
+	 *            fecha en la que se comenzara a regir la programacion (debe de ser
+	 *            un lunes)
+	 * @param tipo
+	 *            especificara si estamos consultando unidad, zona, seccion o canal
+	 *            (1 = unidad, 2 = zona, 3 = seccio, 4 = canal)
+	 * @return informacion necesaria para el calculo de el caudal semanal (area, eficiencia)
+	 */
+	ProgramacionSemanal calculoCaudalSemanal(int id, String txtFecha, int tipo);
 }

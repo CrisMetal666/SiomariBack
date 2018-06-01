@@ -217,4 +217,22 @@ public class CanalServiceImpl implements ICanalService {
 		return cudalDisenio == null ? 0 : cudalDisenio;
 	}
 
+	@Override
+	public List<Canal> buscarPorNombreOCodigoNoServidores(String query) {
+		
+		return canalRepo.buscarPorNombreOCodigoNoServidores(query);
+	}
+
+	@Override
+	public List<Canal> buscarPorNombreOCodigoServidores(String query) {
+		
+		return canalRepo.buscarPorNombreOCodigoServidores(query);
+	}
+
+	@Override
+	public String buscarNombrePorId(int id) {
+		
+		return canalRepo.buscarNombrePorId(id);
+	}
+
 }

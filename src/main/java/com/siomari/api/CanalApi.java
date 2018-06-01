@@ -237,4 +237,42 @@ public class CanalApi {
 		
 		return response;	
 	}
+	
+	@RequestMapping(value = "/buscarPorNombreOCodigoNoServidores", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> buscarPorNombreOCodigoNoServidores(@RequestParam("s") String query) {
+		
+		ResponseEntity<?> response = null;
+		
+		try {
+			
+			List<Canal> lst = canalService.buscarPorNombreOCodigoNoServidores(query);
+			
+			response = new ResponseEntity<List<Canal>>(lst, HttpStatus.OK);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return response;	
+	}
+	
+	@RequestMapping(value = "/buscarPorNombreOCodigoServidores", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> buscarPorNombreOCodigoServidores(@RequestParam("s") String query) {
+		
+		ResponseEntity<?> response = null;
+		
+		try {
+			
+			List<Canal> lst = canalService.buscarPorNombreOCodigoServidores(query);
+			
+			response = new ResponseEntity<List<Canal>>(lst, HttpStatus.OK);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return response;	
+	}
 }

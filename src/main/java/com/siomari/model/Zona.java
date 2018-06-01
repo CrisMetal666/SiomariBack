@@ -29,6 +29,9 @@ public class Zona {
 	@Column(name = "nombre", length = 100, nullable = false)
 	private String nombre;
 	
+	@Column(name = "canal_servidor")
+	private Integer canalServidor;
+	
 	@ManyToOne
 	@JoinColumn(name = "unidad_id", nullable = false)
 	private Unidad unidadId;
@@ -41,6 +44,11 @@ public class Zona {
 	}
 	
 	public Zona(int id) {
+		this.id = id;
+	}
+	
+	public Zona(int id, int canalServidor) {
+		this.canalServidor = canalServidor;
 		this.id = id;
 	}
 	
@@ -72,6 +80,14 @@ public class Zona {
 
 	public String getNombre() {
 		return nombre;
+	}
+
+	public Integer getCanalServidor() {
+		return canalServidor;
+	}
+
+	public void setCanalServidor(Integer canalServidor) {
+		this.canalServidor = canalServidor;
 	}
 
 	public void setNombre(String nombre) {

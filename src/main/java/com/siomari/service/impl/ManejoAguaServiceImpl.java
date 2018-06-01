@@ -222,4 +222,16 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 
 	}
 
+	@Override
+	public List<ManejoAgua> buscarPorCanalIdYRangoFecha(int canal, LocalDate fecha1, LocalDate fecha2) {
+		
+		return manejoAguaRepo.buscarPorCanalIdYRangoFecha(canal, fecha1, fecha2);
+	}
+
+	@Override
+	public List<ManejoAgua> buscarServidoExtraidoPorRangoFechaCanalId(int canal, LocalDate fecha1, LocalDate fecha2) {
+		
+		return manejoAguaRepo.buscarServidoExtraidoPorRangoFechaCanalId(canal, fecha1, fecha2);
+	}
+
 }
