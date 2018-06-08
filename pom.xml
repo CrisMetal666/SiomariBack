@@ -50,7 +50,7 @@
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 
-		<!-- Necesario si se usa jdk mayor a 8 -->
+		<!-- Necesario si se usa jdk mayor a 8 
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
@@ -66,6 +66,7 @@
 			<artifactId>jaxb-impl</artifactId>
 			<version>2.2.11</version>
 		</dependency>
+		-->
 	</dependencies>
 
 	<build>

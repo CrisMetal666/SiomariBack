@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.siomari.model.EficienciaPerdidas;
 import com.siomari.model.ManejoAgua;
 import com.siomari.repository.IManejoAguaRepository;
 import com.siomari.service.IManejoAguaService;
@@ -224,14 +225,101 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 
 	@Override
 	public List<ManejoAgua> buscarPorCanalIdYRangoFecha(int canal, LocalDate fecha1, LocalDate fecha2) {
-		
+
 		return manejoAguaRepo.buscarPorCanalIdYRangoFecha(canal, fecha1, fecha2);
 	}
 
 	@Override
 	public List<ManejoAgua> buscarServidoExtraidoPorRangoFechaCanalId(int canal, LocalDate fecha1, LocalDate fecha2) {
-		
+
 		return manejoAguaRepo.buscarServidoExtraidoPorRangoFechaCanalId(canal, fecha1, fecha2);
+	}
+
+	@Override
+	public EficienciaPerdidas calcularEficienciaPerdidas(int id, int tipo, String txtFecha1, String txtFecha2) {
+
+		List<ManejoAgua> lst = null;
+
+		// convertimos la fecha en string a localdate
+		LocalDate fecha1 = LocalDate.parse(txtFecha1, DateTimeFormatter.ISO_DATE);
+		LocalDate fecha2 = LocalDate.parse(txtFecha2, DateTimeFormatter.ISO_DATE);
+
+		// traemos la informacion dependiendo si es una unidad, zona, seccion o canal
+		if (tipo == 1) {
+
+			lst = manejoAguaRepo.buscarPorUnidadIdYRangoFecha(id, fecha1, fecha2);
+
+		} else if (tipo == 2) {
+
+			lst = manejoAguaRepo.buscarPorZonaIdYRangoFecha(id, fecha1, fecha2);
+
+		} else if (tipo == 3) {
+
+			lst = manejoAguaRepo.buscarPorSeccionIdYRangoFecha(id, fecha1, fecha2);
+
+		} else if (tipo == 4) {
+
+			lst = manejoAguaRepo.buscarPorCanalIdYRangoFecha(id, fecha1, fecha2);
+
+		} else
+			return new EficienciaPerdidas();
+
+		EficienciaPerdidas eficienciaPerdidas = new EficienciaPerdidas();
+
+		// variables sumadoras necesarias para el calculo estadistico
+		double x = 0;
+		double y = 0;
+		double x2 = 0;
+		double xy = 0;
+		double sumServido = 0;
+		double sumExtraido = 0;
+
+		// procedemos a realizar las sumatorias para poder realizar los calculos
+		// estadisticos
+		for (ManejoAgua manejoAgua : lst) {
+
+			x += manejoAgua.getqServido();
+			y += manejoAgua.getqExtraido();
+			x2 += Math.pow(manejoAgua.getqServido(), 2);
+			xy += manejoAgua.getqExtraido() * manejoAgua.getqServido();
+			sumServido += manejoAgua.getqServido();
+			sumExtraido += manejoAgua.getqExtraido();
+
+		}
+
+		// tamaño de la lista
+		int size = lst.size();//(int) fecha1.until(fecha2, ChronoUnit.DAYS);
+		
+		System.out.println(size);
+
+		if (size == 0)
+			return new EficienciaPerdidas();
+
+		// empezamos a realizar los calculos necesarios
+		double valor1 = x2 - Math.pow(x, 2) / size;
+		double valor2 = xy - (x * y) / size;
+		double b = valor2 / valor1;
+		double a = -(b * (x / size) - (y / size));
+		double qs = sumServido / size;
+		double qe = sumExtraido / size;
+		double perdidas = (b - 1) * qs;
+
+		double perdidasTotales = perdidas + a;
+		double perdidasManejo = perdidas / perdidasTotales;
+		double perdidasIntrinsecas = a / perdidasTotales;
+		double eficienciaOperacional = 1 / b;
+		double eficienciaIntrinseca = 1 - a / qe;
+		double eficienciaConduccion = eficienciaOperacional * eficienciaIntrinseca;
+
+		// metemos los valores en el objeto y aproximamos los decimales
+		eficienciaPerdidas.setPerdidasTotales((double) Math.round(perdidasTotales * 1000d) / 1000d);
+		eficienciaPerdidas.setPerdidasManejo((double) Math.round(perdidasManejo * 10000d) / 100d);
+		eficienciaPerdidas.setPerdidasIntrinsecas((double) Math.round(perdidasIntrinsecas * 10000d) / 100d);
+		eficienciaPerdidas.setEficienciaConduccion((double) Math.round(eficienciaConduccion * 10000d) / 100d);
+		eficienciaPerdidas.setEficienciaIntrinseca((double) Math.round(eficienciaIntrinseca * 10000d) / 100d);
+		eficienciaPerdidas.setEficienciaOperacion((double) Math.round(eficienciaOperacional * 10000d) / 100d);
+
+		return eficienciaPerdidas;
 	}
 
 }

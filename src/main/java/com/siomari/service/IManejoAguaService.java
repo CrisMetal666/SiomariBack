@@ -3,6 +3,7 @@ package com.siomari.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.siomari.model.EficienciaPerdidas;
 import com.siomari.model.ManejoAgua;
 
 /**
@@ -49,19 +50,35 @@ public interface IManejoAguaService {
 	 */
 	List<List<Double>> lnLamEficiencia(int id, String fecha1, String fecha2, int tipo);
 
-
 	/**
 	 * @see com.siomari.repository.IManejoAguaRepository
 	 */
 	ManejoAgua buscarUltimoRegistroPorCanalId(int canal);
-	
+
 	/**
 	 * @see com.siomari.repository.IManejoAguaRepository
 	 */
 	List<ManejoAgua> buscarPorCanalIdYRangoFecha(int canal, LocalDate fecha1, LocalDate fecha2);
-	
+
 	/**
 	 * @see com.siomari.repository.IManejoAguaRepository
 	 */
 	List<ManejoAgua> buscarServidoExtraidoPorRangoFechaCanalId(int canal, LocalDate fecha1, LocalDate fecha2);
+
+	/**
+	 * se calculara las eficiencias y perdidas de un canal, seccion, zona o unidad
+	 * en un rango de tiempo
+	 * 
+	 * @param id
+	 *            id del canal, seccion, zona o unidad
+	 * @param tipo
+	 *            determinara si se trata de un canal, seccion, zona o unidad (4 =
+	 *            canal, 3 = seccion, 2 = zona, 1 = unidad)
+	 * @param fecha1
+	 *            fecha inferior (yyyy-mm-dd)
+	 * @param fecha2
+	 *            fecha superior (yyyy-mm-dd)
+	 * @return eficiencias y perdidas
+	 */
+	EficienciaPerdidas calcularEficienciaPerdidas(int id, int tipo, String fecha1, String fecha2);
 }

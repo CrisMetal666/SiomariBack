@@ -8,4 +8,4 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost/siomari_db?useSSL=false
     username: root
-    password: 232322
+    password: 

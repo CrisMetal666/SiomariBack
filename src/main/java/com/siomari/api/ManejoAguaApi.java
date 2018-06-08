@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.siomari.model.EficienciaPerdidas;
 import com.siomari.model.ManejoAgua;
 import com.siomari.service.IManejoAguaService;
 
@@ -91,6 +92,41 @@ public class ManejoAguaApi {
 			List<List<Double>> lst = manejoAguaService.lnLamEficiencia(id, fecha1, fecha2, tipo);
 
 			response = new ResponseEntity<List<List<Double>>>(lst, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
+	}
+	
+	/**
+	 * se calculara la eficiencia y perdidas en un rango de tiempo
+	 * 
+	 * @param fecha1
+	 *            fecha inferior
+	 * @param fecha2
+	 *            fecha superior
+	 * @param id
+	 *            id de la unidad, zona, seccion o canal
+	 * @param tipo
+	 *            dira si se trata de unidad, zona, seccion o canal. 1 = unidad, 2 =
+	 *            zona, 3 = seccion, 4 = canal
+	 * @return eficiencia perdidas
+	 */
+	@GetMapping(value = "/calcularEficienciaPerdidas", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> calcularEficienciaPerdidas(@RequestParam("fecha1") String fecha1,
+			@RequestParam("fecha2") String fecha2, @RequestParam("id") int id, @RequestParam("tipo") int tipo) {
+
+		ResponseEntity<?> response = null;
+
+		try {
+
+			EficienciaPerdidas eficPerdidas = manejoAguaService.calcularEficienciaPerdidas(id, tipo, fecha1, fecha2);
+
+			response = new ResponseEntity<EficienciaPerdidas>(eficPerdidas, HttpStatus.OK);
 
 		} catch (Exception e) {
 
