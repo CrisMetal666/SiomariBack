@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 
@@ -61,6 +62,9 @@ public class Predio {
 	@ManyToOne
 	@JoinColumn(name = "canal_id", nullable = false)
 	private Canal canalId;
+	
+	@Transient
+	private String nombreUsuario;
 
 	public Predio() {
 	}
@@ -213,9 +217,13 @@ public class Predio {
 		this.altitud = altitud;
 	}
 
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
 
-
-	
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
 	
 
 }

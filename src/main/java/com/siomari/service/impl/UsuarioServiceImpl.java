@@ -30,6 +30,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		// nos aseguramos que no tenga un id para que no sobre escriba un registro existente
 		if(usuario.getId() != 0) return;	
 		
+		// eliminamos los espacion en blanco que puedan poner problemas en las consultas
+		usuario.setApellido(usuario.getApellido().trim());
+		usuario.setNombre(usuario.getNombre().trim());
+		
 		usuarioRepo.save(usuario);
 
 	}
@@ -106,6 +110,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	public List<Usuario> buscarIdNombreIdentificacionPorNombreOIdentificacion(String query) {
 		
 		return usuarioRepo.buscarIdNombreIdentificacionPorNombreOIdentificacion(query);
+	}
+
+	@Override
+	public String buscarNombrePorPredioId(int id) {
+		
+		return usuarioRepo.buscarNombrePorPredioId(id);
 	}
 
 	

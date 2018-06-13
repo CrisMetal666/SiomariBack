@@ -198,7 +198,7 @@ public class UsuarioApi {
 	 * @param identificacion
 	 * @return lista de personas con id, nombre, apellido, identificacion
 	 */
-	@RequestMapping(value = "/buscarPorIdentificacion", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/buscarPorNombreCompletoOIdentificacion", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarPorIdentificacion(@RequestParam("s") String identificacion) {
 		
 		ResponseEntity<?> response = null;

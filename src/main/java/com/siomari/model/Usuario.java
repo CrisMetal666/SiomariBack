@@ -21,47 +21,45 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "cedula", length = 45, nullable = false, unique = true)
 	private String cedula;
-	
+
 	@Column(name = "nombre", length = 100, nullable = false)
 	private String nombre;
-	
+
 	@Column(name = "apellidos", length = 100, nullable = false)
 	private String apellido;
-	
+
 	@Column(name = "direccion", length = 100, nullable = false)
 	private String direccion;
-	
+
 	@Column(name = "ciudad", length = 100, nullable = false)
 	private String ciudad;
-	
+
 	@Column(name = "telefono", length = 20, nullable = true)
 	private String telefono;
-	
+
 	@Column(name = "celular", length = 20, nullable = true)
 	private String celular;
-	
+
 	@Column(name = "correo", length = 200, nullable = true)
 	private String correo;
-	
+
 	@Column(name = "propietario", length = 200, nullable = true)
 	private boolean propietario;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "predio_id", nullable = true)
 	private Predio predioId;
-	
+
 	public Usuario() {
 	}
 
 	public Usuario(int id) {
 		this.id = id;
 	}
-	
-	
-	
+
 	public Usuario(int id, String nombre, String apellido, String cedula) {
 		this.id = id;
 		this.cedula = cedula;
@@ -170,7 +168,8 @@ public class Usuario {
 	public void setPropietario(boolean propietario) {
 		this.propietario = propietario;
 	}
-	
-	
 
+	public String getNombreCompleto() {
+		return nombre + " " + apellido;
+	}
 }

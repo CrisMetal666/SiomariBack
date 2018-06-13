@@ -9,6 +9,7 @@ import com.siomari.model.Canal;
 import com.siomari.model.Predio;
 import com.siomari.repository.IPredioRepository;
 import com.siomari.service.IPredioService;
+import com.siomari.service.IUsuarioService;
 
 /**
  * 
@@ -20,6 +21,9 @@ public class PredioServiceImpl implements IPredioService {
 
 	@Autowired
 	private IPredioRepository predioRepo;
+	
+	@Autowired
+	private IUsuarioService usuarioService;
 
 	/**
 	 * @see com.siomari.service.IService
@@ -78,12 +82,19 @@ public class PredioServiceImpl implements IPredioService {
 		Predio predio = predioRepo.findOne(id);
 
 		if (predio != null) {
-			// dejamos el objeto con solo el id y el nombre para que no haya referencias
-			// ciclicas
+			/*
+			 * dejamos el objeto con solo el id y el nombre para que no haya referencias
+			 * ciclicas
+			 */
 			Canal canal = new Canal();
 			canal.setId(predio.getCanalId().getId());
 			canal.setNombre(predio.getCanalId().getNombre());
 			predio.setCanalId(canal);
+			
+			//traemos el nombre del usuario que este registrado al predio
+			String nombreUsuario = usuarioService.buscarNombrePorPredioId(predio.getId());
+			
+			predio.setNombreUsuario(nombreUsuario);
 		} else {
 			predio = new Predio();
 		}

@@ -41,8 +41,8 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	 * @return lista de predios, solo con nombre, codigo, areaTotal y id
 	 */
 	@Query("select new com.siomari.model.Predio(p.id,p.codigo,p.nombre) from Predio p where p.id not in "
-			+ "(select u.predioId.id from Usuario u) and (p.nombre like concat('%',?1,'%') or p.codigo "
-			+ "like concat('%',?1,'%')) group by p.id ")
+			+ "(select u.predioId.id from Usuario u where u.predioId.id > 0) and (p.nombre like %?1% or p.codigo "
+			+ "like %?1%) group by p.id ")
 	List<Predio> listarIdCodigoNombrePorNombreOCodigoSinUsuarios(String query);
 
 	/**

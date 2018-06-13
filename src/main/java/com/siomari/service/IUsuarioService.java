@@ -21,4 +21,9 @@ public interface IUsuarioService extends IService<Usuario> {
 	 */
 	List<Usuario> buscarIdNombreIdentificacionPorNombreOIdentificacion(String query);
 	
+	/**
+	 * @see com.siomari.repository.ICanalRepository
+	 */
+	String buscarNombrePorPredioId(int id);
+	
 }
