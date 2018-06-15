@@ -17,7 +17,7 @@ import com.siomari.model.Cultivo;
 import com.siomari.model.CultivoPredio;
 import com.siomari.model.Decada;
 import com.siomari.model.Kc;
-import com.siomari.model.PlaneacionInfo;
+import com.siomari.model.dto.PlaneacionInfo;
 import com.siomari.repository.ICultivoPredioRepository;
 import com.siomari.service.IConfigService;
 import com.siomari.service.ICultivoPredioService;

@@ -117,4 +117,10 @@ public class EstructuraControlServiceImpl implements IEstructuraControlService {
 		return estructuraControlRepo.buscarCodigoCoeficienteExponentePorCodigo(codigo);
 	}
 
+	@Override
+	public List<EstructuraControl> buscarPorCanalId(int id) {
+		
+		return estructuraControlRepo.buscarPorCanalId(id);
+	}
+
 }

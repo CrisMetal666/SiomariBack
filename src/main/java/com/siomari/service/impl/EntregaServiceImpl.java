@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.siomari.model.Entrega;
-import com.siomari.model.EntregaInfo;
+import com.siomari.model.dto.EntregaInfo;
 import com.siomari.repository.IEntregaRepository;
 import com.siomari.service.IConfigService;
 import com.siomari.service.IEntregaService;

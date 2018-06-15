@@ -1,4 +1,4 @@
-package com.siomari.model;
+package com.siomari.model.dto;
 
 /**
  * se utiliza para armar el json de las entregas de agua, con su costo y fechas

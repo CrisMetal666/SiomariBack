@@ -151,4 +151,10 @@ public class PredioServiceImpl implements IPredioService {
 
 		return moduloRiego == null ? 0 : moduloRiego;
 	}
+
+	@Override
+	public List<Predio> buscarPorCanalId(int id) {
+		
+		return predioRepo.buscarIdNombreCondigoPorCanalId(id);
+	}
 }

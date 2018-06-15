@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.siomari.model.EficienciaPerdidas;
 import com.siomari.model.ManejoAgua;
+import com.siomari.model.dto.EficienciaPerdidas;
 import com.siomari.service.IManejoAguaService;
 
 /**

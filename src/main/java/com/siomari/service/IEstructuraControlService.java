@@ -58,5 +58,10 @@ public interface IEstructuraControlService {
 	 * @see com.siomari.repository.IEstructuraControlRepository
 	 */
 	List<EstructuraControl> buscarCodigoCoeficienteExponentePorCodigo(String codigo);
+	
+	/**
+	 * @see com.siomari.repository.IEstructuraControlRepository
+	 */
+	List<EstructuraControl> buscarPorCanalId(int id);
 
 }

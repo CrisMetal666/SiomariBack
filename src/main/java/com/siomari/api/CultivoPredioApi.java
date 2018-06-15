@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siomari.model.CultivoPredio;
-import com.siomari.model.PlaneacionInfo;
+import com.siomari.model.dto.PlaneacionInfo;
 import com.siomari.service.ICultivoPredioService;
 
 /**

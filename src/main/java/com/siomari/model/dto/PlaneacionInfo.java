@@ -1,4 +1,4 @@
-package com.siomari.model;
+package com.siomari.model.dto;
 
 import java.util.List;
 import java.util.Map;

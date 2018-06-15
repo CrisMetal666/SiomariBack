@@ -3,8 +3,8 @@ package com.siomari.service;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.siomari.model.EficienciaPerdidas;
 import com.siomari.model.ManejoAgua;
+import com.siomari.model.dto.EficienciaPerdidas;
 
 /**
  * 

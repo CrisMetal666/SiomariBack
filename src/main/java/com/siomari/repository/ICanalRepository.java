@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.siomari.model.Canal;
+import com.siomari.model.dto.ConsultaCanal;
 
 /**
  * 
@@ -100,4 +101,26 @@ public interface ICanalRepository extends JpaRepository<Canal, Integer> {
 	 */
 	@Query("select c.nombre from Canal c where c.id = ?1")
 	String buscarNombrePorId(int id);
+
+	/**
+	 * se consultara los datos basicos del canal por su id
+	 * 
+	 * @param id
+	 *            id del canal
+	 * @return consultaCanal
+	 */
+	@Query("select new com.siomari.model.dto.ConsultaCanal(c.id,c.codigo,c.nombre,c.caudalDisenio,"
+			+ "c.longitud,c.seccionTipica,c.clase,c.tipo,c.categoria,c.estado,c.estadoDescripcion,"
+			+ "c2) from Canal c left join c.canalId c2 where c.id = ?1")
+	ConsultaCanal datosBasicosPorId(int id);
+
+	/**
+	 * se buscaran los canales que son servidos por un canal
+	 * 
+	 * @param id
+	 *            id del canal servidor
+	 * @return nombre del canal
+	 */
+	@Query("select c.nombre from Canal c where c.canalId.id = ?1")
+	List<String> buscarNombrePorCanalId(int id);
 }

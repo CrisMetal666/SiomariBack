@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siomari.model.Entrega;
-import com.siomari.model.EntregaInfo;
+import com.siomari.model.dto.EntregaInfo;
 import com.siomari.service.IEntregaService;
 
 /**

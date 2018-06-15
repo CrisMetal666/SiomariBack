@@ -7,9 +7,16 @@ import org.springframework.stereotype.Service;
 
 import com.siomari.model.Canal;
 import com.siomari.model.CanalObra;
+import com.siomari.model.EstructuraControl;
+import com.siomari.model.Predio;
 import com.siomari.model.SeccionCanal;
+import com.siomari.model.dto.ConsultaCanal;
 import com.siomari.repository.ICanalRepository;
+import com.siomari.service.ICanalObraService;
 import com.siomari.service.ICanalService;
+import com.siomari.service.IEstructuraControlService;
+import com.siomari.service.IPredioService;
+import com.siomari.service.IUsuarioService;
 
 /**
  * 
@@ -21,6 +28,18 @@ public class CanalServiceImpl implements ICanalService {
 
 	@Autowired
 	private ICanalRepository canalRepo;
+
+	@Autowired
+	private IPredioService predioService;
+
+	@Autowired
+	private ICanalObraService canalObraService;
+
+	@Autowired
+	private IUsuarioService usuarioService;
+
+	@Autowired
+	private IEstructuraControlService estructuraControlService;
 
 	/**
 	 * @see com.siomari.service.IService
@@ -165,15 +184,15 @@ public class CanalServiceImpl implements ICanalService {
 			}
 
 		}
-		
-		if(canal.getCanalId() != null) {
-			
+
+		if (canal.getCanalId() != null) {
+
 			Canal c = new Canal();
 			c.setId(canal.getCanalId().getId());
 			c.setNombre(canal.getCanalId().getNombre());
-			
+
 			canal.setCanalId(c);
-			
+
 		}
 
 		canal.setLstPredio(null);
@@ -211,28 +230,62 @@ public class CanalServiceImpl implements ICanalService {
 
 	@Override
 	public double buscarCaudalDisenioPorId(int canal) {
-		
+
 		Double cudalDisenio = canalRepo.buscarCaudalDisenioPorId(canal);
-		
+
 		return cudalDisenio == null ? 0 : cudalDisenio;
 	}
 
 	@Override
 	public List<Canal> buscarPorNombreOCodigoNoServidores(String query) {
-		
+
 		return canalRepo.buscarPorNombreOCodigoNoServidores(query);
 	}
 
 	@Override
 	public List<Canal> buscarPorNombreOCodigoServidores(String query) {
-		
+
 		return canalRepo.buscarPorNombreOCodigoServidores(query);
 	}
 
 	@Override
 	public String buscarNombrePorId(int id) {
-		
+
 		return canalRepo.buscarNombrePorId(id);
+	}
+
+	@Override
+	public ConsultaCanal consultaCompleta(int id) {
+
+		// traemos los datos basicos
+		ConsultaCanal consultaCanal = canalRepo.datosBasicosPorId(id);
+
+		// consultamos los predios, obras, y estructuras de control del canal
+		List<Predio> lstPredio = predioService.buscarPorCanalId(id);
+		List<CanalObra> lstCanalObra = canalObraService.buscarPorCanalId(id);
+		List<EstructuraControl> lstEstructuraControl = estructuraControlService.buscarPorCanalId(id);
+		List<String> lstCanal = canalRepo.buscarNombrePorCanalId(id);
+
+		// buscamos el usuario de cada predio
+		lstPredio.forEach(p -> {
+
+			String nombreUsuario = usuarioService.buscarNombrePorPredioId(p.getId());
+			p.setNombreUsuario(nombreUsuario);
+		});
+
+		consultaCanal.setLstPredio(lstPredio);
+		consultaCanal.setLstCanalObra(lstCanalObra);
+		consultaCanal.setLstEstructuraControl(lstEstructuraControl);
+		consultaCanal.setLstCanal(lstCanal);
+		consultaCanal.setSumPredios(lstPredio.size());
+
+		return consultaCanal;
+	}
+
+	@Override
+	public List<String> buscarNombrePorCanalId(int id) {
+		
+		return canalRepo.buscarNombrePorCanalId(id);
 	}
 
 }

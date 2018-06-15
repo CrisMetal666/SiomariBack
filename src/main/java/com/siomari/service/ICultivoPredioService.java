@@ -3,7 +3,7 @@ package com.siomari.service;
 import java.util.List;
 
 import com.siomari.model.CultivoPredio;
-import com.siomari.model.PlaneacionInfo;
+import com.siomari.model.dto.PlaneacionInfo;
 
 /**
  * 

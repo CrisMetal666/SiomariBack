@@ -3,7 +3,7 @@ package com.siomari.service;
 import java.util.List;
 
 import com.siomari.model.Entrega;
-import com.siomari.model.EntregaInfo;
+import com.siomari.model.dto.EntregaInfo;
 
 /**
  * 

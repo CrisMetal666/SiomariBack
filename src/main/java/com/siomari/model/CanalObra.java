@@ -46,6 +46,17 @@ public class CanalObra {
 	public CanalObra() {
 	}
 
+	public CanalObra(int id, String descripcion, Double x, Double y, Double altitud, Obra obraId) {
+		this.id = id;
+		this.descripcion = descripcion;
+		this.x = x;
+		this.y = y;
+		this.altitud = altitud;
+		this.obraId = obraId;
+	}
+
+
+
 	public CanalObra(int id) {
 		this.id = id;
 	}

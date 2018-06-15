@@ -1,4 +1,4 @@
-package com.siomari.model;
+package com.siomari.model.dto;
 
 /**
  * 

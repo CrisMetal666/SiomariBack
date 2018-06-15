@@ -6,21 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.siomari.service.IUsuarioService;
+import com.siomari.model.dto.ConsultaCanal;
+import com.siomari.service.ICanalService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SiomariBackApplicationTests {
 
 	@Autowired
-	private IUsuarioService service;
+	private ICanalService service;
 
 	@Test
 	public void contextLoads() {
 
-		int s = service.buscarIdNombreIdentificacionPorNombreOIdentificacion("miguel armando").size();
+		ConsultaCanal c = service.consultaCompleta(3);
 		
-		System.out.println(s);
+		System.out.println(c);
 
 	}
 

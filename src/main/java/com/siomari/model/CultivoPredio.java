@@ -18,35 +18,38 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "cultivo_predio", catalog = "siomari_db")
 public class CultivoPredio {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(name = "hectareas")
+
+	@Column(name = "hectareas", nullable = false)
 	private float hectareas;
+
+	@Column(name = "modulo", nullable = false, columnDefinition = "double(3,3)")
+	private double modulo;
 
 	@ManyToOne
 	@JoinColumn(name = "predio_id", nullable = false)
 	private Predio predioId;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "cultivo_id", nullable = false)
 	private Cultivo cultivoId;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "plan_siembra_id", nullable = false)
 	private PlanSiembra planSiembraId;
-	
+
 	/**
 	 * Se usara cuando se desea eliminar mas de un modelo
 	 */
 	@Transient
 	private Integer idsEliminar[];
-	
+
 	public CultivoPredio() {
 	}
-	
+
 	public CultivoPredio(int id) {
 		this.id = id;
 	}
@@ -56,16 +59,17 @@ public class CultivoPredio {
 		this.hectareas = hectareas;
 		this.planSiembraId = planSiembra;
 	}
-	
-	public CultivoPredio(int id, float hectareas, Cultivo cultivo, int planSiembra) {
+
+	public CultivoPredio(int id, float hectareas, Cultivo cultivo, int planSiembra, double modulo) {
 		this.id = id;
 		this.hectareas = hectareas;
 		this.cultivoId = cultivo;
 		this.planSiembraId = new PlanSiembra(planSiembra);
+		this.modulo = modulo;
 	}
-	
+
 	public CultivoPredio(double hectareas, PlanSiembra planSiembra) {
-		this.hectareas = (float)hectareas;
+		this.hectareas = (float) hectareas;
 		this.planSiembraId = planSiembra;
 	}
 
@@ -116,6 +120,13 @@ public class CultivoPredio {
 	public void setIdsEliminar(Integer[] idsEliminar) {
 		this.idsEliminar = idsEliminar;
 	}
-	
-	
+
+	public double getModulo() {
+		return modulo;
+	}
+
+	public void setModulo(double modulo) {
+		this.modulo = modulo;
+	}
+
 }

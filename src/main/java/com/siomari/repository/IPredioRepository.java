@@ -74,4 +74,15 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	@Query("select p.moduloRiego from Predio p where p.id = ?1")
 	Double listarModuloRiegoPorId(int predio);
 
+	/**
+	 * se buscara los predios que perteneen a un canal
+	 * 
+	 * @param id
+	 *            id del canal
+	 * @return id, nombre, codigo
+	 */
+	@Query("select new com.siomari.model.Predio(p.id,p.codigo,p.nombre) from Predio p where p.canalId.id "
+			+ "= ?1")
+	List<Predio> buscarIdNombreCondigoPorCanalId(int id);
+
 }

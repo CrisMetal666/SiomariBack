@@ -10,8 +10,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.siomari.model.EficienciaPerdidas;
 import com.siomari.model.ManejoAgua;
+import com.siomari.model.dto.EficienciaPerdidas;
 import com.siomari.repository.IManejoAguaRepository;
 import com.siomari.service.IManejoAguaService;
 
