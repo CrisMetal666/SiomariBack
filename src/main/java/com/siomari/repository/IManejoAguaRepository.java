@@ -111,5 +111,24 @@ public interface IManejoAguaRepository extends JpaRepository<ManejoAgua, Integer
 	@Query("select new com.siomari.model.ManejoAgua(ma.qExtraido,ma.qServido) from ManejoAgua ma where "
 			+ "ma.canalId.id = ?1 and ma.fecha between ?2 and ?3")
 	List<ManejoAgua> buscarServidoExtraidoPorRangoFechaCanalId(int canal, LocalDate fecha1, LocalDate fecha2);
+	
+	/**
+	 * se traera el caudal servido, extraido y el area donde el mes este dentro del intervalo mes1 y mes2
+	 * @param mes1 mes inferior
+	 * @param mes2 mes superior
+	 * @return
+	 */
+	@Query("select new com.siomari.model.ManejoAgua(ma.qExtraido,ma.qServido,ma.area) from ManejoAgua ma where "
+			+ "month(ma.fecha) between ?1 and ?2 and year(ma.fecha) = ?3")
+	List<ManejoAgua> buscarServidoAreaPorMesMenor(int mes1, int mes2, int year);
+	
+	/**
+	 * se traera el caudal servido, extraido y el area donde el mes sea igual al enviado por parameatro
+	 * @param mes
+	 * @return
+	 */
+	@Query("select new com.siomari.model.ManejoAgua(ma.qExtraido,ma.qServido,ma.area) from ManejoAgua ma where "
+			+ "month(ma.fecha) = ?1 and year(ma.fecha) = ?2")
+	List<ManejoAgua> buscarServidoAreaPorMesIgual(int mes, int year);
 
 }

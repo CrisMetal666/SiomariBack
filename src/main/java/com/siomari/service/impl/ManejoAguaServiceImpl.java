@@ -322,4 +322,16 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 		return eficienciaPerdidas;
 	}
 
+	@Override
+	public List<ManejoAgua> buscarServidoAreaPorMesMenor(int mes1, int mes2, int year) {
+		
+		return manejoAguaRepo.buscarServidoAreaPorMesMenor(mes1, mes2, year);
+	}
+
+	@Override
+	public List<ManejoAgua> buscarServidoAreaPorMesIgual(int mes, int year) {
+		
+		return manejoAguaRepo.buscarServidoAreaPorMesIgual(mes, year);
+	}
+
 }

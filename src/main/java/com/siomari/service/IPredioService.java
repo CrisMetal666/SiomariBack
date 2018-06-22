@@ -44,4 +44,9 @@ public interface IPredioService extends IService<Predio> {
 	 * @return id, nombre, codigo
 	 */
 	List<Predio> buscarPorCanalId(int id);
+	
+	/**
+	 * @see com.siomari.model.IPredioRepository
+	 */
+	String buscarNombrePorId(int id);
 }

@@ -85,4 +85,6 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 			+ "= ?1")
 	List<Predio> buscarIdNombreCondigoPorCanalId(int id);
 
+	@Query("select p.nombre from Predio p where p.id = ?1")
+	String buscarNombrePorId(int id);
 }

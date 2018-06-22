@@ -18,5 +18,8 @@ public interface IConfigRepository extends JpaRepository<Config, Integer> {
 	 */
 	@Query("select c.costo from Config c where c.id = 1")
 	Double getCosto();
+	
+	@Query("select c.horas from Config c where c.id = 1")
+	Integer getHorasRiego();
 
 }

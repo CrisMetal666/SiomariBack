@@ -19,7 +19,7 @@ public interface ICultivoPredioService {
 	 *            modelo a guardar
 	 */
 	void guardar(CultivoPredio cultivoPredio);
-	
+
 	/**
 	 * Se registrara o modificara
 	 * 
@@ -27,9 +27,10 @@ public interface ICultivoPredioService {
 	 *            modelo a guardar
 	 */
 	void guardar(List<CultivoPredio> cultivoPredio);
-	
+
 	/**
 	 * se eliminara por su id
+	 * 
 	 * @param id
 	 */
 	void eliminar(int id);
@@ -43,34 +44,54 @@ public interface ICultivoPredioService {
 	 * @see com.siomari.repository.ICultivoPredioRepository
 	 */
 	List<CultivoPredio> buscarPorPredioIdPlanSiembraId(int predio, int planSiembra);
-	
+
 	/**
-	 * se mostrara la informacion de los cultivos (hectareas sembradas en cada mes y periodo y su total de hectareas
-	 * por mes) segun el año y la campaña (A - B)
-	 * @param cultivo id del cultivo
-	 * @param year año 
-	 * @param campania campaña, del 1 - 6 es camapaña A, 7 - 12 camapaña B
+	 * se mostrara la informacion de los cultivos (hectareas sembradas en cada mes y
+	 * periodo y su total de hectareas por mes) segun el año y la campaña (A - B)
+	 * 
+	 * @param cultivo
+	 *            id del cultivo
+	 * @param year
+	 *            año
+	 * @param campania
+	 *            campaña, del 1 - 6 es camapaña A, 7 - 12 camapaña B
 	 * @return
 	 */
 	List<PlaneacionInfo> informacionSiembras(int cultivo, int year, char campania);
-	
+
 	/**
-	 * se mostraran todos los cultivos sembrados en la campaña, con su respectivo cantidad de hectareas sembradas
-	 * cada decada, su demanda de agua decalmente
-	 * @param year año de la campaña
-	 * @param campania campaña
-	 * @return lista con informacion de cada cultivo que se haya sembrado en la campaña especificada
+	 * se mostraran todos los cultivos sembrados en la campaña, con su respectivo
+	 * cantidad de hectareas sembradas cada decada, su demanda de agua decalmente
+	 * 
+	 * @param year
+	 *            año de la campaña
+	 * @param campania
+	 *            campaña
+	 * @return lista con informacion de cada cultivo que se haya sembrado en la
+	 *         campaña especificada
 	 */
 	List<List<PlaneacionInfo>> informacionSiembrasDemanda(int year, char campania);
-	
-	
+
 	/**
-	 * Calcula la demanda hidrica total decadalmente del año y la campaña especificadas
-	 * @param year año
-	 * @param campania campaña (A - B)
+	 * Calcula la demanda hidrica total decadalmente del año y la campaña
+	 * especificadas
+	 * 
+	 * @param year
+	 *            año
+	 * @param campania
+	 *            campaña (A - B)
 	 * @return
 	 */
 	List<PlaneacionInfo> demandaDecadalTodal(int year, char campania);
-	
-	
+
+	/**
+	 * @see com.siomari.repository.ICultivoPredioRepository
+	 */
+	List<Integer> buscarPredioIdRangoFecha(int year, short mes1, short mes2);
+
+	/**
+	 * @see com.siomari.repository.ICultivoPredioRepository
+	 */
+	List<CultivoPredio> buscarPorPredioIdRangoFecha(int id, int year, short mes1, short mes2);
+
 }

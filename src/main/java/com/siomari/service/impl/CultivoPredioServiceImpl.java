@@ -747,4 +747,16 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 		return caudal;
 	}
 
+	@Override
+	public List<Integer> buscarPredioIdRangoFecha(int year, short mes1, short mes2) {
+		
+		return cultivoPredioRepo.buscarPredioIdRangoFecha(year, mes1, mes2);
+	}
+
+	@Override
+	public List<CultivoPredio> buscarPorPredioIdRangoFecha(int id, int year, short mes1, short mes2) {
+		
+		return cultivoPredioRepo.buscarPorPredioIdRangoFecha(id, year, mes1, mes2);
+	}
+
 }

@@ -32,6 +32,12 @@ public class CultivoServiceImpl implements ICultivoService {
 		// persistencia en cascada
 		if (cultivo.getLstKc() != null) {
 			cultivo.getLstKc().forEach(x -> x.setCultivoId(cultivo));
+
+			// caculamos los meses de gestacion segun las decadas que tiene el cultivo
+			int decadas = cultivo.getLstKc().size();
+			int meses = decadas % 3 == 0 ? decadas / 3 : decadas / 3 + 1;
+
+			cultivo.setMeses(meses);
 		}
 
 		cultivoRepo.save(cultivo);
@@ -50,6 +56,12 @@ public class CultivoServiceImpl implements ICultivoService {
 		// persistencia en cascada
 		if (cultivo.getLstKc() != null) {
 			cultivo.getLstKc().forEach(x -> x.setCultivoId(cultivo));
+
+			// caculamos los meses de gestacion segun las decadas que tiene el cultivo
+			int decadas = cultivo.getLstKc().size();
+			int meses = decadas % 3 == 0 ? decadas / 3 : decadas / 3 + 1;
+
+			cultivo.setMeses(meses);
 		}
 
 		cultivoRepo.save(cultivo);
@@ -116,7 +128,7 @@ public class CultivoServiceImpl implements ICultivoService {
 
 	@Override
 	public int buscarIdPorNombre(String nombre) {
-		
+
 		Integer id = cultivoRepo.buscarIdPorNombre(nombre);
 
 		if (id == null) {
@@ -124,6 +136,11 @@ public class CultivoServiceImpl implements ICultivoService {
 		}
 
 		return id;
+	}
+
+	@Override
+	public int maxMes() {
+		return cultivoRepo.maxMes();
 	}
 
 }

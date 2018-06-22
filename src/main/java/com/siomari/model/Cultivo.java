@@ -28,6 +28,9 @@ public class Cultivo {
 	@Column(name = "nombre", length = 50, nullable = false, unique = true)
 	private String nombre;
 	
+	@Column(name = "meses", nullable = false)
+	private int meses;
+	
 	@OneToMany(mappedBy = "cultivoId", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Kc> lstKc;
 	
@@ -73,4 +76,13 @@ public class Cultivo {
 		this.lstKc = lstKc;
 	}
 
+	public int getMeses() {
+		return meses;
+	}
+
+	public void setMeses(int meses) {
+		this.meses = meses;
+	}
+
+	
 }

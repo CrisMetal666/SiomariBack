@@ -26,4 +26,8 @@ public interface ICultivoService extends IService<Cultivo> {
 	 */
 	List<Cultivo> listarIdNombrePorNombre(String query);
 
+	/**
+	 * @see com.siomari.model.ICultivoRepository
+	 */
+	int maxMes();
 }

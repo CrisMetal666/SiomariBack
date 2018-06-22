@@ -47,7 +47,7 @@ public interface ICultivoPredioRepository extends JpaRepository<CultivoPredio, I
 	 *            id del planSiembra
 	 * @return cultivoPredio solmanete con id y hectarea
 	 */
-	@Query("select new com.siomari.model.CultivoPredio(cp.id,cp.hectareas,cp.cultivoId,cp.planSiembraId.id,cp.modulo) from "
+	@Query("select new com.siomari.model.CultivoPredio(cp.id,cp.hectareas,cp.cultivoId,cp.planSiembraId.id) from "
 			+ "CultivoPredio cp where cp.predioId.id = :predio and cp.planSiembraId.id = :planSiembra")
 	List<CultivoPredio> buscarPorPredioIdPlanSiembraId(@Param("predio") int predio,
 			@Param("planSiembra") int planSiembra);
@@ -71,5 +71,40 @@ public interface ICultivoPredioRepository extends JpaRepository<CultivoPredio, I
 			+ ":max group by cp.planSiembraId.id order by p.mes, p.periodo")
 	List<CultivoPredio> hectareasPlanSiembraPorCultivo(@Param("cultivo") int cultivo, @Param("year") int year,
 			@Param("min") short min, @Param("max") short max);
+
+	/**
+	 * se buscara los id de los predios que esten en el plan de siembra en el
+	 * periodo seleccionado
+	 * 
+	 * @param year
+	 *            año
+	 * @param mes1
+	 *            mes infeior
+	 * @param mes2
+	 *            mes superior
+	 * @return listado de id de predios
+	 */
+	@Query("select cp.predioId.id from CultivoPredio cp where cp.planSiembraId.year = ?1 and cp.planSiembraId.mes "
+			+ "between ?2 and ?3 group by cp.predioId.id")
+	List<Integer> buscarPredioIdRangoFecha(int year, short mes1, short mes2);
+
+	/**
+	 * se buscaran los planes de siempra de un predio en determinado rango de tiempo
+	 * 
+	 * @param id
+	 *            id del predio
+	 * @param year
+	 *            año en que se va a hacer el filtrado
+	 * @param mes1
+	 *            mes inferior
+	 * @param mes2
+	 *            mes superior
+	 * @return
+	 */
+	@Query("select new com.siomari.model.CultivoPredio(cp.hectareas,cp.predioId.moduloRiego,"
+			+ "cp.cultivoId.id,cp.cultivoId.nombre,cp.cultivoId.meses,cp.planSiembraId.mes) from CultivoPredio "
+			+ "cp where cp.planSiembraId.year = ?2 and cp.planSiembraId.mes between ?3 and ?4 and "
+			+ "cp.predioId.id = ?1 order by cp.planSiembraId.mes")
+	List<CultivoPredio> buscarPorPredioIdRangoFecha(int id, int year, short mes1, short mes2);
 
 }

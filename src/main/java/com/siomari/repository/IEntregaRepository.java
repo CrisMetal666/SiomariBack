@@ -27,7 +27,7 @@ public interface IEntregaRepository extends JpaRepository<Entrega, Integer> {
 	 * @return
 	 */
 	@Query("select new com.siomari.model.Entrega(e.entrega,e.suspension) from Entrega e where "
-			+ "e.entrega >= ?1 and e.suspension <= ?2 and e.predioId.id = ?3")
+			+ "e.entrega >= ?1 and e.suspension <= ?2 and e.predioId.id = ?3 order by e.entrega")
 	List<Entrega> buscarEntregaSuspensionPorRangoFechas(LocalDateTime inicio, LocalDateTime fin, int predio);
 
 }

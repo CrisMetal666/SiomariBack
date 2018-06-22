@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siomari.model.Entrega;
-import com.siomari.model.dto.EntregaInfo;
+import com.siomari.model.dto.DistribucionAgua;
+import com.siomari.model.dto.Facturacion;
 import com.siomari.service.IEntregaService;
 
 /**
@@ -56,9 +57,31 @@ public class EntregaApi {
 
 		try {
 
-			List<EntregaInfo> entregas = entregaService.caudalServidoPorRangoFecha(inicio, fin, predio);
+			Facturacion entregas = entregaService.caudalServidoPorRangoFecha(inicio, fin, predio);
 
-			response = new ResponseEntity<List<EntregaInfo>>(entregas, HttpStatus.OK);
+			response = new ResponseEntity<Facturacion>(entregas, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
+	}
+	
+	
+	@GetMapping(value = "/distribucionDeAgua", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> distribucionDeAgua(@RequestParam("tipo") int tipo, @RequestParam("id") int id,
+			@RequestParam("fecha") String fecha) {
+
+		ResponseEntity<?> response = null;
+
+		try {
+
+			List<DistribucionAgua> distribucionDeAgua = entregaService.distribucionDeAgua(tipo, id, fecha);
+
+			response = new ResponseEntity<List<DistribucionAgua>>(distribucionDeAgua, HttpStatus.OK);
 
 		} catch (Exception e) {
 

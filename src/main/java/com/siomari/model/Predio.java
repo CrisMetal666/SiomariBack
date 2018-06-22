@@ -104,6 +104,11 @@ public class Predio {
 		this.numeroTomas = numero_tomas;
 		this.tipoSuelo = tipoSuelo;
 	}
+	
+	public Predio(String nombre, String nombreUsuario) {
+		this.nombre = nombre;
+		this.nombreUsuario = nombreUsuario;
+	}
 
 	public int getId() {
 		return id;

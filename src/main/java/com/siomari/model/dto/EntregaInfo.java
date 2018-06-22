@@ -44,5 +44,6 @@ public class EntregaInfo {
 	public void setCosto(double costo) {
 		this.costo = costo;
 	}
+	
 
 }

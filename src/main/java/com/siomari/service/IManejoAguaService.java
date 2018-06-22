@@ -81,4 +81,14 @@ public interface IManejoAguaService {
 	 * @return eficiencias y perdidas
 	 */
 	EficienciaPerdidas calcularEficienciaPerdidas(int id, int tipo, String fecha1, String fecha2);
+
+	/**
+	 * @see com.siomari.repository.IManejoAguaRepository
+	 */
+	List<ManejoAgua> buscarServidoAreaPorMesMenor(int mes1, int mes2, int year);
+
+	/**
+	 * @see com.siomari.repository.IManejoAguaRepository
+	 */
+	List<ManejoAgua> buscarServidoAreaPorMesIgual(int mes, int year);
 }

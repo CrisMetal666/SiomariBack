@@ -3,7 +3,8 @@ package com.siomari.service;
 import java.util.List;
 
 import com.siomari.model.Entrega;
-import com.siomari.model.dto.EntregaInfo;
+import com.siomari.model.dto.DistribucionAgua;
+import com.siomari.model.dto.Facturacion;
 
 /**
  * 
@@ -32,5 +33,23 @@ public interface IEntregaService {
 	 *            id del predio
 	 * @return lista con fecha, metros cubicos y precio
 	 */
-	List<EntregaInfo> caudalServidoPorRangoFecha(String incio, String fin, int predio);
+	Facturacion caudalServidoPorRangoFecha(String incio, String fin, int predio);
+
+	/**
+	 * se calculara las superficies regadas, caudales servidos, laminas que se han
+	 * distribuido
+	 * 
+	 * @param tipo
+	 *            determinara si se hara la consulta por canal, seccion, zona o
+	 *            unidad. 1 = unidad, 2 = zona 3 = seccion, 4 = canal
+	 * 
+	 * @param id
+	 *            id del canal, seccion, zona o unidad
+	 * 
+	 * @param fecha
+	 *            fecha a la cual se quiere hacer la consulta
+	 * 
+	 * @return
+	 */
+	List<DistribucionAgua> distribucionDeAgua(int tipo, int id, String fecha);
 }

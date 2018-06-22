@@ -26,9 +26,6 @@ public class CultivoPredio {
 	@Column(name = "hectareas", nullable = false)
 	private float hectareas;
 
-	@Column(name = "modulo", nullable = false, columnDefinition = "double(3,3)")
-	private double modulo;
-
 	@ManyToOne
 	@JoinColumn(name = "predio_id", nullable = false)
 	private Predio predioId;
@@ -60,17 +57,36 @@ public class CultivoPredio {
 		this.planSiembraId = planSiembra;
 	}
 
-	public CultivoPredio(int id, float hectareas, Cultivo cultivo, int planSiembra, double modulo) {
+	public CultivoPredio(int id, float hectareas, Cultivo cultivo, int planSiembra) {
 		this.id = id;
 		this.hectareas = hectareas;
 		this.cultivoId = cultivo;
 		this.planSiembraId = new PlanSiembra(planSiembra);
-		this.modulo = modulo;
 	}
 
 	public CultivoPredio(double hectareas, PlanSiembra planSiembra) {
 		this.hectareas = (float) hectareas;
 		this.planSiembraId = planSiembra;
+	}
+
+	public CultivoPredio(float hectareas, double moduloRiego, int idCultivo, String nombreCultivo, int mesesGestacion,
+			short mesPlansiembra) {
+
+		this.hectareas = hectareas;
+
+		Predio predio = new Predio();
+		predio.setModuloRiego(moduloRiego);
+		this.predioId = predio;
+
+		Cultivo cultivo = new Cultivo(id, nombreCultivo);
+		cultivo.setMeses(mesesGestacion);
+		cultivo.setNombre(nombreCultivo);
+		this.cultivoId = cultivo;
+
+		PlanSiembra planSiembra = new PlanSiembra();
+		planSiembra.setMes(mesPlansiembra);
+		this.planSiembraId = planSiembra;
+
 	}
 
 	public int getId() {
@@ -119,14 +135,6 @@ public class CultivoPredio {
 
 	public void setIdsEliminar(Integer[] idsEliminar) {
 		this.idsEliminar = idsEliminar;
-	}
-
-	public double getModulo() {
-		return modulo;
-	}
-
-	public void setModulo(double modulo) {
-		this.modulo = modulo;
 	}
 
 }

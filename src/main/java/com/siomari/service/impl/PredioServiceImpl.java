@@ -157,4 +157,10 @@ public class PredioServiceImpl implements IPredioService {
 		
 		return predioRepo.buscarIdNombreCondigoPorCanalId(id);
 	}
+
+	@Override
+	public String buscarNombrePorId(int id) {
+		
+		return predioRepo.buscarNombrePorId(id);
+	}
 }

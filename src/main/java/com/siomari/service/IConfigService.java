@@ -18,4 +18,6 @@ public interface IConfigService {
 	void registrar(Config config);
 	
 	double getCosto();
+	
+	int getHorasRiego();
 }

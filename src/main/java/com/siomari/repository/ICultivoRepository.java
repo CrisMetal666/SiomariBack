@@ -36,4 +36,11 @@ public interface ICultivoRepository extends JpaRepository<Cultivo, Integer> {
 	 */
 	@Query("select new com.siomari.model.Cultivo(c.id,c.nombre) from Cultivo c where c.nombre like ?1")
 	List<Cultivo> listarIdNombrePorNombre(String query);
+	
+	/**
+	 * se consultara los meses de gestacion que sea mayor de los cultivos
+	 * @return meses de gestacion
+	 */
+	@Query("select max(c.meses) from Cultivo c")
+	int maxMes();
 }

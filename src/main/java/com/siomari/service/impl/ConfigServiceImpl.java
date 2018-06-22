@@ -22,7 +22,12 @@ public class ConfigServiceImpl implements IConfigService {
 	public Config listar() {
 		
 		//solo habra un unico registro
-		return configRepo.findOne(1);
+		Config config = configRepo.findOne(1);
+		
+		// convertimos la lamia a metros
+		config.setLamina(config.getLamina() * 100);
+		
+		return config;
 	}
 
 	@Override
@@ -40,6 +45,14 @@ public class ConfigServiceImpl implements IConfigService {
 		Double costo = configRepo.getCosto();
 		
 		return costo == null ? 0 : costo;
+	}
+
+	@Override
+	public int getHorasRiego() {
+		
+		Integer horas = configRepo.getHorasRiego();
+		
+		return horas == null ? 0 : horas;
 	}
 
 }
