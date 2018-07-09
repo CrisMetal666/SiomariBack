@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.siomari.model.Distrito;
 import com.siomari.model.Unidad;
 import com.siomari.repository.IUnidadRepository;
 import com.siomari.service.IUnidadService;
@@ -30,6 +31,9 @@ public class UnidadServiceImpl implements IUnidadService {
 		// existente
 		if (unidad.getId() != 0)
 			return;
+		
+		// como solo se puede registrar un solo distrito, se lo asignamos automaticamente
+		unidad.setDistritoId(new Distrito(1));
 
 		unidadRepo.save(unidad);
 

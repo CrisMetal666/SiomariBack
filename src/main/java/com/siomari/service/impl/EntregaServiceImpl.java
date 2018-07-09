@@ -53,7 +53,7 @@ public class EntregaServiceImpl implements IEntregaService {
 
 	@Autowired
 	private IManejoAguaService manejoAguaService;
-	
+
 	@Autowired
 	private IUsuarioService usuarioService;
 
@@ -86,14 +86,14 @@ public class EntregaServiceImpl implements IEntregaService {
 
 		// sumatoria de los segundos
 		long sumSeconds = 0;
-		
+
 		// objeto principal que almacenara la informacion
 		Facturacion facturacion = new Facturacion();
-		
+
 		// traemos el nombre del predio y del usuario
 		String nombrePredio = predioService.buscarNombrePorId(predio);
 		String nombreUsuario = usuarioService.buscarNombrePorPredioId(predio);
-		
+
 		facturacion.setNombrePredio(nombrePredio);
 		facturacion.setNombreUsuario(nombreUsuario == null ? "Sin definir" : nombreUsuario);
 
@@ -147,7 +147,7 @@ public class EntregaServiceImpl implements IEntregaService {
 
 			entregas.add(entrega);
 		}
-		
+
 		// agregamos la lista con el agua entregada
 		facturacion.setLstEntregaInfo(entregas);
 
@@ -174,8 +174,32 @@ public class EntregaServiceImpl implements IEntregaService {
 		short mes2 = (short) fecha.getMonthValue();
 		short mes1 = (short) (mes2 - mesesGestacionMayor + 1);
 
+		/*
+		 *  almacenaremos los id de los predios que hayan sembrado del dia de la fecha especificada a
+		 *  el tiempo de gestacion de cultivo mayor hacia atras
+		 */
+		List<Integer> lstPredioId = null;
+
+		// hacemos la consulta dependiendo si es por unidad, zona, seccion, canal
 		// traemos el id de los predios que sembraron durante ese rango de tiempo
-		List<Integer> lstPredioId = cultivoPredioService.buscarPredioIdRangoFecha(year, mes1, mes2);
+		if (tipo == 1) {
+			
+			lstPredioId = cultivoPredioService.buscarPredioIdRangoFechaUnidadId(id, year, mes1, mes2);
+			
+		} else if (tipo == 2) {
+			
+			lstPredioId = cultivoPredioService.buscarPredioIdRangoFechaZonaId(id, year, mes1, mes2);
+			
+		} else if (tipo == 3) {
+			
+			lstPredioId = cultivoPredioService.buscarPredioIdRangoFechaSeccionId(id, year, mes1, mes2);
+			
+		} else if (tipo == 4) {
+			
+			lstPredioId = cultivoPredioService.buscarPredioIdRangoFechaCanalId(id, year, mes1, mes2);
+			
+		} else
+			return new ArrayList<>();
 
 		if (lstPredioId.size() == 0)
 			return new ArrayList<>();
@@ -408,7 +432,7 @@ public class EntregaServiceImpl implements IEntregaService {
 		 * creamos una array que almacene las hectareas, el mes que empieza la siembra y
 		 * cuando acaba
 		 */
-		double data[][] = new double[lstCultivoPredio.size()][3];
+		double data[][] = new double[lstCultivoPredio.size()][4];
 		// hectareas que se tienen sembradas
 		double hectareasFisicas = 0;
 
@@ -423,6 +447,7 @@ public class EntregaServiceImpl implements IEntregaService {
 			data[i][0] = cp.getHectareas();
 			data[i][1] = cp.getPlanSiembraId().getMes();
 			data[i][2] = data[i][1] - 1 + mesesGestacion;
+			data[i][3] = cp.getCultivoId().getId();
 
 			// sumamos las hectareas que se tienen sembradas
 			hectareasFisicas += cp.getHectareas();

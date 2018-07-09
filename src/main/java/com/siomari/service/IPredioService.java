@@ -4,6 +4,11 @@ import java.util.List;
 
 import com.siomari.model.Predio;
 
+/**
+ * 
+ * @author crismetal
+ *
+ */
 public interface IPredioService extends IService<Predio> {
 
 	/**

@@ -3,6 +3,11 @@ package com.siomari.util;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+/**
+ * 
+ * @author crismetal
+ *
+ */
 @Converter(autoApply = true)
 public class LocalDateConverter implements AttributeConverter<java.time.LocalDate, java.sql.Date> {
 

@@ -9,3 +9,7 @@ spring:
     url: jdbc:mysql://localhost/siomari_db?useSSL=false
     username: root
     password: 
+security:
+  oauth2:
+    resource:
+      filter-order: 3 

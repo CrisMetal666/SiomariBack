@@ -93,5 +93,25 @@ public interface ICultivoPredioService {
 	 * @see com.siomari.repository.ICultivoPredioRepository
 	 */
 	List<CultivoPredio> buscarPorPredioIdRangoFecha(int id, int year, short mes1, short mes2);
+	
+	/**
+	 * @see com.siomari.repository.ICultivoPredioRepository
+	 */
+	List<Integer> buscarPredioIdRangoFechaUnidadId(int unidad, int year, short mes1, short mes2);
+	
+	/**
+	 * @see com.siomari.repository.ICultivoPredioRepository
+	 */
+	List<Integer> buscarPredioIdRangoFechaZonaId( int zona, int year, short mes1, short mes2);
+	
+	/**
+	 * @see com.siomari.repository.ICultivoPredioRepository
+	 */
+	List<Integer> buscarPredioIdRangoFechaSeccionId(int seccion, int year, short mes1, short mes2);
+	
+	/**
+	 * @see com.siomari.repository.ICultivoPredioRepository
+	 */
+	List<Integer> buscarPredioIdRangoFechaCanalId(int canal, int year, short mes1, short mes2);
 
 }

@@ -8,11 +8,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -32,6 +36,11 @@ public class Unidad {
 	
 	@Column(name = "canal_servidor")
 	private Integer canalServidor;
+	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "distrito_id", nullable = false, updatable = false)
+	private Distrito distritoId;
 	
 	@LazyCollection(LazyCollectionOption.TRUE)
 	@OneToMany(mappedBy = "unidadId", fetch = FetchType.LAZY)
@@ -86,6 +95,14 @@ public class Unidad {
 
 	public void setCanalServidor(Integer canalServidor) {
 		this.canalServidor = canalServidor;
+	}
+
+	public Distrito getDistritoId() {
+		return distritoId;
+	}
+
+	public void setDistritoId(Distrito distritoId) {
+		this.distritoId = distritoId;
 	}
 	
 	

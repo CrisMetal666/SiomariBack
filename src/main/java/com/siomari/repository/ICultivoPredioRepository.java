@@ -73,22 +73,6 @@ public interface ICultivoPredioRepository extends JpaRepository<CultivoPredio, I
 			@Param("min") short min, @Param("max") short max);
 
 	/**
-	 * se buscara los id de los predios que esten en el plan de siembra en el
-	 * periodo seleccionado
-	 * 
-	 * @param year
-	 *            año
-	 * @param mes1
-	 *            mes infeior
-	 * @param mes2
-	 *            mes superior
-	 * @return listado de id de predios
-	 */
-	@Query("select cp.predioId.id from CultivoPredio cp where cp.planSiembraId.year = ?1 and cp.planSiembraId.mes "
-			+ "between ?2 and ?3 group by cp.predioId.id")
-	List<Integer> buscarPredioIdRangoFecha(int year, short mes1, short mes2);
-
-	/**
 	 * se buscaran los planes de siempra de un predio en determinado rango de tiempo
 	 * 
 	 * @param id
@@ -106,5 +90,103 @@ public interface ICultivoPredioRepository extends JpaRepository<CultivoPredio, I
 			+ "cp where cp.planSiembraId.year = ?2 and cp.planSiembraId.mes between ?3 and ?4 and "
 			+ "cp.predioId.id = ?1 order by cp.planSiembraId.mes")
 	List<CultivoPredio> buscarPorPredioIdRangoFecha(int id, int year, short mes1, short mes2);
+
+	/**
+	 * se buscara los id de los predios que esten en el plan de siembra en el
+	 * periodo seleccionado
+	 * 
+	 * @param id
+	 *            id del predio
+	 * @param seccion
+	 *            id de la seccion
+	 * @param year
+	 *            año en que se va a hacer el filtrado
+	 * @param mes1
+	 *            mes inferior
+	 * @param mes2
+	 *            mes superior
+	 * @return
+	 */
+	@Query("select cp.predioId.id from CultivoPredio cp inner join cp.predioId.canalId.lstSeccionCanal sc "
+			+ "where cp.planSiembraId.year = ?2 and sc.seccionId.id = ?1 and cp.planSiembraId.mes "
+			+ "between ?3 and ?4 group by cp.predioId.id")
+	List<Integer> buscarPredioIdRangoFechaSeccionId(int seccion, int year, short mes1, short mes2);
+	
+	/**
+	 * se buscara los id de los predios que esten en el plan de siembra en el
+	 * periodo seleccionado
+	 * 
+	 * 
+	 * @param zona
+	 *            id de la zona
+	 * @param year
+	 *            año en que se va a hacer el filtrado
+	 * @param mes1
+	 *            mes inferior
+	 * @param mes2
+	 *            mes superior
+	 * @return
+	 */
+	@Query("select cp.predioId.id from CultivoPredio cp inner join cp.predioId.canalId.lstSeccionCanal sc "
+			+ "where cp.planSiembraId.year = ?2 and sc.seccionId.zonaId.id = ?1 and cp.planSiembraId.mes "
+			+ "between ?3 and ?4 group by cp.predioId.id")
+	List<Integer> buscarPredioIdRangoFechaZonaId(int zona, int year, short mes1, short mes2);
+	
+	/**
+	 * se buscara los id de los predios que esten en el plan de siembra en el
+	 * periodo seleccionado
+	 * 
+	
+	 * @param canal
+	 *            id del canal
+	 * @param year
+	 *            año en que se va a hacer el filtrado
+	 * @param mes1
+	 *            mes inferior
+	 * @param mes2
+	 *            mes superior
+	 * @return
+	 */
+	@Query("select cp.predioId.id from CultivoPredio cp where cp.planSiembraId.year = ?2 and "
+			+ "cp.predioId.canalId.id = ?1 and cp.planSiembraId.mes between ?3 and ?4 group by "
+			+ "cp.predioId.id")
+	List<Integer> buscarPredioIdRangoFechaCanalId(int canal, int year, short mes1, short mes2);
+	
+	/**
+	 * se buscara los id de los predios que esten en el plan de siembra en el
+	 * periodo seleccionado
+	 * 
+	 * 
+	 * @param unidad
+	 *            id de la unidad
+	 * @param year
+	 *            año en que se va a hacer el filtrado
+	 * @param mes1
+	 *            mes inferior
+	 * @param mes2
+	 *            mes superior
+	 * @return
+	 */
+	@Query("select cp.predioId.id from CultivoPredio cp inner join cp.predioId.canalId.lstSeccionCanal sc "
+			+ "where cp.planSiembraId.year = ?2 and sc.seccionId.zonaId.unidadId.id = ?1 and cp.planSiembraId.mes "
+			+ "between ?3 and ?4 group by cp.predioId.id")
+	List<Integer> buscarPredioIdRangoFechaUnidadId(int unidad, int year, short mes1, short mes2);
+	
+	
+	/**
+	 * se buscara los id de los predios que esten en el plan de siembra en el
+	 * periodo seleccionado
+	 * 
+	 * @param year
+	 *            año
+	 * @param mes1
+	 *            mes infeior
+	 * @param mes2
+	 *            mes superior
+	 * @return listado de id de predios
+	 */
+	@Query("select cp.predioId.id from CultivoPredio cp where cp.planSiembraId.year = ?1 and cp.planSiembraId.mes "
+			+ "between ?2 and ?3 group by cp.predioId.id")
+	List<Integer> buscarPredioIdRangoFecha(int year, short mes1, short mes2);
 
 }

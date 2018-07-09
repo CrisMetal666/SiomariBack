@@ -22,27 +22,33 @@ public class CanalObra {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(name = "descripcion", columnDefinition = "text")
+
+	@Column(name = "descripcion", columnDefinition = "text", nullable = false)
 	private String descripcion;
-	
-	@Column(name = "x")
+
+	@Column(name = "ultima_intervension", columnDefinition = "text", nullable = true)
+	private String ultimaIntervension;
+
+	@Column(name = "imagen", length = 50, nullable = true)
+	private String imagen;
+
+	@Column(name = "x", nullable = true)
 	private Double x;
-	
-	@Column(name = "y")
+
+	@Column(name = "y", nullable = true)
 	private Double y;
-	
-	@Column(name = "altitud")
+
+	@Column(name = "altitud", nullable = true)
 	private Double altitud;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "canal_id", nullable = false)
 	private Canal canalId;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "obra_id", nullable = false)
 	private Obra obraId;
-	
+
 	public CanalObra() {
 	}
 
@@ -54,8 +60,32 @@ public class CanalObra {
 		this.altitud = altitud;
 		this.obraId = obraId;
 	}
+	
+	
+	
+	public CanalObra(int id, String descripcion, String ultimaIntervension, String imagen, Double x, Double y,
+			Double altitud, int canalId, Obra obraId) {
+		super();
+		this.id = id;
+		this.descripcion = descripcion;
+		this.ultimaIntervension = ultimaIntervension;
+		this.imagen = imagen;
+		this.x = x;
+		this.y = y;
+		this.altitud = altitud;
+		this.canalId = new Canal(canalId);
+		this.obraId = obraId;
+	}
 
-
+	public CanalObra(int id, Obra obraId) {
+		this.id = id;
+		this.obraId = obraId;
+	}
+	
+	
+	public CanalObra(String imagen) {
+		this.imagen = imagen;
+	}
 
 	public CanalObra(int id) {
 		this.id = id;
@@ -117,10 +147,27 @@ public class CanalObra {
 		this.altitud = altitud;
 	}
 
+	public String getUltimaIntervension() {
+		return ultimaIntervension;
+	}
 
+	public void setUltimaIntervension(String ultimaIntervension) {
+		this.ultimaIntervension = ultimaIntervension;
+	}
 
+	public String getImagen() {
+		return imagen;
+	}
 
-	
-	
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
+	@Override
+	public String toString() {
+		return "CanalObra [id=" + id + ", descripcion=" + descripcion + ", ultimaIntervension=" + ultimaIntervension
+				+ ", imagen=" + imagen + ", x=" + x + ", y=" + y + ", altitud=" + altitud + "]";
+	}
+
 	
 }

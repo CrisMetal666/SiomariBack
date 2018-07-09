@@ -759,4 +759,28 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 		return cultivoPredioRepo.buscarPorPredioIdRangoFecha(id, year, mes1, mes2);
 	}
 
+	@Override
+	public List<Integer> buscarPredioIdRangoFechaUnidadId(int unidad, int year, short mes1, short mes2) {
+		
+		return cultivoPredioRepo.buscarPredioIdRangoFechaUnidadId(unidad, year, mes1, mes2);
+	}
+
+	@Override
+	public List<Integer> buscarPredioIdRangoFechaZonaId(int zona, int year, short mes1, short mes2) {
+		
+		return cultivoPredioRepo.buscarPredioIdRangoFechaZonaId(zona, year, mes1, mes2);
+	}
+
+	@Override
+	public List<Integer> buscarPredioIdRangoFechaSeccionId(int seccion, int year, short mes1, short mes2) {
+		
+		return cultivoPredioRepo.buscarPredioIdRangoFechaSeccionId(seccion, year, mes1, mes2);
+	}
+
+	@Override
+	public List<Integer> buscarPredioIdRangoFechaCanalId(int canal, int year, short mes1, short mes2) {
+		
+		return cultivoPredioRepo.buscarPredioIdRangoFechaCanalId(canal, year, mes1, mes2);
+	}
+
 }

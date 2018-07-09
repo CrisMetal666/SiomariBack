@@ -7,6 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.siomari.model.Decada;
 
+/**
+ * 
+ * @author crismetal
+ *
+ */
 public interface IDecadaRepository extends JpaRepository<Decada,Integer> {
 	
 	/**
