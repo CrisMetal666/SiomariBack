@@ -58,7 +58,7 @@ public class CanalObraApi {
 	}
 
 	@PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> guardar(@RequestParam("file") MultipartFile file,
+	public ResponseEntity<?> guardarConImg(@RequestParam("file") MultipartFile file,
 			@RequestParam("body") String strCanalObra) {
 
 		ResponseEntity<?> response = null;

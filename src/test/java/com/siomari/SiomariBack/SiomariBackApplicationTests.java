@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.siomari.model.Users;
 import com.siomari.service.IUsersService;
 
 @RunWith(SpringRunner.class)
@@ -18,7 +19,13 @@ public class SiomariBackApplicationTests {
 	@Test
 	public void contextLoads() {
 
-		service.cambiarClave("1075299691", "232322");
+		Users user = new Users();
+		
+		user.setIdentificacion("1075299691");
+		user.setClave("232322");
+		user.setRol("ROLE_JEFE_DISTRITO");
+		
+		service.registrar(user);
 		
 	}
 

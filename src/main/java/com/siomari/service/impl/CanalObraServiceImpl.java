@@ -48,7 +48,7 @@ public class CanalObraServiceImpl implements ICanalObraService {
 		try {
 
 			// verificamos si han enviado una imagen
-			if (file != null) {
+			if (file.getBytes().length != 0) {
 				nombreImagen = construirImagen(file);
 
 				// si no hay nombre significa que ocurrio un error al manejar el archivo
@@ -148,7 +148,8 @@ public class CanalObraServiceImpl implements ICanalObraService {
 		canalObraRepo.delete(id); // eliminamos el registro
 		
 		// si no tiene imagen salimos del metodo
-		if(imagen.length() == 0) return;
+		if(imagen == null) return;
+		else if(imagen.trim().length() == 0) return;
 		
 		try {
 			// eliminamos la imagen
