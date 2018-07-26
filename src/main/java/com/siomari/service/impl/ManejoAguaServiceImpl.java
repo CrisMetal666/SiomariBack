@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.siomari.model.ManejoAgua;
 import com.siomari.model.dto.EficienciaPerdidas;
+import com.siomari.model.dto.LnLamEficiencia;
 import com.siomari.repository.IManejoAguaRepository;
 import com.siomari.service.IManejoAguaService;
 
@@ -41,7 +41,7 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 	}
 
 	@Override
-	public List<List<Double>> lnLamEficiencia(int id, String txtFecha1, String txtFecha2, int tipo) {
+	public LnLamEficiencia lnLamEficiencia(int id, String txtFecha1, String txtFecha2, int tipo) {
 
 		// convertimos la fecha en string a localdate
 		LocalDate fecha1 = LocalDate.parse(txtFecha1, DateTimeFormatter.ISO_DATE);
@@ -76,7 +76,7 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 
 			// si no hay datos, devolvemos una lista vacia
 			if (lstData.size() == 0)
-				return new ArrayList<>();
+				return new LnLamEficiencia();
 
 			lstManejoAgua = totalCaudalArea(lstData);
 
@@ -84,7 +84,7 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 
 		// si no hay datos, devolvemos una lista vacia
 		if (lstManejoAgua.size() == 0)
-			return new ArrayList<>();
+			return new LnLamEficiencia();
 
 		/*
 		 * la cantidad de datos es igual a la cantidad de dias, asi podemos definir el
@@ -92,11 +92,17 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 		 */
 		int size = (int) fecha1.until(fecha2, ChronoUnit.DAYS);
 
-		// cada valor lo dejamos en una lista aparte para poder ser graficados
-		// facilmente
+		/*
+		 * cada valor lo dejamos en una lista aparte para poder ser graficados
+		 * facilmente
+		 */
 		List<Double> lstLn = new ArrayList<>(size);
 		List<Double> lstLam = new ArrayList<>(size);
 		List<Double> lstEfic = new ArrayList<>(size);
+		List<String> lstFecha = new ArrayList<>(size);
+
+		// formato que dentra la fecha en el eje x de la grafica
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("MM-dd");
 
 		for (ManejoAgua manejoAgua : lstManejoAgua) {
 
@@ -115,6 +121,7 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 					lstLn.add(0d);
 					lstLam.add(0d);
 					lstEfic.add(0d);
+					lstFecha.add(fecha1.format(formato));
 
 					// sumamos un dia a la fecha inicial
 					fecha1 = fecha1.plusDays(1);
@@ -144,12 +151,42 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 			lstLn.add((double) Math.round(ln * 100d) / 100d);
 			lstLam.add((double) Math.round(lam * 100d) / 100d);
 			lstEfic.add((double) Math.round(efic * 100d) / 100d);
+			lstFecha.add(fecha1.format(formato));
 
 			// aumentamos un dia a la fecha inicial
 			fecha1 = fecha1.plusDays(1);
 		}
 
-		return new ArrayList<>(Arrays.asList(lstLn, lstLam, lstEfic));
+		/*
+		 * si el tamaño de la lista no es igual la cantidad de dias seleccionados es
+		 * porque hacen no hay mas registros al final de la fecha por lo que hay que
+		 * rellenarlos con datos vacios
+		 */
+		if (lstLn.size() != size) {
+
+			do {
+
+				// adicionamos el dia que no hubieron registros
+				lstLn.add(0d);
+				lstLam.add(0d);
+				lstEfic.add(0d);
+				lstFecha.add(fecha1.format(formato));
+
+				// sumamos un dia a la fecha inicial
+				fecha1 = fecha1.plusDays(1);
+
+			} while (!fecha1.isAfter(fecha2));
+
+		}
+
+		LnLamEficiencia data = new LnLamEficiencia();
+		
+		data.setLstEfic(lstEfic);
+		data.setLstFecha(lstFecha);
+		data.setLstLam(lstLam);
+		data.setLstLn(lstLn);
+
+		return data;
 	}
 
 	/**
@@ -288,9 +325,7 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 		}
 
 		// tamaño de la lista
-		int size = lst.size();//(int) fecha1.until(fecha2, ChronoUnit.DAYS);
-		
-		System.out.println(size);
+		int size = lst.size();// (int) fecha1.until(fecha2, ChronoUnit.DAYS);
 
 		if (size == 0)
 			return new EficienciaPerdidas();
@@ -324,13 +359,13 @@ public class ManejoAguaServiceImpl implements IManejoAguaService {
 
 	@Override
 	public List<ManejoAgua> buscarServidoAreaPorMesMenor(int mes1, int mes2, int year) {
-		
+
 		return manejoAguaRepo.buscarServidoAreaPorMesMenor(mes1, mes2, year);
 	}
 
 	@Override
 	public List<ManejoAgua> buscarServidoAreaPorMesIgual(int mes, int year) {
-		
+
 		return manejoAguaRepo.buscarServidoAreaPorMesIgual(mes, year);
 	}
 

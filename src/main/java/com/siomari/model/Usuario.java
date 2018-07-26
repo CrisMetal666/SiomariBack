@@ -1,12 +1,14 @@
 package com.siomari.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -45,13 +47,9 @@ public class Usuario {
 
 	@Column(name = "correo", length = 200, nullable = true)
 	private String correo;
-
-	@Column(name = "propietario", length = 200, nullable = true)
-	private boolean propietario;
-
-	@ManyToOne
-	@JoinColumn(name = "predio_id", nullable = true)
-	private Predio predioId;
+	
+	@OneToMany(mappedBy = "usuarioId", fetch = FetchType.LAZY)
+	List<Predio> lstPredio;
 
 	public Usuario() {
 	}
@@ -68,7 +66,7 @@ public class Usuario {
 	}
 
 	public Usuario(int id, String cedula, String nombre, String apellido, String direccion, String ciudad,
-			String telefono, String celular, String correo, boolean propietario) {
+			String telefono, String celular, String correo) {
 		this.id = id;
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -78,7 +76,6 @@ public class Usuario {
 		this.telefono = telefono;
 		this.celular = celular;
 		this.correo = correo;
-		this.propietario = propietario;
 	}
 
 	public int getId() {
@@ -153,23 +150,15 @@ public class Usuario {
 		this.correo = correo;
 	}
 
-	public Predio getPredioId() {
-		return predioId;
-	}
-
-	public void setPredioId(Predio predioId) {
-		this.predioId = predioId;
-	}
-
-	public boolean isPropietario() {
-		return propietario;
-	}
-
-	public void setPropietario(boolean propietario) {
-		this.propietario = propietario;
-	}
-
 	public String getNombreCompleto() {
 		return nombre + " " + apellido;
+	}
+
+	public List<Predio> getLstPredio() {
+		return lstPredio;
+	}
+
+	public void setLstPredio(List<Predio> lstPredio) {
+		this.lstPredio = lstPredio;
 	}
 }

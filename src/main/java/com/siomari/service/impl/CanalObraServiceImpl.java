@@ -159,4 +159,42 @@ public class CanalObraServiceImpl implements ICanalObraService {
 		}
 	}
 
+	@Override
+	public List<CanalObra> buscarPorCanalIdYObraId(int canal, int obra) {
+		
+		return canalObraRepo.buscarPorCanalIdYObraId(canal, obra);
+	}
+
+	@Override
+	public int buscarPorSeccionId(int id) {
+		
+		Integer total = canalObraRepo.buscarPorSeccionId(id);
+		
+		return total == null ? 0 : total;
+	}
+
+	@Override
+	public int buscarPorZonaId(int id) {
+
+		Integer total = canalObraRepo.buscarPorZonaId(id);
+		
+		return total == null ? 0 : total;
+	}
+
+	@Override
+	public int buscarPorUnidadId(int id) {
+
+		Integer total = canalObraRepo.buscarPorUnidadId(id);
+		
+		return total == null ? 0 : total;
+	}
+
+	@Override
+	public int buscarPorDistrito() {
+
+		Integer total = canalObraRepo.buscarPorDistrito();
+		
+		return total == null ? 0 : total;
+	}
+
 }

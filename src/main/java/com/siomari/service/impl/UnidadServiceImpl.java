@@ -116,4 +116,10 @@ public class UnidadServiceImpl implements IUnidadService {
 		unidadRepo.updateCanalServidor(id, canalServidor);
 	}
 
+	@Override
+	public List<String> listarNombre() {
+		
+		return unidadRepo.listarNombre();
+	}
+
 }

@@ -94,4 +94,10 @@ public class ObraServiceImpl implements IObraService {
 		
 		return obraRepo.buscarPorNombre(query);
 	}
+
+	@Override
+	public List<Obra> buscarIdNombrePorCanalId(int id) {
+		
+		return obraRepo.buscarIdNombrePorCanalId(id);
+	}
 }

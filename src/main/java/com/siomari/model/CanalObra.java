@@ -28,6 +28,9 @@ public class CanalObra {
 
 	@Column(name = "ultima_intervension", columnDefinition = "text", nullable = true)
 	private String ultimaIntervension;
+	
+	@Column(name = "observacion", columnDefinition = "text", nullable = true)
+	private String observacion;
 
 	@Column(name = "imagen", length = 50, nullable = true)
 	private String imagen;
@@ -63,12 +66,13 @@ public class CanalObra {
 	
 	
 	
-	public CanalObra(int id, String descripcion, String ultimaIntervension, String imagen, Double x, Double y,
+	public CanalObra(int id, String descripcion, String ultimaIntervension,String observacion, String imagen, Double x, Double y,
 			Double altitud, int canalId, Obra obraId) {
-		super();
+		
 		this.id = id;
 		this.descripcion = descripcion;
 		this.ultimaIntervension = ultimaIntervension;
+		this.observacion = observacion;
 		this.imagen = imagen;
 		this.x = x;
 		this.y = y;
@@ -153,6 +157,16 @@ public class CanalObra {
 
 	public void setUltimaIntervension(String ultimaIntervension) {
 		this.ultimaIntervension = ultimaIntervension;
+	}
+	
+	
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
 	}
 
 	public String getImagen() {

@@ -15,11 +15,6 @@ public interface ICanalService extends IService<Canal> {
 	/**
 	 * @see com.siomari.repository.ICanalRepository
 	 */
-	List<Canal> buscarPorSeccionId(int id);
-
-	/**
-	 * @see com.siomari.repository.ICanalRepository
-	 */
 	int buscarIdPorCodigo(String codigo);
 
 	/**
@@ -62,4 +57,38 @@ public interface ICanalService extends IService<Canal> {
 	 * @see com.siomari.repository.ICanalRepository
 	 */
 	List<String> buscarNombrePorCanalId(int id);
+	
+	/**
+	 * se buscara los canales pertenecientes a una seccion
+	 * 
+	 * @param id.
+	 *            Id de la seccion
+	 * @return lista de canales con solo su nombre, id y codigo
+	 */
+	List<Canal> buscarPorSeccionId(int id);
+	
+	/**
+	 * se buscara los canales pertenecientes a una zona
+	 * 
+	 * @param id
+	 *            id de la zona
+	 * @return lista de canales con solo su nombre, id y codigo
+	 */
+	List<Canal> buscarPorZonaId(int id);
+	
+	/**
+	 * se buscara los canales pertenecientes a una unidad
+	 * 
+	 * @param id
+	 *            id de la unidad
+	 * @return lista de canales con solo su nombre, id y codigo
+	 */
+	List<Canal> buscarPorUnidadId(int id);
+	
+	/**
+	 * se buscara todos los canales
+	 * 
+	 * @return lista de canales con solo su nombre, id y codigo
+	 */
+	List<Canal> buscarPorDistrito();
 }

@@ -3,7 +3,6 @@ package com.siomari.model.dto;
 import java.util.List;
 
 import com.siomari.model.Canal;
-import com.siomari.model.CanalObra;
 import com.siomari.model.EstructuraControl;
 import com.siomari.model.Predio;
 
@@ -29,7 +28,8 @@ public class ConsultaCanal {
 	private String estadoDescripcion;
 	private String canalServidor;
 	private int sumPredios;
-	private List<CanalObra> lstCanalObra;
+	private double areaServida;
+	private List<ObraDetalle> lstObraDetalle;
 	private List<String> lstCanal;
 	private List<Predio> lstPredio;
 	private List<EstructuraControl> lstEstructuraControl;
@@ -51,7 +51,7 @@ public class ConsultaCanal {
 		this.categoria = categoria;
 		this.estado = estado;
 		this.estadoDescripcion = estadoDescripcion;
-		this.canalServidor = canalId == null ? "" : canalId.getNombre();
+		this.canalServidor = canalId == null ? "" : canalId.getNombre() + " - " + canalId.getCodigo();
 	}
 
 	public int getId() {
@@ -150,12 +150,12 @@ public class ConsultaCanal {
 		this.canalServidor = canalServidor;
 	}
 
-	public List<CanalObra> getLstCanalObra() {
-		return lstCanalObra;
+	public List<ObraDetalle> getLstObraDetalle() {
+		return lstObraDetalle;
 	}
 
-	public void setLstCanalObra(List<CanalObra> lstCanalObra) {
-		this.lstCanalObra = lstCanalObra;
+	public void setLstObraDetalle(List<ObraDetalle> lstObraDetalle) {
+		this.lstObraDetalle = lstObraDetalle;
 	}
 
 	public List<String> getLstCanal() {
@@ -190,5 +190,12 @@ public class ConsultaCanal {
 		this.sumPredios = sumPredios;
 	}
 
-	
+	public double getAreaServida() {
+		return areaServida;
+	}
+
+	public void setAreaServida(double areaServida) {
+		this.areaServida = areaServida;
+	}
+
 }

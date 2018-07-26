@@ -27,13 +27,15 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Override
 	public void registrar(Usuario usuario) {
 
-		// nos aseguramos que no tenga un id para que no sobre escriba un registro existente
-		if(usuario.getId() != 0) return;	
-		
+		// nos aseguramos que no tenga un id para que no sobre escriba un registro
+		// existente
+		if (usuario.getId() != 0)
+			return;
+
 		// eliminamos los espacion en blanco que puedan poner problemas en las consultas
 		usuario.setApellido(usuario.getApellido().trim());
 		usuario.setNombre(usuario.getNombre().trim());
-		
+
 		usuarioRepo.save(usuario);
 
 	}
@@ -45,7 +47,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	public void actualizar(Usuario usuario) {
 
 		usuarioRepo.save(usuario);
-		
+
 	}
 
 	/**
@@ -63,7 +65,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Override
 	public List<Usuario> listar() {
 
-		List<Usuario> lst = usuarioRepo.findAll();
+		List<Usuario> lst = usuarioRepo.listar();
 
 		return lst;
 	}
@@ -74,29 +76,25 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Override
 	public Usuario listar(int id) {
 
-		Usuario usuario = usuarioRepo.findOne(id);
+		Usuario usuario = usuarioRepo.listar(id);
 
-		//nos aseguramos de no devilver objetos nulos
-		if(usuario == null) {
+		// nos aseguramos de no devilver objetos nulos
+		if (usuario == null) {
+			
 			usuario = new Usuario();
-		}
-		
-		//eliminamos los datos que no necesitamos del predio para no tener errores ciclicos
-		if(usuario.getPredioId() != null) {
 			
-			Predio predio = new Predio();
-			predio.setNombre(usuario.getPredioId().getNombre());
-			predio.setId(usuario.getPredioId().getId());
-			
-			usuario.setPredioId(predio);
+		} else {
+
+			List<Predio> lstPredio = usuarioRepo.buscarNombreCodigoPropietarioPorUsuarioId(id);
+			usuario.setLstPredio(lstPredio);
 		}
-		
+
 		return usuario;
 	}
 
 	@Override
 	public int buscarIdPorIdentificacion(String identificacion) {
-		
+
 		Integer id = usuarioRepo.buscarIdPorIdentificacion(identificacion);
 
 		if (id == null) {
@@ -108,15 +106,14 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Override
 	public List<Usuario> buscarIdNombreIdentificacionPorNombreOIdentificacion(String query) {
-		
+
 		return usuarioRepo.buscarIdNombreIdentificacionPorNombreOIdentificacion(query);
 	}
 
 	@Override
 	public String buscarNombrePorPredioId(int id) {
-		
+
 		return usuarioRepo.buscarNombrePorPredioId(id);
 	}
 
-	
 }

@@ -25,5 +25,4 @@ public interface IUsuarioService extends IService<Usuario> {
 	 * @see com.siomari.repository.ICanalRepository
 	 */
 	String buscarNombrePorPredioId(int id);
-	
 }

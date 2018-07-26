@@ -59,7 +59,7 @@ public interface IEstructuraControlRepository extends JpaRepository<EstructuraCo
 	 * @param id id del canal
 	 * @return id, codigo
 	 */
-	@Query("select new com.siomari.model.EstructuraControl(ec.id,ec.codigo) from EstructuraControl ec "
+	@Query("select new com.siomari.model.EstructuraControl(ec.codigo,ec.coeficiente,ec.exponente) from EstructuraControl ec "
 			+ "where ec.canalId.id = ?1")
 	List<EstructuraControl> buscarPorCanalId(int id);
 }

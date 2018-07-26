@@ -22,75 +22,88 @@ public class Predio {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "codigo", length = 100, nullable = false, unique = true)
 	private String codigo;
-	
+
 	@Column(name = "nombre", length = 200, nullable = false)
 	private String nombre;
-	
+
 	@Column(name = "nombre_propietario", length = 100, nullable = false)
 	private String nombrePropietario;
-	
+
 	@Column(name = "area_total", nullable = false)
 	private double areaTotal;
-	
+
 	@Column(name = "area_potencial_riego", nullable = false)
 	private double areaPotencialRiego;
-	
+
 	@Column(name = "area_bajo_riego", nullable = false)
 	private double areaBajoRiego;
-	
+
 	@Column(name = "modulo_riego", nullable = false)
 	private double moduloRiego;
-	
+
 	@Column(name = "numero_tomas", nullable = false)
 	private int numeroTomas;
-	
+
 	@Column(name = "tipo_suelo", length = 100, nullable = false)
 	private String tipoSuelo;
-	
+
 	@Column(name = "x")
 	private Double x;
-	
+
 	@Column(name = "y")
 	private Double y;
-	
+
 	@Column(name = "altitud")
 	private Double altitud;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "canal_id", nullable = false)
 	private Canal canalId;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "usuario_id", nullable = false)
+	private Usuario usuarioId;
+
+	@Column(name = "propietario", nullable = true)
+	private boolean propietario;
+
 	@Transient
 	private String nombreUsuario;
 
 	public Predio() {
 	}
-	
+
 	public Predio(int id) {
 		this.id = id;
 	}
-	
+
 	public Predio(int id, String nombre) {
 		this.id = id;
 		this.nombre = nombre;
 	}
-	
+
 	public Predio(int id, String codigo, String nombre) {
 		this.id = id;
 		this.codigo = codigo;
 		this.nombre = nombre;
 	}
-	
+
+	public Predio(String codigo, String nombre, boolean propietario) {
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.propietario = propietario;
+	}
+
 	public Predio(int id, String codigo, String nombre, double areaTotal) {
 		this.id = id;
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.areaTotal = areaTotal;
 	}
-	
+
 	public Predio(int id, String codigo, String nombre, String nombrePropietario, double areaTotal,
 			double areaPotencialRiego, double areaBajoRiego, double moduloRiego, int numero_tomas, String tipoSuelo) {
 		this.id = id;
@@ -104,7 +117,7 @@ public class Predio {
 		this.numeroTomas = numero_tomas;
 		this.tipoSuelo = tipoSuelo;
 	}
-	
+
 	public Predio(String nombre, String nombreUsuario) {
 		this.nombre = nombre;
 		this.nombreUsuario = nombreUsuario;
@@ -150,6 +163,14 @@ public class Predio {
 		this.areaTotal = areaTotal;
 	}
 
+	public boolean isPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(boolean propietario) {
+		this.propietario = propietario;
+	}
+
 	public double getAreaPotencialRiego() {
 		return areaPotencialRiego;
 	}
@@ -180,6 +201,14 @@ public class Predio {
 
 	public void setTipoSuelo(String tipoSuelo) {
 		this.tipoSuelo = tipoSuelo;
+	}
+
+	public Usuario getUsuarioId() {
+		return usuarioId;
+	}
+
+	public void setUsuarioId(Usuario usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 
 	public Canal getCanalId() {
@@ -229,6 +258,5 @@ public class Predio {
 	public void setNombreUsuario(String nombreUsuario) {
 		this.nombreUsuario = nombreUsuario;
 	}
-	
 
 }

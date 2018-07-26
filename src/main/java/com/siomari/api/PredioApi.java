@@ -200,30 +200,6 @@ public class PredioApi {
 	}
 	
 	/**
-	 * Se listaran todos los predios sin un usuario registrado
-	 * 
-	 * @return lista de predios
-	 */
-	@RequestMapping(value = "/sinUsuarios", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> listarSinUsuarios(@RequestParam("s") String query) {
-
-		ResponseEntity<?> response = null;
-
-		try {
-
-			List<Predio> lst = predioService.listarIdCodigoNombrePorNombreOCodigoSinUsuarios(query);
-			response = new ResponseEntity<List<Predio>>(lst, HttpStatus.OK);
-
-		} catch (Exception e) {
-
-			response = new ResponseEntity<List<Predio>>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
-			e.printStackTrace();
-		}
-
-		return response;
-	}
-	
-	/**
 	 * listar todos los predios
 	 * @return solo se listan el id, nombre, codigo, areaTotal
 	 */

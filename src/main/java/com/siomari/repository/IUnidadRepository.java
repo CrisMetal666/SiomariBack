@@ -1,5 +1,7 @@
 package com.siomari.repository;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -45,4 +47,11 @@ public interface IUnidadRepository extends JpaRepository<Unidad, Integer> {
 	@Modifying
 	@Query("update Unidad u set u.canalServidor = ?2 where u.id = ?1")
 	void updateCanalServidor(int id, int canalServidor);
+	
+	/**
+	 * se buscaran las unidades del distrito
+	 * @return nombre la unidad
+	 */
+	@Query("select u.nombre from Unidad u")
+	List<String> listarNombre();
 }

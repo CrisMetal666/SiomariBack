@@ -132,4 +132,10 @@ public class SeccionServiceImpl implements ISeccionService {
 		seccionRepo.updateCanalServidor(id, canalServidor);
 	}
 
+	@Override
+	public List<String> buscarNombrePorZonaId(int id) {
+		
+		return seccionRepo.buscarNombrePorZonaId(id);
+	}
+
 }

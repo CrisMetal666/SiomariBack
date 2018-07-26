@@ -16,17 +16,6 @@ import com.siomari.model.dto.ConsultaCanal;
 public interface ICanalRepository extends JpaRepository<Canal, Integer> {
 
 	/**
-	 * se buscara los canales pertenecientes a una seccion
-	 * 
-	 * @param id.
-	 *            Id de la seccion
-	 * @return lista de canales con solo su nombre e id
-	 */
-	@Query("select new com.siomari.model.Canal(c.id, c.nombre) from Canal c inner join c.lstSeccionCanal "
-			+ "sc where sc.seccionId.id = ?1")
-	List<Canal> buscarPorSeccionId(int id);
-
-	/**
 	 * Se buscara un canal por su codigo
 	 * 
 	 * @param codigo.
@@ -121,6 +110,47 @@ public interface ICanalRepository extends JpaRepository<Canal, Integer> {
 	 *            id del canal servidor
 	 * @return nombre del canal
 	 */
-	@Query("select c.nombre from Canal c where c.canalId.id = ?1")
+	@Query("select concat(c.nombre,' - ',c.codigo) from Canal c where c.canalId.id = ?1")
 	List<String> buscarNombrePorCanalId(int id);
+
+	/**
+	 * se buscara los canales pertenecientes a una seccion
+	 * 
+	 * @param id.
+	 *            Id de la seccion
+	 * @return lista de canales con solo su nombre, id y codigo
+	 */
+	@Query("select new com.siomari.model.Canal(c.id,c.nombre,c.codigo) from Canal c inner join c.lstSeccionCanal "
+			+ "sc where sc.seccionId.id = ?1")
+	List<Canal> buscarPorSeccionId(int id);
+	
+	/**
+	 * se buscara los canales pertenecientes a una zona
+	 * 
+	 * @param id
+	 *            id de la zona
+	 * @return lista de canales con solo su nombre, id y codigo
+	 */
+	@Query("select new com.siomari.model.Canal(c.id,c.nombre,c.codigo) from Canal c inner join c.lstSeccionCanal "
+			+ "sc where sc.seccionId.zonaId.id = ?1")
+	List<Canal> buscarPorZonaId(int id);
+	
+	/**
+	 * se buscara los canales pertenecientes a una unidad
+	 * 
+	 * @param id
+	 *            id de la unidad
+	 * @return lista de canales con solo su nombre, id y codigo
+	 */
+	@Query("select new com.siomari.model.Canal(c.id,c.nombre,c.codigo) from Canal c inner join c.lstSeccionCanal "
+			+ "sc where sc.seccionId.zonaId.unidadId.id = ?1")
+	List<Canal> buscarPorUnidadId(int id);
+	
+	/**
+	 * se buscara todos los canales
+	 * 
+	 * @return lista de canales con solo su nombre, id y codigo
+	 */
+	@Query("select new com.siomari.model.Canal(c.id,c.nombre,c.codigo) from Canal c")
+	List<Canal> buscarPorDistrito();
 }

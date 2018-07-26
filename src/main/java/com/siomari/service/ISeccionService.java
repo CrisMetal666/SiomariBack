@@ -35,4 +35,13 @@ public interface ISeccionService extends IService<Seccion> {
 	 * @see com.siomari.repository.ISeccionRepository
 	 */
 	void updateCanalServidor(int id, int canalServidor);
+	
+	/**
+	 * se buscara una seccion que pertenescan a una zona
+	 * 
+	 * @param id
+	 *            Id de la zona
+	 * @return nombre de la seccion
+	 */
+	List<String> buscarNombrePorZonaId(int id);
 }

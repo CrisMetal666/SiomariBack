@@ -1,7 +1,5 @@
 package com.siomari.api;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.siomari.model.ManejoAgua;
 import com.siomari.model.dto.EficienciaPerdidas;
+import com.siomari.model.dto.LnLamEficiencia;
 import com.siomari.service.IManejoAguaService;
 
 /**
@@ -89,9 +88,9 @@ public class ManejoAguaApi {
 
 		try {
 
-			List<List<Double>> lst = manejoAguaService.lnLamEficiencia(id, fecha1, fecha2, tipo);
+			LnLamEficiencia lst = manejoAguaService.lnLamEficiencia(id, fecha1, fecha2, tipo);
 
-			response = new ResponseEntity<List<List<Double>>>(lst, HttpStatus.OK);
+			response = new ResponseEntity<LnLamEficiencia>(lst, HttpStatus.OK);
 
 		} catch (Exception e) {
 

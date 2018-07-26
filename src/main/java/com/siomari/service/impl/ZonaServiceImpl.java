@@ -138,4 +138,10 @@ public class ZonaServiceImpl implements IZonaService {
 		return zonaRepo.buscarIdCanalServidorPorUnidadId(id);
 	}
 
+	@Override
+	public List<String> buscarNombrePorUnidadId(int id) {
+		
+		return zonaRepo.buscarNombrePorUnidadId(id);
+	}
+
 }

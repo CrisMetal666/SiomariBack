@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.siomari.model.ManejoAgua;
 import com.siomari.model.dto.EficienciaPerdidas;
+import com.siomari.model.dto.LnLamEficiencia;
 
 /**
  * 
@@ -48,7 +49,7 @@ public interface IManejoAguaService {
 	 * @return lista de arrays, posicion 0 = lamina neta, 1 = lamina bruta, 2
 	 *         eficiencia
 	 */
-	List<List<Double>> lnLamEficiencia(int id, String fecha1, String fecha2, int tipo);
+	LnLamEficiencia lnLamEficiencia(int id, String fecha1, String fecha2, int tipo);
 
 	/**
 	 * @see com.siomari.repository.IManejoAguaRepository

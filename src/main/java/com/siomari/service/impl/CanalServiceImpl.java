@@ -1,5 +1,6 @@
 package com.siomari.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +9,16 @@ import org.springframework.stereotype.Service;
 import com.siomari.model.Canal;
 import com.siomari.model.CanalObra;
 import com.siomari.model.EstructuraControl;
+import com.siomari.model.Obra;
 import com.siomari.model.Predio;
 import com.siomari.model.SeccionCanal;
 import com.siomari.model.dto.ConsultaCanal;
+import com.siomari.model.dto.ObraDetalle;
 import com.siomari.repository.ICanalRepository;
 import com.siomari.service.ICanalObraService;
 import com.siomari.service.ICanalService;
 import com.siomari.service.IEstructuraControlService;
+import com.siomari.service.IObraService;
 import com.siomari.service.IPredioService;
 import com.siomari.service.IUsuarioService;
 
@@ -40,6 +44,9 @@ public class CanalServiceImpl implements ICanalService {
 
 	@Autowired
 	private IEstructuraControlService estructuraControlService;
+
+	@Autowired
+	private IObraService obraService;
 
 	/**
 	 * @see com.siomari.service.IService
@@ -262,9 +269,26 @@ public class CanalServiceImpl implements ICanalService {
 
 		// consultamos los predios, obras, y estructuras de control del canal
 		List<Predio> lstPredio = predioService.buscarPorCanalId(id);
-		List<CanalObra> lstCanalObra = canalObraService.buscarPorCanalId(id);
 		List<EstructuraControl> lstEstructuraControl = estructuraControlService.buscarPorCanalId(id);
 		List<String> lstCanal = canalRepo.buscarNombrePorCanalId(id);
+		// contendra el nombre de la obra con sus respectivas obras registradas
+		List<ObraDetalle> lstObraDetalle = new ArrayList<>();
+
+		// buscamos las obras que contiene el canal
+		List<Obra> lstObra = obraService.buscarIdNombrePorCanalId(id);
+
+		// buscamos las obras del canal y todas los canalObra para agruparlas
+		for (Obra o : lstObra) {
+
+			ObraDetalle obraDetalle = new ObraDetalle();
+			obraDetalle.setObra(o.getNombre());
+
+			List<CanalObra> lstCanalObra = canalObraService.buscarPorCanalIdYObraId(id, o.getId());
+
+			obraDetalle.setLstCanalObra(lstCanalObra);
+
+			lstObraDetalle.add(obraDetalle);
+		}
 
 		// buscamos el usuario de cada predio
 		lstPredio.forEach(p -> {
@@ -274,18 +298,37 @@ public class CanalServiceImpl implements ICanalService {
 		});
 
 		consultaCanal.setLstPredio(lstPredio);
-		consultaCanal.setLstCanalObra(lstCanalObra);
+		consultaCanal.setLstObraDetalle(lstObraDetalle);
 		consultaCanal.setLstEstructuraControl(lstEstructuraControl);
 		consultaCanal.setLstCanal(lstCanal);
 		consultaCanal.setSumPredios(lstPredio.size());
+		consultaCanal.setAreaServida(predioService.sumAreaPotencialPorCanalId(id));
 
 		return consultaCanal;
 	}
 
 	@Override
 	public List<String> buscarNombrePorCanalId(int id) {
-		
+
 		return canalRepo.buscarNombrePorCanalId(id);
+	}
+
+	@Override
+	public List<Canal> buscarPorZonaId(int id) {
+
+		return canalRepo.buscarPorZonaId(id);
+	}
+
+	@Override
+	public List<Canal> buscarPorUnidadId(int id) {
+
+		return canalRepo.buscarPorUnidadId(id);
+	}
+
+	@Override
+	public List<Canal> buscarPorDistrito() {
+
+		return canalRepo.buscarPorDistrito();
 	}
 
 }

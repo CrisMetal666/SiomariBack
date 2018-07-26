@@ -40,4 +40,12 @@ public interface IZonaService extends IService<Zona> {
 	 * @see com.siomari.repository.IZonaRepository
 	 */
 	List<Zona> buscarIdCanalServidorPorUnidadId(int id);
+	
+	/**
+	 * se buscara la zonas que pertenezcan a una unidad
+	 * 
+	 * @param id id de la unidad
+	 * @return nombre de la zona
+	 */
+	List<String> buscarNombrePorUnidadId(int id);
 }
