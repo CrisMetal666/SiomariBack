@@ -64,13 +64,16 @@ public interface ICultivoPredioRepository extends JpaRepository<CultivoPredio, I
 	 *            rango inferior del mes que se quiere consultar
 	 * @param max
 	 *            rango superior del mes que se quiere consultar
+	 * @param unidad
+	 *            id de la unidad donde se hara la consulta
 	 * @return lista con la suma de hectareas con su plan de siembra
 	 */
 	@Query("select new com.siomari.model.CultivoPredio(sum(cp.hectareas),p) from CultivoPredio cp inner join "
-			+ "cp.planSiembraId p where cp.cultivoId.id = :cultivo and p.year = :year and p.mes between :min and "
-			+ ":max group by cp.planSiembraId.id order by p.mes, p.periodo")
+			+ "cp.planSiembraId p inner join cp.predioId.canalId.lstSeccionCanal sc where cp.cultivoId.id = "
+			+ ":cultivo and sc.seccionId.zonaId.unidadId.id = :unidad and p.year = :year and p.mes between "
+			+ ":min and :max group by cp.planSiembraId.id order by p.mes, p.periodo")
 	List<CultivoPredio> hectareasPlanSiembraPorCultivo(@Param("cultivo") int cultivo, @Param("year") int year,
-			@Param("min") short min, @Param("max") short max);
+			@Param("min") short min, @Param("max") short max, @Param("unidad") int unidad);
 
 	/**
 	 * se buscaran los planes de siempra de un predio en determinado rango de tiempo
@@ -111,7 +114,7 @@ public interface ICultivoPredioRepository extends JpaRepository<CultivoPredio, I
 			+ "where cp.planSiembraId.year = ?2 and sc.seccionId.id = ?1 and cp.planSiembraId.mes "
 			+ "between ?3 and ?4 group by cp.predioId.id")
 	List<Integer> buscarPredioIdRangoFechaSeccionId(int seccion, int year, short mes1, short mes2);
-	
+
 	/**
 	 * se buscara los id de los predios que esten en el plan de siembra en el
 	 * periodo seleccionado
@@ -131,12 +134,12 @@ public interface ICultivoPredioRepository extends JpaRepository<CultivoPredio, I
 			+ "where cp.planSiembraId.year = ?2 and sc.seccionId.zonaId.id = ?1 and cp.planSiembraId.mes "
 			+ "between ?3 and ?4 group by cp.predioId.id")
 	List<Integer> buscarPredioIdRangoFechaZonaId(int zona, int year, short mes1, short mes2);
-	
+
 	/**
 	 * se buscara los id de los predios que esten en el plan de siembra en el
 	 * periodo seleccionado
 	 * 
-	
+	 * 
 	 * @param canal
 	 *            id del canal
 	 * @param year
@@ -148,10 +151,9 @@ public interface ICultivoPredioRepository extends JpaRepository<CultivoPredio, I
 	 * @return
 	 */
 	@Query("select cp.predioId.id from CultivoPredio cp where cp.planSiembraId.year = ?2 and "
-			+ "cp.predioId.canalId.id = ?1 and cp.planSiembraId.mes between ?3 and ?4 group by "
-			+ "cp.predioId.id")
+			+ "cp.predioId.canalId.id = ?1 and cp.planSiembraId.mes between ?3 and ?4 group by " + "cp.predioId.id")
 	List<Integer> buscarPredioIdRangoFechaCanalId(int canal, int year, short mes1, short mes2);
-	
+
 	/**
 	 * se buscara los id de los predios que esten en el plan de siembra en el
 	 * periodo seleccionado
@@ -171,8 +173,7 @@ public interface ICultivoPredioRepository extends JpaRepository<CultivoPredio, I
 			+ "where cp.planSiembraId.year = ?2 and sc.seccionId.zonaId.unidadId.id = ?1 and cp.planSiembraId.mes "
 			+ "between ?3 and ?4 group by cp.predioId.id")
 	List<Integer> buscarPredioIdRangoFechaUnidadId(int unidad, int year, short mes1, short mes2);
-	
-	
+
 	/**
 	 * se buscara los id de los predios que esten en el plan de siembra en el
 	 * periodo seleccionado
@@ -185,8 +186,9 @@ public interface ICultivoPredioRepository extends JpaRepository<CultivoPredio, I
 	 *            mes superior
 	 * @return listado de id de predios
 	 */
-	@Query("select cp.predioId.id from CultivoPredio cp where cp.planSiembraId.year = ?1 and cp.planSiembraId.mes "
+	@Query("select cp.predioId.id from CultivoPredio cp inner join cp.predioId.canalId.lstSeccionCanal sc "
+			+ "where cp.planSiembraId.year = ?1 and sc.seccionId.zonaId.unidadId.id = ?4 and cp.planSiembraId.mes "
 			+ "between ?2 and ?3 group by cp.predioId.id")
-	List<Integer> buscarPredioIdRangoFecha(int year, short mes1, short mes2);
+	List<Integer> buscarPredioIdRangoFecha(int year, short mes1, short mes2, int unidad);
 
 }

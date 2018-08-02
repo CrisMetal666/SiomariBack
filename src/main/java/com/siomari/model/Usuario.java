@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 
@@ -50,6 +51,9 @@ public class Usuario {
 	
 	@OneToMany(mappedBy = "usuarioId", fetch = FetchType.LAZY)
 	List<Predio> lstPredio;
+	
+	@Transient
+	private String nombreCompleto;
 
 	public Usuario() {
 	}
@@ -161,4 +165,10 @@ public class Usuario {
 	public void setLstPredio(List<Predio> lstPredio) {
 		this.lstPredio = lstPredio;
 	}
+
+	public void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
+	}
+	
+	
 }

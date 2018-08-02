@@ -28,7 +28,7 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	 * 
 	 * @return predios solo con el id, codigo, nombre y area total
 	 */
-	@Query("select new com.siomari.model.Predio(p.id,p.codigo,p.nombre,p.areaTotal) from Predio p")
+	@Query("select new com.siomari.model.Predio(p.id,p.codigo,p.nombre,p.areaTotal,p.areaPotencialRiego) from Predio p")
 	List<Predio> listarDatosBasicos();
 
 	/**
@@ -38,7 +38,7 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	 *            cadena de consulta, la cadena debe iniciar y terminar con %
 	 * @return lista de predios, solo con nombre, codigo, areaTotal y id
 	 */
-	@Query("select new com.siomari.model.Predio(p.id,p.codigo,p.nombre,p.areaTotal) from Predio p where "
+	@Query("select new com.siomari.model.Predio(p.id,p.codigo,p.nombre,p.areaTotal,p.areaPotencialRiego) from Predio p where "
 			+ "p.nombre like ?1 or p.codigo like ?1 group by p.id")
 	List<Predio> listarIdCodigoNombrePorNombreOCodigo(String query);
 
@@ -92,7 +92,7 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	@Query("select new com.siomari.model.Predio(p.codigo,p.nombre,p.propietario) from Predio p where "
 			+ "p.usuarioId.id = ?1")
 	List<Predio> buscarNombreCodigoPropietarioPorUsuarioId(int id);
-	
+
 	/**
 	 * se buscara los predios pertenecientes a una seccion
 	 * 
@@ -103,7 +103,7 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	@Query("select new com.siomari.model.Predio(p.id,p.codigo,p.nombre) from Predio p inner join p.canalId c inner join "
 			+ "c.lstSeccionCanal sc where sc.seccionId.id = ?1")
 	List<Predio> buscarPorSeccionId(int id);
-	
+
 	/**
 	 * se buscara los predios pertenecientes a una zona
 	 * 
@@ -114,7 +114,7 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	@Query("select new com.siomari.model.Predio(p.id,p.codigo,p.nombre) from Predio p inner join p.canalId c inner join "
 			+ "c.lstSeccionCanal sc where sc.seccionId.zonaId.id = ?1")
 	List<Predio> buscarPorZonaId(int id);
-	
+
 	/**
 	 * se buscara los predios pertenecientes a una unidad
 	 * 
@@ -125,7 +125,7 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	@Query("select new com.siomari.model.Predio(p.id,p.codigo,p.nombre) from Predio p inner join p.canalId c inner join "
 			+ "c.lstSeccionCanal sc where sc.seccionId.zonaId.unidadId.id = ?1")
 	List<Predio> buscarPorUnidadId(int id);
-	
+
 	/**
 	 * se buscara todos los predios
 	 * 
@@ -133,7 +133,7 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	 */
 	@Query("select new com.siomari.model.Predio(p.id,p.codigo,p.nombre) from Predio p")
 	List<Predio> buscarPorDistrito();
-	
+
 	/**
 	 * se obtendra toda el area de riego de una seccion
 	 * 
@@ -144,7 +144,7 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	@Query("select sum(p.areaPotencialRiego) from Predio p inner join p.canalId c inner join c.lstSeccionCanal "
 			+ "sc where sc.seccionId.id = ?1")
 	Double sumAreaPotencialPorSeccionId(int id);
-	
+
 	/**
 	 * se obtendra toda el area de riego de una zona
 	 * 
@@ -155,7 +155,7 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	@Query("select sum(p.areaPotencialRiego) from Predio p inner join p.canalId c inner join c.lstSeccionCanal "
 			+ "sc where sc.seccionId.zonaId.id = ?1")
 	Double sumAreaPotencialPorZonaId(int id);
-	
+
 	/**
 	 * se obtendra toda el area de riego de una unidad
 	 * 
@@ -166,7 +166,7 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	@Query("select sum(p.areaPotencialRiego) from Predio p inner join p.canalId c inner join c.lstSeccionCanal "
 			+ "sc where sc.seccionId.zonaId.unidadId.id = ?1")
 	Double sumAreaPotencialPorUnidadId(int id);
-	
+
 	/**
 	 * se obtendra toda el area de riego de una seccion
 	 * 
@@ -176,4 +176,14 @@ public interface IPredioRepository extends JpaRepository<Predio, Integer> {
 	 */
 	@Query("select sum(p.areaPotencialRiego) from Predio p")
 	Double sumAreaPotencialPorDistrito();
+
+	/**
+	 * se buscara un predio por su id
+	 * 
+	 * @param id
+	 *            id del predio
+	 * @return coordenadas
+	 */
+	@Query("select new com.siomari.model.Predio(p.x,p.y,p.altitud) from Predio p where p.id = ?1")
+	Predio buscarCoordenadasPorId(int id);
 }

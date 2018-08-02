@@ -55,9 +55,11 @@ public interface ICultivoPredioService {
 	 *            año
 	 * @param campania
 	 *            campaña, del 1 - 6 es camapaña A, 7 - 12 camapaña B
+	 * @param unidad
+	 *            unidad en donde se hara la consulta
 	 * @return
 	 */
-	List<PlaneacionInfo> informacionSiembras(int cultivo, int year, char campania);
+	List<PlaneacionInfo> informacionSiembras(int cultivo, int year, char campania, int unidad);
 
 	/**
 	 * se mostraran todos los cultivos sembrados en la campaña, con su respectivo
@@ -67,10 +69,12 @@ public interface ICultivoPredioService {
 	 *            año de la campaña
 	 * @param campania
 	 *            campaña
+	 * @param unidad
+	 *            id de la unidad donde se hara la consulta
 	 * @return lista con informacion de cada cultivo que se haya sembrado en la
 	 *         campaña especificada
 	 */
-	List<List<PlaneacionInfo>> informacionSiembrasDemanda(int year, char campania);
+	List<List<PlaneacionInfo>> informacionSiembrasDemanda(int year, char campania, int unidad);
 
 	/**
 	 * Calcula la demanda hidrica total decadalmente del año y la campaña
@@ -80,35 +84,37 @@ public interface ICultivoPredioService {
 	 *            año
 	 * @param campania
 	 *            campaña (A - B)
+	 * @param unidad
+	 *            id de la unidad donde se hara la consulta
 	 * @return
 	 */
-	List<PlaneacionInfo> demandaDecadalTodal(int year, char campania);
+	List<PlaneacionInfo> demandaDecadalTodal(int year, char campania, int unidad);
 
 	/**
 	 * @see com.siomari.repository.ICultivoPredioRepository
 	 */
-	List<Integer> buscarPredioIdRangoFecha(int year, short mes1, short mes2);
+	List<Integer> buscarPredioIdRangoFecha(int year, short mes1, short mes2, int unidad);
 
 	/**
 	 * @see com.siomari.repository.ICultivoPredioRepository
 	 */
 	List<CultivoPredio> buscarPorPredioIdRangoFecha(int id, int year, short mes1, short mes2);
-	
+
 	/**
 	 * @see com.siomari.repository.ICultivoPredioRepository
 	 */
 	List<Integer> buscarPredioIdRangoFechaUnidadId(int unidad, int year, short mes1, short mes2);
-	
+
 	/**
 	 * @see com.siomari.repository.ICultivoPredioRepository
 	 */
-	List<Integer> buscarPredioIdRangoFechaZonaId( int zona, int year, short mes1, short mes2);
-	
+	List<Integer> buscarPredioIdRangoFechaZonaId(int zona, int year, short mes1, short mes2);
+
 	/**
 	 * @see com.siomari.repository.ICultivoPredioRepository
 	 */
 	List<Integer> buscarPredioIdRangoFechaSeccionId(int seccion, int year, short mes1, short mes2);
-	
+
 	/**
 	 * @see com.siomari.repository.ICultivoPredioRepository
 	 */

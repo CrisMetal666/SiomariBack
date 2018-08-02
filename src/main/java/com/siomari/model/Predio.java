@@ -69,6 +69,9 @@ public class Predio {
 
 	@Column(name = "propietario", nullable = true)
 	private boolean propietario;
+	
+	@Column(name = "plano", length = 60, nullable = true)
+	private String plano;
 
 	@Transient
 	private String nombreUsuario;
@@ -91,17 +94,24 @@ public class Predio {
 		this.nombre = nombre;
 	}
 
+	public Predio(Double x, Double y, Double altitud) {
+		this.x = x;
+		this.y = y;
+		this.altitud = altitud;
+	}
+
 	public Predio(String codigo, String nombre, boolean propietario) {
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.propietario = propietario;
 	}
 
-	public Predio(int id, String codigo, String nombre, double areaTotal) {
+	public Predio(int id, String codigo, String nombre, double areaTotal, double areaPotencialRiego) {
 		this.id = id;
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.areaTotal = areaTotal;
+		this.areaPotencialRiego = areaPotencialRiego;
 	}
 
 	public Predio(int id, String codigo, String nombre, String nombrePropietario, double areaTotal,
@@ -258,5 +268,15 @@ public class Predio {
 	public void setNombreUsuario(String nombreUsuario) {
 		this.nombreUsuario = nombreUsuario;
 	}
+
+	public String getPlano() {
+		return plano;
+	}
+
+	public void setPlano(String plano) {
+		this.plano = plano;
+	}
+	
+	
 
 }

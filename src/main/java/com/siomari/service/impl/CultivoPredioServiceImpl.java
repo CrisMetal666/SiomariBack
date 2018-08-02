@@ -113,7 +113,7 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 	}
 
 	@Override
-	public List<PlaneacionInfo> informacionSiembras(int cultivo, int year, char campania) {
+	public List<PlaneacionInfo> informacionSiembras(int cultivo, int year, char campania, int unidad) {
 
 		// calculamos el rango de meses segun la camapaña
 		short min = 0;
@@ -131,7 +131,7 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 
 		}
 
-		List<CultivoPredio> lst = cultivoPredioRepo.hectareasPlanSiembraPorCultivo(cultivo, year, min, max);
+		List<CultivoPredio> lst = cultivoPredioRepo.hectareasPlanSiembraPorCultivo(cultivo, year, min, max, unidad);
 
 		// nos va a servir para saber si el mes ha cambiado cuando estemos iterando la
 		// lista
@@ -189,7 +189,7 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 	}
 
 	@Override
-	public List<List<PlaneacionInfo>> informacionSiembrasDemanda(int year, char campania) {
+	public List<List<PlaneacionInfo>> informacionSiembrasDemanda(int year, char campania, int unidad) {
 
 		/*
 		 * obtenemos todos los cultivos que ofrece el distrito con su kc para hacer los
@@ -201,7 +201,7 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 		for (Cultivo cultivo : lstCultivo) {
 
 			// obtenemos la cantidad de hectareas sembradas de el cultivo en cada mes
-			List<PlaneacionInfo> lstPlaneacion = this.informacionSiembras(cultivo.getId(), year, campania);
+			List<PlaneacionInfo> lstPlaneacion = this.informacionSiembras(cultivo.getId(), year, campania, unidad);
 
 			// le agregamos a los objetos la demanda
 			this.calculoDemanda(lstPlaneacion, cultivo);// , year);
@@ -214,7 +214,7 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 	}
 
 	@Override
-	public List<PlaneacionInfo> demandaDecadalTodal(int year, char campania) {
+	public List<PlaneacionInfo> demandaDecadalTodal(int year, char campania, int unidad) {
 
 		Map<Integer, Double[]> demanda = new HashMap<>();
 
@@ -227,7 +227,12 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 		for (Cultivo cultivo : lstCultivo) {
 
 			// obtenemos la cantidad de hectareas sembradas de el cultivo en cada mes
-			List<PlaneacionInfo> lstPlaneacion = this.informacionSiembras(cultivo.getId(), year, campania);
+			List<PlaneacionInfo> lstPlaneacion = this.informacionSiembras(cultivo.getId(), year, campania, unidad);
+
+//			if (lstPlaneacion.size() != 0) {
+//				System.out.println(cultivo.getNombre() + " " + lstPlaneacion.size());
+//				lstPlaneacion.forEach(x -> System.out.println(x.getMes()));
+//			}
 
 			// obtenemos el volumen decadal total de el cultivo
 			Map<Integer, Double[]> demandaCultivo = this.calculoDemandaTotal(lstPlaneacion, cultivo.getLstKc());
@@ -587,26 +592,6 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 					almacenamiento = config.getLamina() - config.getLamina() * 0.5;
 
 				}
-				
-				/*
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
-				 */
 
 				// calculamos el volumen de la demanda de agua
 				double valores[] = calcularVolumenDemanda(pricipitacion, evaporacion, kc.getKc(), areaTotal,
@@ -723,7 +708,7 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 	private double calcularPrecipitacionEfectiva(double lamina, double evt, double pt) {
 
 		double d = lamina * 0.5;
-		double f = 0.531747 + 0.011621 * d - 0.000089 * Math.pow(d, 2) + 0.00000027 * Math.pow(d, 3);
+		double f = 0.531747 + 0.011621 * d - 0.000089 * Math.pow(d, 2) + 0.00000023 * Math.pow(d, 3);
 		double pe = f * (1.252474 * Math.pow(pt, 0.82416) - 2.935224) * Math.pow(10, 0.00095 * evt);
 
 		return pe;
@@ -748,38 +733,38 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 	}
 
 	@Override
-	public List<Integer> buscarPredioIdRangoFecha(int year, short mes1, short mes2) {
-		
-		return cultivoPredioRepo.buscarPredioIdRangoFecha(year, mes1, mes2);
+	public List<Integer> buscarPredioIdRangoFecha(int year, short mes1, short mes2, int unidad) {
+
+		return cultivoPredioRepo.buscarPredioIdRangoFecha(year, mes1, mes2, unidad);
 	}
 
 	@Override
 	public List<CultivoPredio> buscarPorPredioIdRangoFecha(int id, int year, short mes1, short mes2) {
-		
+
 		return cultivoPredioRepo.buscarPorPredioIdRangoFecha(id, year, mes1, mes2);
 	}
 
 	@Override
 	public List<Integer> buscarPredioIdRangoFechaUnidadId(int unidad, int year, short mes1, short mes2) {
-		
+
 		return cultivoPredioRepo.buscarPredioIdRangoFechaUnidadId(unidad, year, mes1, mes2);
 	}
 
 	@Override
 	public List<Integer> buscarPredioIdRangoFechaZonaId(int zona, int year, short mes1, short mes2) {
-		
+
 		return cultivoPredioRepo.buscarPredioIdRangoFechaZonaId(zona, year, mes1, mes2);
 	}
 
 	@Override
 	public List<Integer> buscarPredioIdRangoFechaSeccionId(int seccion, int year, short mes1, short mes2) {
-		
+
 		return cultivoPredioRepo.buscarPredioIdRangoFechaSeccionId(seccion, year, mes1, mes2);
 	}
 
 	@Override
 	public List<Integer> buscarPredioIdRangoFechaCanalId(int canal, int year, short mes1, short mes2) {
-		
+
 		return cultivoPredioRepo.buscarPredioIdRangoFechaCanalId(canal, year, mes1, mes2);
 	}
 

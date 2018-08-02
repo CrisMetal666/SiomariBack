@@ -1,21 +1,33 @@
 package com.siomari.api;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.siomari.config.Variables;
 import com.siomari.model.Predio;
 import com.siomari.service.IPredioService;
 
@@ -36,25 +48,27 @@ public class PredioApi {
 	 * 
 	 * @param predio
 	 * @return predio registrado
+	 * 
+	 * @RequestMapping(value = "", method = RequestMethod.POST, produces =
+	 *                       MediaType.APPLICATION_JSON_VALUE) public
+	 *                       ResponseEntity<?> registrar(@RequestBody Predio predio)
+	 *                       {
+	 * 
+	 *                       ResponseEntity<?> response = null;
+	 * 
+	 *                       try {
+	 * 
+	 *                       predioService.registrar(predio); response = new
+	 *                       ResponseEntity<Predio>(predio, HttpStatus.OK);
+	 * 
+	 *                       } catch (Exception e) {
+	 * 
+	 *                       response = new ResponseEntity<Predio>(new Predio(),
+	 *                       HttpStatus.INTERNAL_SERVER_ERROR); e.printStackTrace();
+	 *                       }
+	 * 
+	 *                       return response; }
 	 */
-	@RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> registrar(@RequestBody Predio predio) {
-
-		ResponseEntity<?> response = null;
-
-		try {
-
-			predioService.registrar(predio);
-			response = new ResponseEntity<Predio>(predio, HttpStatus.OK);
-
-		} catch (Exception e) {
-
-			response = new ResponseEntity<Predio>(new Predio(), HttpStatus.INTERNAL_SERVER_ERROR);
-			e.printStackTrace();
-		}
-
-		return response;
-	}
 
 	/**
 	 * Se actualizara un predio
@@ -198,9 +212,10 @@ public class PredioApi {
 
 		return response;
 	}
-	
+
 	/**
 	 * listar todos los predios
+	 * 
 	 * @return solo se listan el id, nombre, codigo, areaTotal
 	 */
 	@RequestMapping(value = "/datosBasicos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -221,10 +236,12 @@ public class PredioApi {
 
 		return response;
 	}
-	
+
 	/**
 	 * Se listaran los predios que contengan en su nombre o codigo la cadena
-	 * @param query cadena con el que se buscaran coincidencias 
+	 * 
+	 * @param query
+	 *            cadena con el que se buscaran coincidencias
 	 * @return solo se listan el id, nombre
 	 */
 	@RequestMapping(value = "/nombreOCodigo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -244,6 +261,73 @@ public class PredioApi {
 		}
 
 		return response;
+	}
+
+	@GetMapping(value = "/coordenadas/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> buscarCoordenadasPorId(@PathVariable("id") int id) {
+
+		ResponseEntity<?> response = null;
+
+		try {
+
+			Predio predio = predioService.buscarCoordenadasPorId(id);
+
+			response = new ResponseEntity<Predio>(predio, HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
+	}
+
+	@PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> guardarConImg(@RequestParam("file") MultipartFile file,
+			@RequestParam("body") String strPredio) {
+
+		ResponseEntity<?> response = null;
+
+		try {
+
+			// como el body viene como String debemos convertirlo a un objeto
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			Predio predio = objectMapper.readValue(strPredio, Predio.class);
+
+			int res = predioService.guardar(predio, file);
+
+			response = new ResponseEntity<Integer>(res, HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
+	}
+
+	@GetMapping(value = "/getPlano", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public void verImagen(@RequestParam("name") String name, HttpServletResponse response) {
+
+		try {
+			
+			String rutaFile = Variables.PATH_PREDIO_PLANO + name;
+			
+			// nos aseguramos que el archivo exista
+			if(!new File(rutaFile).exists()) return;
+
+			InputStream is = new FileInputStream(rutaFile);
+			
+			IOUtils.copy(is, response.getOutputStream());
+			
+			response.flushBuffer();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

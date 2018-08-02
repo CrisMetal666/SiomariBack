@@ -23,83 +23,102 @@ import com.siomari.service.IUsersService;
 @RestController
 @RequestMapping("/api/users")
 public class UsersApi {
-	
+
 	@Autowired
 	private IUsersService service;
-	
+
 	@PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> registrar(@RequestBody Users user) {
-		
+
 		ResponseEntity<?> response = null;
-		
+
 		try {
-			
+
 			int res = service.registrar(user);
-			
+
 			response = new ResponseEntity<Integer>(res, HttpStatus.OK);
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
-		
+
 		return response;
 	}
-	
+
 	@PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> actualizar(@RequestBody Users user) {
-		
+
 		ResponseEntity<?> response = null;
-		
+
 		try {
-			
+
 			int res = service.actualizar(user);
-			
+
 			response = new ResponseEntity<Integer>(res, HttpStatus.OK);
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
-		
+
 		return response;
 	}
-	
+
 	@GetMapping(value = "/identificacion/{identificacion}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> buscarPorIdentificacion(@PathVariable("identificacion") String identificacion) {
-		
+
 		ResponseEntity<?> response = null;
-		
+
 		try {
-			
+
 			Users user = service.buscarPorIdentificacion(identificacion);
-			
+
 			response = new ResponseEntity<Users>(user, HttpStatus.OK);
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
-		
+
 		return response;
 	}
-	
+
 	@PutMapping(value = "/clave", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> actualizarClave(@RequestBody Users user) {
-		
+
 		ResponseEntity<?> response = null;
-		
+
 		try {
-			
-			service.cambiarClave(user.getIdentificacion(), user.getClave());
-			
-			response = new ResponseEntity<Integer>(HttpStatus.OK);
-			
-		} catch(Exception e) {
+
+			int res = service.cambiarClave(user.getIdentificacion(), user.getClave());
+
+			response = new ResponseEntity<Integer>(res, HttpStatus.OK);
+
+		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
-		
+
+		return response;
+	}
+
+	@GetMapping(value = "/nuevo/{nuevo}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> buscarNuevo(@PathVariable("nuevo") String identificacion) {
+
+		ResponseEntity<?> response = null;
+
+		try {
+
+			boolean nuevo = service.buscarNuevoPorIdentificacion(identificacion);
+
+			response = new ResponseEntity<Boolean>(nuevo ,HttpStatus.OK);
+
+		} catch (Exception e) {
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
+
 		return response;
 	}
 

@@ -2,6 +2,8 @@ package com.siomari.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.siomari.model.Predio;
 
 /**
@@ -132,4 +134,25 @@ public interface IPredioService extends IService<Predio> {
 	 * @return area de riego
 	 */
 	double sumAreaPotencialPorDistrito();
+	
+	/**
+	 * se buscara un predio por su id
+	 * 
+	 * @param id
+	 *            id del predio
+	 * @return coordenadas
+	 */
+	Predio buscarCoordenadasPorId(int id);
+	
+	/**
+	 * se guardara un predio con su plano predial
+	 * 
+	 * @param predio
+	 *            modelo con su informacion a guardar
+	 * @param file
+	 *            archivo que se guardara en el servidor
+	 * @return 1 si es exitoso, 2 si hubo un error al manejar el arvhivo y 0 si hubo
+	 *         error al registrar
+	 */
+	int guardar(Predio predio, MultipartFile file);
 }

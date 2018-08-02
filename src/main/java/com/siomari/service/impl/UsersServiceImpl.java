@@ -68,9 +68,21 @@ public class UsersServiceImpl implements IUsersService {
 	}
 
 	@Override
-	public void cambiarClave(String identificacion, String clave) {
+	public int cambiarClave(String identificacion, String clave) {
+		
+		String claveVieja = repo.buscarClave(identificacion);
+		
+		/*
+		 * si la contraseña vieja conincide con la nueva mandamos retornamos 2
+		 * 
+		 */
+		if(encoder.matches(clave, claveVieja)) {
+			return 2;
+		}
 
 		repo.updateClave(identificacion, encoder.encode(clave));
+		
+		return 1;
 
 	}
 
@@ -87,6 +99,14 @@ public class UsersServiceImpl implements IUsersService {
 		Users user = repo.findOneByIdentificacion(identificacion);
 
 		return user == null ? new Users() : user;
+	}
+
+	@Override
+	public boolean buscarNuevoPorIdentificacion(String identificacion) {
+		
+		Boolean nuevo = repo.buscarNuevoPorIdentificacion(identificacion);
+		
+		return nuevo == null ? true : nuevo;
 	}
 
 }

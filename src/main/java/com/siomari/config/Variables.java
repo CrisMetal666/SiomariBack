@@ -14,8 +14,8 @@ public class Variables {
 	public static final String PATH_OBRAS_IMAGEN = "/home/crismetal/Imágenes/obra/";
 
 	/**
-	 * ruta donde se alojan las imagennes de los canales
+	 * ruta donde se alojaran los planos prediales
 	 */
-//	public static final String pathCanalImagen = "/home/crismetal/Imágenes/canal/";
+	public static final String PATH_PREDIO_PLANO = "/home/crismetal/Imágenes/predio/plano/";
 
 }

@@ -35,7 +35,7 @@ public interface IUsersService {
 	 * @param identificacion
 	 *            identificacion del usuario a cambiar la contraseña
 	 */
-	void cambiarClave(String identificacion, String clave);
+	int cambiarClave(String identificacion, String clave);
 
 	/**
 	 * se eliminara un usuario
@@ -53,5 +53,14 @@ public interface IUsersService {
 	 * @return toda la informacion del usuario
 	 */
 	Users buscarPorIdentificacion(String identificacion);
+
+	/**
+	 * Se buscara un usuario por su identificacion
+	 * 
+	 * @param identificacion
+	 *            identificacion del usuario
+	 * @return true si es nuevo o acabo de restaurar la contraseña
+	 */
+	boolean buscarNuevoPorIdentificacion(String identificacion);
 
 }

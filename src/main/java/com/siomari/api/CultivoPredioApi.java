@@ -169,14 +169,14 @@ public class CultivoPredioApi {
 		return response;
 	}
 	
-	@RequestMapping(value = "/planeacionInfo/{cultivo}/{year}/{campania}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/planeacionInfo/{cultivo}/{year}/{campania}/{unidad}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> planeacionInfo(@PathVariable("cultivo") Integer cultivo, @PathVariable("year") Integer year, 
-			@PathVariable("campania") Character campania ) {
+			@PathVariable("campania") Character campania, @PathVariable("unidad") Integer unidad) {
 
 		ResponseEntity<?> response = null;
 
 		try {
-			List<PlaneacionInfo> lst = cultivoPredioService.informacionSiembras(cultivo, year, campania);
+			List<PlaneacionInfo> lst = cultivoPredioService.informacionSiembras(cultivo, year, campania, unidad);
 			response = new ResponseEntity<List<PlaneacionInfo>>(lst, HttpStatus.OK);
 
 		} catch (Exception e) {
@@ -188,14 +188,14 @@ public class CultivoPredioApi {
 		return response;
 	}
 	
-	@RequestMapping(value = "/planeacionInfoDemanda/{year}/{campania}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/planeacionInfoDemanda/{year}/{campania}/{unidad}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> informacionSiembrasDemanda(@PathVariable("year") Integer year, 
-			@PathVariable("campania") Character campania ) {
+			@PathVariable("campania") Character campania, @PathVariable("unidad") Integer unidad) {
 
 		ResponseEntity<?> response = null;
 
 		try {
-			List<List<PlaneacionInfo>> lst = cultivoPredioService.informacionSiembrasDemanda(year, campania);
+			List<List<PlaneacionInfo>> lst = cultivoPredioService.informacionSiembrasDemanda(year, campania, unidad);
 			response = new ResponseEntity<List<List<PlaneacionInfo>>>(lst, HttpStatus.OK);
 
 		} catch (Exception e) {
@@ -207,14 +207,14 @@ public class CultivoPredioApi {
 		return response;
 	}
 	
-	@RequestMapping(value = "/demandaTotalDecadal/{year}/{campania}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/demandaTotalDecadal/{year}/{campania}/{unidad}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> demandaTotalDecadal(@PathVariable("year") Integer year, 
-			@PathVariable("campania") Character campania ) {
+			@PathVariable("campania") Character campania, @PathVariable("unidad") Integer unidad) {
 
 		ResponseEntity<?> response = null;
 
 		try {
-			List<PlaneacionInfo> lst = cultivoPredioService.demandaDecadalTodal(year, campania);
+			List<PlaneacionInfo> lst = cultivoPredioService.demandaDecadalTodal(year, campania, unidad);
 			response = new ResponseEntity<List<PlaneacionInfo>>(lst, HttpStatus.OK);
 
 		} catch (Exception e) {

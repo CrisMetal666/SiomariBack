@@ -24,8 +24,12 @@ public class ConfigServiceImpl implements IConfigService {
 		//solo habra un unico registro
 		Config config = configRepo.findOne(1);
 		
-		// convertimos la lamia a metros
-		config.setLamina(config.getLamina() * 100);
+		if(config == null) {
+			config = new Config();
+		} else {
+			// convertimos la lamia a metros
+			config.setLamina(config.getLamina() * 100);
+		}
 		
 		return config;
 	}
