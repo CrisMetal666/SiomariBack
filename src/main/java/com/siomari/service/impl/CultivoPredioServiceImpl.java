@@ -229,10 +229,10 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 			// obtenemos la cantidad de hectareas sembradas de el cultivo en cada mes
 			List<PlaneacionInfo> lstPlaneacion = this.informacionSiembras(cultivo.getId(), year, campania, unidad);
 
-//			if (lstPlaneacion.size() != 0) {
-//				System.out.println(cultivo.getNombre() + " " + lstPlaneacion.size());
-//				lstPlaneacion.forEach(x -> System.out.println(x.getMes()));
-//			}
+			lstPlaneacion.forEach(x -> {
+				System.out.println(cultivo.getNombre() + " " + x.getMes() + " " + x.getPeriodo1() + " "
+						+ x.getPeriodo2() + " " + x.getPeriodo3());
+			});
 
 			// obtenemos el volumen decadal total de el cultivo
 			Map<Integer, Double[]> demandaCultivo = this.calculoDemandaTotal(lstPlaneacion, cultivo.getLstKc());
@@ -366,6 +366,8 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 
 			// consultamos la lamina y la eficiencia
 			Config config = configService.listar();
+			// convertimos la lamina de mestros a milimetros
+			double lamina = config.getLamina() * 1000;
 
 			/*
 			 * recorremos los kc del cultivo e iremos haciendo los calculos de la demanda de
@@ -412,19 +414,20 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 				if (primerAlmacenamiento) {
 
 					primerAlmacenamiento = false;
-					almacenamiento = config.getLamina() - config.getLamina() * 0.5;
+					almacenamiento = lamina - lamina * 0.5;
 
 				}
 
 				// calculamos el volumen de la demanda de agua
 				double valores[] = calcularVolumenDemanda(pricipitacion, evaporacion, kc.getKc(), areaTotal,
-						config.getLamina(), config.getEficiencia(), almacenamiento);
+						lamina, config.getEficiencia(), almacenamiento);
 
 				// tomamos el volumen
 				double volumen = valores[0];
 
 				// guardamos el almacenamiento
 				almacenamiento = valores[1];
+				System.out.println("alm " + almacenamiento);
 
 				// almacenamos el volumen en la lista en el index que le corresponde
 				lstVolumen[indexDecada] = volumen;
@@ -543,6 +546,8 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 
 			// consultamos la lamina y la eficiencia
 			Config config = configService.listar();
+			// convertimos la lamina de metros a milimetros
+			double lamina = config.getLamina() * 1000;
 
 			/*
 			 * recorremos los kc del cultivo e iremos haciendo los calculos de la demanda de
@@ -589,13 +594,13 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 				if (primerAlmacenamiento) {
 
 					primerAlmacenamiento = false;
-					almacenamiento = config.getLamina() - config.getLamina() * 0.5;
+					almacenamiento = lamina - lamina * 0.5;
 
 				}
 
 				// calculamos el volumen de la demanda de agua
 				double valores[] = calcularVolumenDemanda(pricipitacion, evaporacion, kc.getKc(), areaTotal,
-						config.getLamina(), config.getEficiencia(), almacenamiento);
+						lamina, config.getEficiencia(), almacenamiento);
 
 				// tomamos el volumen
 				double volumen = valores[0];
@@ -687,7 +692,7 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 		double volumen = dbr * 10 * areaTotal * -1;
 
 		double exc = nr < 0 ? 0 : alm - evt;
-
+		//System.out.println("nr - " + nr + " pe - " + pe + " exc - " + exc + "vol - " + volumen);
 		double valores[] = { volumen, exc };
 
 		return valores;
@@ -706,12 +711,14 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 	 * @return precipitacion efectivaS
 	 */
 	private double calcularPrecipitacionEfectiva(double lamina, double evt, double pt) {
+		
+		System.out.println("lam " + lamina + " evt " + evt + " pt " + pt);
 
 		double d = lamina * 0.5;
 		double f = 0.531747 + 0.011621 * d - 0.000089 * Math.pow(d, 2) + 0.00000023 * Math.pow(d, 3);
 		double pe = f * (1.252474 * Math.pow(pt, 0.82416) - 2.935224) * Math.pow(10, 0.00095 * evt);
 
-		return pe;
+		return pe >= 0 ? pe : 0;
 	}
 
 	/**

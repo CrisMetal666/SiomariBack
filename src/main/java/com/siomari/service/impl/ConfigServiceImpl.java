@@ -14,48 +14,43 @@ import com.siomari.service.IConfigService;
  */
 @Service
 public class ConfigServiceImpl implements IConfigService {
-	
+
 	@Autowired
 	private IConfigRepository configRepo;
 
 	@Override
 	public Config listar() {
-		
-		//solo habra un unico registro
+
+		// solo habra un unico registro
 		Config config = configRepo.findOne(1);
-		
-		if(config == null) {
-			config = new Config();
-		} else {
-			// convertimos la lamia a metros
-			config.setLamina(config.getLamina() * 100);
-		}
-		
+
+		if (config == null) config = new Config();
+
 		return config;
 	}
 
 	@Override
 	public void registrar(Config config) {
-		
-		//como solo existira un registro le asignamos siempre que el id sea 1
-		config.setId(1);		
-		
+
+		// como solo existira un registro le asignamos siempre que el id sea 1
+		config.setId(1);
+
 		configRepo.save(config);
 	}
 
 	@Override
 	public double getCosto() {
-		
+
 		Double costo = configRepo.getCosto();
-		
+
 		return costo == null ? 0 : costo;
 	}
 
 	@Override
 	public int getHorasRiego() {
-		
+
 		Integer horas = configRepo.getHorasRiego();
-		
+
 		return horas == null ? 0 : horas;
 	}
 
