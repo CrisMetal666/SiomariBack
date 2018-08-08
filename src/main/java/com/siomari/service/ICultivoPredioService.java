@@ -1,5 +1,6 @@
 package com.siomari.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.siomari.model.CultivoPredio;
@@ -119,5 +120,16 @@ public interface ICultivoPredioService {
 	 * @see com.siomari.repository.ICultivoPredioRepository
 	 */
 	List<Integer> buscarPredioIdRangoFechaCanalId(int canal, int year, short mes1, short mes2);
+
+	/**
+	 * se buscaran las hectareas sembradas de un predio en una fecha determinada
+	 * 
+	 * @param predio
+	 *            id del predio
+	 * @param fecha
+	 *            fecha
+	 * @return hectareas sembradas
+	 */
+	double buscarHectareasPorPredioIdYFecha(int predio, LocalDate fecha);
 
 }

@@ -190,5 +190,20 @@ public interface ICultivoPredioRepository extends JpaRepository<CultivoPredio, I
 			+ "where cp.planSiembraId.year = ?1 and sc.seccionId.zonaId.unidadId.id = ?4 and cp.planSiembraId.mes "
 			+ "between ?2 and ?3 group by cp.predioId.id")
 	List<Integer> buscarPredioIdRangoFecha(int year, short mes1, short mes2, int unidad);
+	
+	/**
+	 * se buscaran las hectareas sembradas de un predio en una fecha determinada
+	 * @param predio id del predio
+	 * @param year año 
+	 * @param min mes inferior
+	 * @param max mes superior
+	 * @return hectareas sembradas
+	 */
+	@Query("select sum(cp.hectareas) from CultivoPredio cp inner join "
+			+ "cp.planSiembraId p "
+			+ "where p.year = :year and p.mes between "
+			+ ":min and :max and cp.predioId.id = :predio")
+	Double buscarHectareasPorPredioIdYFecha(@Param("predio") int predio, @Param("year") int year,
+			@Param("min") short min, @Param("max") short max);
 
 }

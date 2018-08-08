@@ -194,7 +194,7 @@ public class CultivoPredioApi {
 
 		ResponseEntity<?> response = null;
 
-		try {
+		try {System.out.println("plan siembra");
 			List<List<PlaneacionInfo>> lst = cultivoPredioService.informacionSiembrasDemanda(year, campania, unidad);
 			response = new ResponseEntity<List<List<PlaneacionInfo>>>(lst, HttpStatus.OK);
 
@@ -213,7 +213,7 @@ public class CultivoPredioApi {
 
 		ResponseEntity<?> response = null;
 
-		try {
+		try {System.out.println("0");
 			List<PlaneacionInfo> lst = cultivoPredioService.demandaDecadalTodal(year, campania, unidad);
 			response = new ResponseEntity<List<PlaneacionInfo>>(lst, HttpStatus.OK);
 

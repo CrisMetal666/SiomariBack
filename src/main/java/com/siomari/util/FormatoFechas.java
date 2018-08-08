@@ -1,5 +1,8 @@
 package com.siomari.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,65 +14,40 @@ import org.springframework.stereotype.Component;
 @Component
 public class FormatoFechas {
 
+	private final String MESES_INT_TO_STRING[] = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+			"Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
+	private final Map<String, Integer> MESES_STRING_TO_INT;
+	
+	public FormatoFechas() {
+		MESES_STRING_TO_INT = new HashMap<>();
+		MESES_STRING_TO_INT.put("Enero", 1);
+		MESES_STRING_TO_INT.put("Febrero", 2);
+		MESES_STRING_TO_INT.put("Marzo", 3);
+		MESES_STRING_TO_INT.put("Abril", 4);
+		MESES_STRING_TO_INT.put("Mayo", 5);
+		MESES_STRING_TO_INT.put("Junio", 6);
+		MESES_STRING_TO_INT.put("Julio", 7);
+		MESES_STRING_TO_INT.put("Agosto", 8);
+		MESES_STRING_TO_INT.put("Septiembre", 9);
+		MESES_STRING_TO_INT.put("Octubre", 10);
+		MESES_STRING_TO_INT.put("Noviembre", 11);
+		MESES_STRING_TO_INT.put("Diciembre", 12);
+	}
+
 	/**
 	 * se convertiera el valor numerico de un mes a su valor textual
-	 * @param mesNumerico debe ser del 1 - 12, siendo 1 enero y 12 diciembre
+	 * 
+	 * @param mesNumerico
+	 *            debe ser del 1 - 12, siendo 1 enero y 12 diciembre
 	 * @return valor textual del mes
 	 */
 	public String mesNumericoAMesTexto(int mesNumerico) {
-
-		String mes = "";
-
-		if (mesNumerico == 1) {
-
-			mes = "Enero";
-
-		} else if (mesNumerico == 2) {
-
-			mes = "Febrero";
-
-		} else if (mesNumerico == 3) {
-
-			mes = "Marzo";
-
-		} else if (mesNumerico == 4) {
-
-			mes = "Abril";
-
-		} else if (mesNumerico == 5) {
-
-			mes = "Mayo";
-
-		} else if (mesNumerico == 6) {
-
-			mes = "Junio";
-
-		} else if (mesNumerico == 7) {
-
-			mes = "Julio";
-
-		} else if (mesNumerico == 8) {
-
-			mes = "Agosto";
-
-		} else if (mesNumerico == 9) {
-
-			mes = "Septiembre";
-
-		} else if (mesNumerico == 10) {
-
-			mes = "Octubre";
-
-		} else if (mesNumerico == 11) {
-
-			mes = "Noviembre";
-
-		} else {
-
-			mes = "Diciembre";
-
-		}
-
-		return mes;
+		
+		return MESES_INT_TO_STRING[mesNumerico - 1];
+	}
+	
+	public int mesTextoAMesNumerico(String mes) {
+		
+		return MESES_STRING_TO_INT.get(mes);
 	}
 }

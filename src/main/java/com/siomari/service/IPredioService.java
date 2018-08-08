@@ -98,7 +98,7 @@ public interface IPredioService extends IService<Predio> {
 	 * @return lista de predios con solo su nombre, id y codigo
 	 */
 	List<Predio> buscarPorDistrito();
-	
+
 	/**
 	 * se obtendra toda el area de riego de una seccion
 	 * 
@@ -107,7 +107,7 @@ public interface IPredioService extends IService<Predio> {
 	 * @return area de riego
 	 */
 	double sumAreaPotencialPorSeccionId(int id);
-	
+
 	/**
 	 * se obtendra toda el area de riego de una zona
 	 * 
@@ -116,7 +116,7 @@ public interface IPredioService extends IService<Predio> {
 	 * @return area de riego
 	 */
 	double sumAreaPotencialPorZonaId(int id);
-	
+
 	/**
 	 * se obtendra toda el area de riego de una unidad
 	 * 
@@ -125,7 +125,7 @@ public interface IPredioService extends IService<Predio> {
 	 * @return area de riego
 	 */
 	double sumAreaPotencialPorUnidadId(int id);
-	
+
 	/**
 	 * se obtendra toda el area de riego de una seccion
 	 * 
@@ -134,7 +134,7 @@ public interface IPredioService extends IService<Predio> {
 	 * @return area de riego
 	 */
 	double sumAreaPotencialPorDistrito();
-	
+
 	/**
 	 * se buscara un predio por su id
 	 * 
@@ -143,7 +143,7 @@ public interface IPredioService extends IService<Predio> {
 	 * @return coordenadas
 	 */
 	Predio buscarCoordenadasPorId(int id);
-	
+
 	/**
 	 * se guardara un predio con su plano predial
 	 * 
@@ -155,4 +155,5 @@ public interface IPredioService extends IService<Predio> {
 	 *         error al registrar
 	 */
 	int guardar(Predio predio, MultipartFile file);
+
 }

@@ -1,5 +1,6 @@
 package com.siomari.service.impl;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
 import java.util.ArrayList;
@@ -213,6 +214,7 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 		return lst;
 	}
 
+	// ------------- Balance
 	@Override
 	public List<PlaneacionInfo> demandaDecadalTodal(int year, char campania, int unidad) {
 
@@ -228,11 +230,6 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 
 			// obtenemos la cantidad de hectareas sembradas de el cultivo en cada mes
 			List<PlaneacionInfo> lstPlaneacion = this.informacionSiembras(cultivo.getId(), year, campania, unidad);
-
-			lstPlaneacion.forEach(x -> {
-				System.out.println(cultivo.getNombre() + " " + x.getMes() + " " + x.getPeriodo1() + " "
-						+ x.getPeriodo2() + " " + x.getPeriodo3());
-			});
 
 			// obtenemos el volumen decadal total de el cultivo
 			Map<Integer, Double[]> demandaCultivo = this.calculoDemandaTotal(lstPlaneacion, cultivo.getLstKc());
@@ -329,166 +326,80 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 		// objeto donde se iran sumando los volumens decadales de cada mes
 		Map<Integer, Double[]> demanda = new HashMap<>();
 
+		// consultamos la lamina y la eficiencia
+		Config config = configService.listar();
+
+		/*
+		 * necesitamos tener ordenado los kc por orden para poder organizar bien la
+		 * informacion
+		 */
+		lstKc.sort(Comparator.comparing(Kc::getDecada));
+
+		// creamos un cultivo solo con el kc
+		Cultivo cultivo = new Cultivo();
+		cultivo.setLstKc(lstKc);
+
 		/*
 		 * recorremos la planeacion de cada mes del cultivo para calcular por separado
 		 * la demanda de agua decadalmente
 		 */
 		for (PlaneacionInfo planeacion : lstPlaneacion) {
 
-			// necesitamos saber si es el primer almacenamiento para calcularlo
-			boolean primerAlmacenamiento = true;
-			// guardamos el almacenamiento que resulta del calculo de la demanda hidrica
-			double almacenamiento = 0;
-
 			/*
-			 * obtenemos el mes de la planeacion para despues poder ubicarnos en los meses
-			 * que siguen en la demanda de agua
+			 * calculamos los volumenes por separado, segun la decada en la que se hayan
+			 * sembrado
 			 */
-			int mes = planeacion.getMesNumerico();
+			List<Map<String, Object>> lstDemanda1 = calculoVolumenDecadal(planeacion.getMesNumerico(), 0,
+					planeacion.getPeriodo1(), config, cultivo.getLstKc());
 
-			/*
-			 * necesitamos tener ordenado los kc por orden para poder organizar bien la
-			 * informacion
-			 */
-			lstKc.sort(Comparator.comparing(Kc::getDecada));
+			List<Map<String, Object>> lstDemanda2 = calculoVolumenDecadal(planeacion.getMesNumerico(), 1,
+					planeacion.getPeriodo2(), config, cultivo.getLstKc());
 
-			/*
-			 * valor de la demanda de agua decadalmente siendo la posicion 0 decada 1 y la
-			 * posicion 2 la decada 3
-			 */
-			Double lstVolumen[] = { 0.0, 0.0, 0.0 };
-
-			// informacion climatologiaca de un mes determinado con sus valores decadalmente
-			Decada decada = new Decada();
-
-			// iremos ubicando en que decada estamos
-			int indexDecada = 0;
-
-			// consultamos la lamina y la eficiencia
-			Config config = configService.listar();
-			// convertimos la lamina de mestros a milimetros
-			double lamina = config.getLamina() * 1000;
-
-			/*
-			 * recorremos los kc del cultivo e iremos haciendo los calculos de la demanda de
-			 * agua
-			 */
-			for (Kc kc : lstKc) {
-
-				/*
-				 * cada vez que el valor sea 0 significa que debemos consultar los valores
-				 * climatologicos en el mes que corresponde
-				 */
-				if (indexDecada == 0) {
-					decada = decadaService.probabilidadDel75(mes);
-					/*
-					 * aumentamos el valor del mes para que asi se vaya consultando los valores
-					 * mensualmente cada 3 decadas
-					 */
-					mes++;
-				}
-
-				// almacenara los valores climatologicos de la decada determinada
-				ClimatologiaDatos climatologiaDatos = null;
-
-				// obtenemos los valores segun la decada en la que se encuentra la iteracion
-				if (indexDecada == 0) {
-
-					climatologiaDatos = decada.getDecada1();
-
-				} else if (indexDecada == 1) {
-
-					climatologiaDatos = decada.getDecada2();
-
-				} else if (indexDecada == 2) {
-
-					climatologiaDatos = decada.getDecada3();
-
-				}
-
-				// obtenemos los valores necesarios para los calculos
-				double pricipitacion = climatologiaDatos.getPrecipitacion();
-				double evaporacion = climatologiaDatos.getEvaporacion();
-				double areaTotal = planeacion.getTotal();
-
-				if (primerAlmacenamiento) {
-
-					primerAlmacenamiento = false;
-					almacenamiento = lamina - lamina * 0.5;
-
-				}
-
-				// calculamos el volumen de la demanda de agua
-				double valores[] = calcularVolumenDemanda(pricipitacion, evaporacion, kc.getKc(), areaTotal,
-						lamina, config.getEficiencia(), almacenamiento);
-
-				// tomamos el volumen
-				double volumen = valores[0];
-
-				// guardamos el almacenamiento
-				almacenamiento = valores[1];
-				System.out.println("alm " + almacenamiento);
-
-				// almacenamos el volumen en la lista en el index que le corresponde
-				lstVolumen[indexDecada] = volumen;
-
-				/*
-				 * aumentamos el index para que rn la siguiente iteracion se almacene en la
-				 * decada correxpondiente
-				 */
-				indexDecada++;
-
-				// si el index es 3, significa que pasamos al sieguiente mes
-				if (indexDecada == 3) {
+			List<Map<String, Object>> lstDemanda3 = calculoVolumenDecadal(planeacion.getMesNumerico(), 2,
+					planeacion.getPeriodo3(), config, cultivo.getLstKc());
+			
+			List<Map<String, Object>> lstDemanda = this.sumarVolumenesDecadales(lstDemanda1,lstDemanda2,lstDemanda3);
+			
+			for(Map<String, Object> map : lstDemanda) {
+				
+				Integer mes = formatoFechas.mesTextoAMesNumerico(map.get("mes").toString()) ;
+				double lstVolumen[] = (double[]) map.get("decada");
+				
+				Double volumenesDecadales[] = demanda.get(mes);
+				
+				if (volumenesDecadales == null) {
 
 					/*
-					 * se le debe restar al mes 1 porque ya le habiamos sumado 1 al mes al principio
-					 * de la iteracion
+					 * si volumenesDecadales es nulo singnifica que no hay volumenes en ese mes,
+					 * entonces agregamos los volumenes calculados
 					 */
-					int mesActual = mes - 1;
+					demanda.put(mes, new Double[] {
+							lstVolumen[0],
+							lstVolumen[1],
+							lstVolumen[2]
+					});
 
-					// obtenemos los volumenes del mes
-					Double volumenesDecadales[] = demanda.get(mesActual);
+				} else {
 
-					if (volumenesDecadales == null) {
+					// sumamos los volumenes de la demanda
+					for (int i = 0; i < lstVolumen.length; i++) {
 
-						/*
-						 * si volumenesDecadales es nulo singnifica que no hay volumenes en ese mes,
-						 * entonces agregamos los volumenes calculados
-						 */
-						demanda.put(mesActual, lstVolumen);
-
-					} else {
-
-						// sumamos los volumenes de la demanda
-						for (int i = 0; i < lstVolumen.length; i++) {
-
-							volumenesDecadales[i] += lstVolumen[i];
-
-						}
-
-						// reemplazamos el valor de los volumenes
-						demanda.put(mesActual, volumenesDecadales);
+						volumenesDecadales[i] += lstVolumen[i];
 
 					}
 
-					/*
-					 * reiniciamos los valores de los volumenes a 0
-					 */
-					lstVolumen = new Double[] { 0.0, 0.0, 0.0 };
-
-					// dejamos la decada en 0 porque iniciamos un nuevo mes
-					indexDecada = 0;
+					// reemplazamos el valor de los volumenes
+					demanda.put(mes, volumenesDecadales);
 
 				}
-
+				
 			}
-
 		}
 
 		return demanda;
 	}
 
+	// ------------- plan de siembras
 	/**
 	 * Cacular la demanda de agua de un determinado cultivo en diferentes meses
 	 * 
@@ -501,160 +412,286 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 	 */
 	private List<PlaneacionInfo> calculoDemanda(List<PlaneacionInfo> lstPlaneacion, Cultivo cultivo) {
 
+		// consultamos la lamina y la eficiencia
+		Config config = configService.listar();
+
+		List<Kc> lstKc = cultivo.getLstKc();
+
+		/*
+		 * necesitamos tener ordenado los kc por orden para poder organizar bien la
+		 * informacion
+		 */
+		lstKc.sort(Comparator.comparing(Kc::getDecada));
+
 		/*
 		 * recorremos la planeacion de cada mes del cultivo para calcular por separado
 		 * la demanda de agua decadalmente
 		 */
 		for (PlaneacionInfo planeacion : lstPlaneacion) {
 
-			// necesitamos saber si es el primer almacenamiento para calcularlo
-			boolean primerAlmacenamiento = true;
-			// guardamos el almacenamiento que resulta del calculo de la demanda hidrica
-			double almacenamiento = 0;
-
 			/*
-			 * obtenemos el mes de la planeacion para despues poder ubicarnos en los meses
-			 * que siguen en la demanda de agua
+			 * calculamos los volumenes por separado, segun la decada en la que se hayan
+			 * sembrado
 			 */
-			int mes = planeacion.getMesNumerico();
+			List<Map<String, Object>> lstDemanda1 = calculoVolumenDecadal(planeacion.getMesNumerico(), 0,
+					planeacion.getPeriodo1(), config, cultivo.getLstKc());
 
-			List<Kc> lstKc = cultivo.getLstKc();
+			List<Map<String, Object>> lstDemanda2 = calculoVolumenDecadal(planeacion.getMesNumerico(), 1,
+					planeacion.getPeriodo2(), config, cultivo.getLstKc());
 
-			/*
-			 * necesitamos tener ordenado los kc por orden para poder organizar bien la
-			 * informacion
-			 */
-			lstKc.sort(Comparator.comparing(Kc::getDecada));
+			List<Map<String, Object>> lstDemanda3 = calculoVolumenDecadal(planeacion.getMesNumerico(), 2,
+					planeacion.getPeriodo3(), config, cultivo.getLstKc());
 
-			// iremos guardado el meses de la demanda de agua y su valor decadalmente
-			List<Map<String, Object>> lstDemanda = new ArrayList<>();
+			List<Map<String, Object>> lstDemanda = this.sumarVolumenesDecadales(lstDemanda1,lstDemanda2,lstDemanda3);
 
-			// guardaremos el mes de la demanda y su valor decadalmente
-			Map<String, Object> demanda = new HashMap<>();
-
-			/*
-			 * valor de la demanda de agua decadalmente siendo la posicion 0 decada 1 y la
-			 * posicion 2 la decada 3
-			 */
-			double lstVolumen[] = new double[3];
-
-			// informacion climatologiaca de un mes determinado con sus valores decadalmente
-			Decada decada = new Decada();
-
-			// iremos ubicando en que decada estamos
-			int indexDecada = 0;
-
-			// consultamos la lamina y la eficiencia
-			Config config = configService.listar();
-			// convertimos la lamina de metros a milimetros
-			double lamina = config.getLamina() * 1000;
-
-			/*
-			 * recorremos los kc del cultivo e iremos haciendo los calculos de la demanda de
-			 * agua
-			 */
-			for (Kc kc : lstKc) {
-
-				/*
-				 * cada vez que el valor sea 0 significa que debemos consultar los valores
-				 * climatologicos en el mes que corresponde
-				 */
-				if (indexDecada == 0) {
-					decada = decadaService.probabilidadDel75(mes);
-					/*
-					 * aumentamos el valor del mes para que asi se vaya consultando los valores
-					 * mensualmente cada 3 decadas
-					 */
-					mes++;
-				}
-
-				// almacenara los valores climatologicos de la decada determinada
-				ClimatologiaDatos climatologiaDatos = null;
-
-				// obtenemos los valores segun la decada en la que se encuentra la iteracion
-				if (indexDecada == 0) {
-
-					climatologiaDatos = decada.getDecada1();
-
-				} else if (indexDecada == 1) {
-
-					climatologiaDatos = decada.getDecada2();
-
-				} else if (indexDecada == 2) {
-
-					climatologiaDatos = decada.getDecada3();
-
-				}
-
-				// obtenemos los valores necesarios para los calculos
-				double pricipitacion = climatologiaDatos.getPrecipitacion();
-				double evaporacion = climatologiaDatos.getEvaporacion();
-				double areaTotal = planeacion.getTotal();
-
-				if (primerAlmacenamiento) {
-
-					primerAlmacenamiento = false;
-					almacenamiento = lamina - lamina * 0.5;
-
-				}
-
-				// calculamos el volumen de la demanda de agua
-				double valores[] = calcularVolumenDemanda(pricipitacion, evaporacion, kc.getKc(), areaTotal,
-						lamina, config.getEficiencia(), almacenamiento);
-
-				// tomamos el volumen
-				double volumen = valores[0];
-
-				// guardamos el almacenamiento
-				almacenamiento = valores[1];
-
-				// almacenamos el volumen en la lista en el index que le corresponde
-				lstVolumen[indexDecada] = volumen;
-
-				/*
-				 * aumentamos el index para que rn la siguiente iteracion se almacene en la
-				 * decada correxpondiente
-				 */
-				indexDecada++;
-
-				// si el index es 3, significa que pasamos al sieguiente mes
-				if (indexDecada == 3) {
-
-					/*
-					 * almacenamos la informacion que llevavamos guardada, se le debe restar al mes
-					 * 1 porque ya le habiamos sumado 1 al mes al principio de la iteracion
-					 */
-					demanda.put("mes", formatoFechas.mesNumericoAMesTexto(mes - 1));
-					demanda.put("decada", lstVolumen);
-
-					/*
-					 * agregamos a la lista para que esta despues se almacene en el objeto de
-					 * planeacion
-					 */
-					lstDemanda.add(demanda);
-
-					/*
-					 * reiniciamos los objetos para que no sobreescriba los antigos valores por los
-					 * futuros valores que se calculen en las siguientes iteraciones
-					 */
-					demanda = new HashMap<>();
-					lstVolumen = new double[3];
-
-					// dejamos la decada en 0 porque iniciamos un nuevo mes
-					indexDecada = 0;
-
-				}
-
-			}
-
-			// le agregamos al objeto los calculos de la demanda de agua
+			// agregamos el volumen y el nombre del cultivo
 			planeacion.setDemanda(lstDemanda);
-			// le adicionamos el mes en texto
 			planeacion.setCultivo(cultivo.getNombre());
 
 		}
 
 		return lstPlaneacion;
+	}
+
+	private List<Map<String, Object>> sumarVolumenesDecadales(List<Map<String, Object>> lstDemanda1,
+			List<Map<String, Object>> lstDemanda2, List<Map<String, Object>> lstDemanda3) {
+
+		List<Map<String, Object>> lstDemanda = new ArrayList<>();
+
+		// sumamos los volumenes en las decadas en las que se interponieron
+		for (int i = 0; i < lstDemanda1.size(); i++) {
+
+			Map<String, Object> map1 = lstDemanda1.get(i);
+			Map<String, Object> map2 = lstDemanda2.get(i);
+			Map<String, Object> map3 = lstDemanda3.get(i);
+
+			double lstVolumen1[] = (double[]) map1.get("decada");
+			double lstVolumen2[] = (double[]) map2.get("decada");
+			double lstVolumen3[] = (double[]) map3.get("decada");
+
+			// sumamos los volumenes
+			double lstVolumen[] = { lstVolumen1[0] + lstVolumen2[0] + lstVolumen3[0],
+					lstVolumen1[1] + lstVolumen2[1] + lstVolumen3[1],
+					lstVolumen1[2] + lstVolumen2[2] + lstVolumen3[2] };
+
+			Map<String, Object> demanda = lstDemanda1.get(i);
+
+			demanda.put("mes", map1.get("mes"));
+			demanda.put("decada", lstVolumen);
+
+			lstDemanda.add(demanda);
+		}
+
+		return lstDemanda;
+	}
+
+	/**
+	 * se calculara el consumo de agua de un cultivo sembrado en un mes y decada
+	 * especificada
+	 * 
+	 * @param mes
+	 *            mes de siembra del cultivo
+	 * @param indexDecada
+	 *            especifica si es la primera (0), segunda (1) o tercera decada (2)
+	 * @param area
+	 *            area sembrada del cultivo
+	 * @param config
+	 *            datos registrado en la entidad config
+	 * @param lstKc
+	 *            kc del cultivo especificado
+	 * @return volumnes consumidos decadalmente
+	 */
+	private List<Map<String, Object>> calculoVolumenDecadal(int mes, int indexDecada, double area, Config config,
+			List<Kc> lstKc) {
+
+		// necesitamos saber si es el primer almacenamiento para calcularlo
+		boolean primerAlmacenamiento = true;
+		// guardamos el almacenamiento que resulta del calculo de la demanda hidrica
+		double almacenamiento = 0;
+
+		/*
+		 * obtenemos el mes de la planeacion para despues poder ubicarnos en los meses
+		 * que siguen en la demanda de agua
+		 */
+		// int mes = planeacion.getMesNumerico();
+
+		// List<Kc> lstKc = cultivo.getLstKc();
+
+		/*
+		 * necesitamos tener ordenado los kc por orden para poder organizar bien la
+		 * informacion
+		 */
+		// lstKc.sort(Comparator.comparing(Kc::getDecada));
+
+		// iremos guardado el meses de la demanda de agua y su valor decadalmente
+		List<Map<String, Object>> lstDemanda = new ArrayList<>();
+
+		// guardaremos el mes de la demanda y su valor decadalmente
+		Map<String, Object> demanda = new HashMap<>();
+
+		/*
+		 * valor de la demanda de agua decadalmente siendo la posicion 0 decada 1 y la
+		 * posicion 2 la decada 3
+		 */
+		double lstVolumen[] = new double[3];
+
+		// informacion climatologiaca de un mes determinado con sus valores decadalmente
+		Decada decada = new Decada();
+
+		/*
+		 * si la decada es diferente de 0 debemos consultar primero los datos de
+		 * climatologia
+		 */
+		if (indexDecada != 0) {
+			decada = decadaService.probabilidadDel75(mes);
+			/*
+			 * aumentamos el valor del mes para que asi se vaya consultando los valores
+			 * mensualmente cada 3 decadas
+			 */
+			mes++;
+		}
+
+		// iremos ubicando en que decada estamos
+		// int indexDecada = 0;
+
+		// convertimos la lamina de metros a milimetros
+		double lamina = config.getLamina() * 1000;
+
+		/*
+		 * nos indicara si los volumenes fueron agregados a la lista
+		 */
+		boolean guardado = false;
+
+		/*
+		 * recorremos los kc del cultivo e iremos haciendo los calculos de la demanda de
+		 * agua
+		 */
+		for (Kc kc : lstKc) {
+			/*
+			 * cada vez que inicie una iteracion señanalos que los volumenes que se
+			 * calcularan aun no se han almacenado en la lista
+			 */
+			guardado = false;
+
+			/*
+			 * cada vez que el valor sea 0 significa que debemos consultar los valores
+			 * climatologicos en el mes que corresponde
+			 */
+			if (indexDecada == 0) {
+				decada = decadaService.probabilidadDel75(mes);
+				/*
+				 * aumentamos el valor del mes para que asi se vaya consultando los valores
+				 * mensualmente cada 3 decadas
+				 */
+				mes++;
+			}
+
+			// almacenara los valores climatologicos de la decada determinada
+			ClimatologiaDatos climatologiaDatos = null;
+
+			// obtenemos los valores segun la decada en la que se encuentra la iteracion
+			if (indexDecada == 0) {
+
+				climatologiaDatos = decada.getDecada1();
+
+			} else if (indexDecada == 1) {
+
+				climatologiaDatos = decada.getDecada2();
+
+			} else if (indexDecada == 2) {
+
+				climatologiaDatos = decada.getDecada3();
+
+			}
+
+			// obtenemos los valores necesarios para los calculos
+			double pricipitacion = climatologiaDatos.getPrecipitacion();
+			double evaporacion = climatologiaDatos.getEvaporacion();
+			// double area = planeacion.getTotal();
+
+			if (primerAlmacenamiento) {
+
+				primerAlmacenamiento = false;
+				almacenamiento = lamina;
+
+			}
+
+			// calculamos el volumen de la demanda de agua
+			double valores[] = calcularVolumenDemanda(pricipitacion, evaporacion, kc.getKc(), area, lamina,
+					config.getEficiencia(), almacenamiento);
+
+			// tomamos el volumen
+			double volumen = valores[0];
+
+			// guardamos el almacenamiento
+			almacenamiento = valores[1];
+
+			// almacenamos el volumen en la lista en el index que le corresponde
+			lstVolumen[indexDecada] = volumen;
+
+			/*
+			 * aumentamos el index para que rn la siguiente iteracion se almacene en la
+			 * decada correxpondiente
+			 */
+			indexDecada++;
+
+			// si el index es 3, significa que pasamos al sieguiente mes
+			if (indexDecada == 3) {
+
+				/*
+				 * almacenamos la informacion que llevavamos guardada, se le debe restar al mes
+				 * 1 porque ya le habiamos sumado 1 al mes al principio de la iteracion
+				 */
+				demanda.put("mes", formatoFechas.mesNumericoAMesTexto(mes - 1));
+				demanda.put("decada", lstVolumen);
+
+				/*
+				 * agregamos a la lista para que esta despues se almacene en el objeto de
+				 * planeacion
+				 */
+				lstDemanda.add(demanda);
+
+				/*
+				 * reiniciamos los objetos para que no sobreescriba los antigos valores por los
+				 * futuros valores que se calculen en las siguientes iteraciones
+				 */
+				demanda = new HashMap<>();
+				lstVolumen = new double[3];
+
+				// dejamos la decada en 0 porque iniciamos un nuevo mes
+				indexDecada = 0;
+
+				/*
+				 * señalamos que el volumen calculado ya ha sido agregado a la lista
+				 */
+				guardado = true;
+
+			}
+
+		}
+
+		/*
+		 * agregamos los ultimos valores que no se almacenaron en la lista
+		 */
+		if (!guardado) {
+			/*
+			 * almacenamos la informacion que llevavamos guardada, se le debe restar al mes
+			 * 1 porque ya le habiamos sumado 1 al mes al principio de la iteracion
+			 */
+			demanda.put("mes", formatoFechas.mesNumericoAMesTexto(mes - 1));
+			demanda.put("decada", lstVolumen);
+
+			/*
+			 * agregamos a la lista para que esta despues se almacene en el objeto de
+			 * planeacion
+			 */
+			lstDemanda.add(demanda);
+		}
+
+		//System.out.println("\n\n fin primer cultivo \n\n");
+
+		return lstDemanda;
+
 	}
 
 	/**
@@ -691,8 +728,11 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 		double dbr = nr / eficiencia;
 		double volumen = dbr * 10 * areaTotal * -1;
 
-		double exc = nr < 0 ? 0 : alm - evt;
-		//System.out.println("nr - " + nr + " pe - " + pe + " exc - " + exc + "vol - " + volumen);
+		double exc = nr < 0 ? 0 : (alm - evt) / eficiencia;
+
+//		System.out.println("lam " + lamina + " evt " + evt + " pt " + precipitacion + "nr - " + nr + " pe - " + pe
+//				+ " exc - " + exc + " vol - " + volumen + " - alm " + alm + "\n evp " + evp + " kc " + kc + " area "
+//				+ areaTotal + " dbr " + dbr);
 		double valores[] = { volumen, exc };
 
 		return valores;
@@ -711,12 +751,12 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 	 * @return precipitacion efectivaS
 	 */
 	private double calcularPrecipitacionEfectiva(double lamina, double evt, double pt) {
-		
-		System.out.println("lam " + lamina + " evt " + evt + " pt " + pt);
 
-		double d = lamina * 0.5;
+		double d = lamina;
 		double f = 0.531747 + 0.011621 * d - 0.000089 * Math.pow(d, 2) + 0.00000023 * Math.pow(d, 3);
 		double pe = f * (1.252474 * Math.pow(pt, 0.82416) - 2.935224) * Math.pow(10, 0.00095 * evt);
+
+		//System.out.println("pe " + pe);
 
 		return pe >= 0 ? pe : 0;
 	}
@@ -773,6 +813,28 @@ public class CultivoPredioServiceImpl implements ICultivoPredioService {
 	public List<Integer> buscarPredioIdRangoFechaCanalId(int canal, int year, short mes1, short mes2) {
 
 		return cultivoPredioRepo.buscarPredioIdRangoFechaCanalId(canal, year, mes1, mes2);
+	}
+
+	@Override
+	public double buscarHectareasPorPredioIdYFecha(int predio, LocalDate fecha) {
+
+		/*
+		 * consultamos el cultivo con mayor tiempo de gestacion para tomarlo como tiempo
+		 * maximo en el que un predio puede estar de siembra y asi hacer poder asi tener
+		 * un rango de tiempo para poder consultar las hectareas sembradas, le restamos
+		 * uno porque hay que contar el mes actual
+		 */
+		int maxMes = cultivoService.maxMes() - 1;
+
+		int year = fecha.getYear();
+		short max = (short) fecha.getMonthValue();
+		short min = (short) (max - maxMes);
+
+		//System.out.println(year + " " + max + " " + min);
+
+		Double hectareas = cultivoPredioRepo.buscarHectareasPorPredioIdYFecha(predio, year, min, max);
+
+		return hectareas == null ? 0 : hectareas;
 	}
 
 }

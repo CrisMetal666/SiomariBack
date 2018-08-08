@@ -1,17 +1,14 @@
 package com.siomari.SiomariBack;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 public class TestWithMain {
 
 	public static void main(String[] args) {
 		
-		String strFecha = "2018-07-01";
+		double d = 50;
 
-		LocalDate fecha = LocalDate.parse(strFecha, DateTimeFormatter.ISO_DATE);
-		
-		System.out.println(fecha.getYear() + " " + fecha.getMonthValue());
+		double f = 0.531747 + 0.011621 * d - 0.000089 * Math.pow(d, 2) + 0.00000023 * Math.pow(d, 3);
+
+		System.out.println(f);
 
 	}
 
