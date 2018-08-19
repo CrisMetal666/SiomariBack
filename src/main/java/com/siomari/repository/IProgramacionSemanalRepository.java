@@ -25,7 +25,8 @@ public interface IProgramacionSemanalRepository extends JpaRepository<Programaci
 	 * @return todos la informacion del registro
 	 */
 	@Query("select new com.siomari.model.ProgramacionSemanal(ps.id,ps.lamina,ps.area,ps.fecha,ps.eficiencia,"
-			+ "ps.canalId.id,ps.caudal) from ProgramacionSemanal ps where ps.fecha = ?1 and ps.canalId.id = ?2")
+			+ "ps.canalId.id,ps.caudal) from ProgramacionSemanal ps where ps.fecha = ?1 and ps.canalId.id = ?2 "
+			+ "and ps.cszu = null")
 	ProgramacionSemanal buscarPorFechaYCanalId(LocalDate fecha, int canal);
 
 	/**
@@ -35,14 +36,17 @@ public interface IProgramacionSemanalRepository extends JpaRepository<Programaci
 	 *            fecha del registro
 	 * @param canal
 	 *            id del canal
-	 * @param unidadZona
-	 *            id de la unidad o zona
+	 * @param cszu
+	 *            id del canal, seccion, zona o unidad id de la unidad o zona
+	 * @param tipo
+	 *            hace referencia si estamos en el contexto de un canal (4), seccion
+	 *            (3), zona (2) y unidad (1)
 	 * @return todos la informacion del registro
 	 */
 	@Query("select new com.siomari.model.ProgramacionSemanal(ps.id,ps.lamina,ps.area,ps.fecha,ps.eficiencia,ps.caudal,"
-			+ "ps.unidadZona,ps.canalId.id) from ProgramacionSemanal ps where ps.fecha = ?1 and ps.canalId.id = ?2 "
-			+ "and ps.unidadZona = ?3")
-	ProgramacionSemanal buscarPorFechaYCanalIdUnidadZona(LocalDate fecha, int canal, int unidadZona);
+			+ "ps.cszu,ps.canalId.id) from ProgramacionSemanal ps where ps.fecha = ?1 and ps.canalId.id = ?2 "
+			+ "and ps.cszu = ?3 and ps.tipo = ?4")
+	ProgramacionSemanal buscarPorFechaCanalIdYCszu(LocalDate fecha, int canal, int cszu, int tipo);
 
 	/**
 	 * se buscara los registros de los canales de distribucion de toda la unidad

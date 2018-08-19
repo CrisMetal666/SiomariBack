@@ -1,5 +1,6 @@
 package com.siomari.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,4 +27,20 @@ public interface ISolicitudRiegoRepository extends JpaRepository<SolicitudRiego,
 	@Query("select new com.siomari.model.SolicitudRiego(sr.id,sr.fecha,sr.predioId.id) from SolicitudRiego sr "
 			+ "where sr.predioId.id = ?1 and year(sr.fecha) = ?2 and month(sr.fecha) = ?3")
 	List<SolicitudRiego> buscarPorPredioIdYMes(int id, int y, int m);
+
+	/**
+	 * se buscaran los predios que han solicitado riego en un intervalo de tiempo
+	 * especificado
+	 * 
+	 * @param id
+	 *            id del canal
+	 * @param fecha1
+	 *            fecha inferior
+	 * @param fecha2
+	 *            fecha superior
+	 * @return id del predio
+	 */
+	@Query("select sr.predioId.id from SolicitudRiego sr where sr.predioId.canalId.id = ?1 and sr.fecha between "
+			+ "?2 and ?3 group by sr.predioId.id")
+	List<Integer> buscarIdPredioPorCanalIdYRangoFecha(int id, LocalDate fecha1, LocalDate fecha2);
 }

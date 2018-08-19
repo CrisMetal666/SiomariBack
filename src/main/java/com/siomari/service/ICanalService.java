@@ -91,4 +91,13 @@ public interface ICanalService extends IService<Canal> {
 	 * @return lista de canales con solo su nombre, id y codigo
 	 */
 	List<Canal> buscarPorDistrito();
+	
+	/**
+	 * se buscaran los canales servidos por un canal
+	 * 
+	 * @param id
+	 *            id del canal
+	 * @return id de los canales servidos
+	 */
+	List<Integer> buscarCanalesServidos(int id);
 }

@@ -48,13 +48,14 @@ public class ProgramacionSemanalApi {
 	}
 
 	@GetMapping(value = "/programacionSemanal", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> programacionSemanal(@RequestParam("fecha") String txtFecha, @RequestParam("id") int id) {
+	public ResponseEntity<?> programacionSemanal(@RequestParam("fecha") String txtFecha,
+			@RequestParam("id") int id, @RequestParam("tipo") int tipo) {
 
 		ResponseEntity<?> response = null;
 
 		try {
 
-			ProgramacionSemanal programacionSemanal = programacionSemanalService.programacionSemanal(id, txtFecha);
+			ProgramacionSemanal programacionSemanal = programacionSemanalService.programacionSemanal(id, txtFecha, tipo);
 
 			response = new ResponseEntity<ProgramacionSemanal>(programacionSemanal, HttpStatus.OK);
 
@@ -111,8 +112,9 @@ public class ProgramacionSemanalApi {
 
 		try {
 
-			ProgramacionSemanal programacionSemanal = programacionSemanalService.calculoCaudalSemanal(id, txtFecha,
-					tipo);
+			ProgramacionSemanal programacionSemanal = new ProgramacionSemanal(); 
+			//= programacionSemanalService.calculoCaudalSemanal(id, txtFecha,
+				//	tipo);
 
 			response = new ResponseEntity<ProgramacionSemanal>(programacionSemanal, HttpStatus.OK);
 

@@ -144,4 +144,10 @@ public class ZonaServiceImpl implements IZonaService {
 		return zonaRepo.buscarNombrePorUnidadId(id);
 	}
 
+	@Override
+	public List<Zona> buscarIdCanalServidorPorZonaId(int id) {
+		
+		return zonaRepo.buscarIdCanalServidorPorUnidadId(id);
+	}
+
 }

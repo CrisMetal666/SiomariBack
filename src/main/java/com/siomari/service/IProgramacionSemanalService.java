@@ -39,7 +39,7 @@ public interface IProgramacionSemanalService {
 	 * 
 	 * @return lamina neta (m), area, capacidad del canal, eficiencia
 	 */
-	ProgramacionSemanal programacionSemanal(int id, String txtFecha);
+	ProgramacionSemanal programacionSemanal(int id, String txtFecha, int tipo);
 
 	/**
 	 * se calculara el caudal necesario para la semana segun la programacion semanal
@@ -52,7 +52,24 @@ public interface IProgramacionSemanalService {
 	 * @param tipo
 	 *            especificara si estamos consultando unidad, zona, seccion o canal
 	 *            (1 = unidad, 2 = zona, 3 = seccio, 4 = canal)
-	 * @return informacion necesaria para el calculo de el caudal semanal (area, eficiencia)
+	 * @return informacion necesaria para el calculo de el caudal semanal (area,
+	 *         eficiencia)
 	 */
-	ProgramacionSemanal calculoCaudalSemanal(int id, String txtFecha, int tipo);
+	//ProgramacionSemanal calculoCaudalSemanal(int id, String txtFecha, int tipo);
+
+	/**
+	 * se buscara un registro que conincida con la fecha, id del canal y unidadZona
+	 * 
+	 * @param fecha
+	 *            fecha del registro
+	 * @param canal
+	 *            id del canal
+	 * @param cszu
+	 *            id del canal, seccion, zona o unidad id de la unidad o zona
+	 * @param tipo
+	 *            hace referencia si estamos en el contexto de un canal (4), seccion
+	 *            (3), zona (2) y unidad (1)
+	 * @return todos la informacion del registro
+	 */
+	ProgramacionSemanal buscarPorFechaCanalIdYCszu(LocalDate fecha, int canal, int cszu, int tipo);
 }

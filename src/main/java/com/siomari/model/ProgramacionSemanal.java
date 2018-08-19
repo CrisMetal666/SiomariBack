@@ -41,12 +41,15 @@ public class ProgramacionSemanal {
 
 	@Column(name = "eficiencia", nullable = false)
 	private double eficiencia;
-	
+
 	@Column(name = "caudal", nullable = false)
 	private double caudal;
-	
-	@Column(name = "unidad_zona")
-	private Integer unidadZona;
+
+	@Column(name = "cszu")
+	private Integer cszu;
+
+	@Column(name = "tipo")
+	private Integer tipo;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "canal_id", nullable = false)
@@ -54,15 +57,16 @@ public class ProgramacionSemanal {
 
 	@Transient
 	private double capacidadCanal;
-	
+
 	public ProgramacionSemanal() {
 	}
-	
+
 	public ProgramacionSemanal(int id) {
 		this.id = id;
 	}
 
-	public ProgramacionSemanal(int id, double lamina, double area, LocalDate fecha, double eficiencia, int canalId, double caudal) {
+	public ProgramacionSemanal(int id, double lamina, double area, LocalDate fecha, double eficiencia, int canalId,
+			double caudal) {
 		this.id = id;
 		this.lamina = lamina;
 		this.area = area;
@@ -71,16 +75,16 @@ public class ProgramacionSemanal {
 		this.canalId = new Canal(canalId);
 		this.caudal = caudal;
 	}
-	
+
 	public ProgramacionSemanal(int id, double lamina, double area, LocalDate fecha, double eficiencia, double caudal,
-			Integer unidadZona, int canalId) {
+			Integer cszu, int canalId) {
 		this.id = id;
 		this.lamina = lamina;
 		this.area = area;
 		this.fecha = fecha;
 		this.eficiencia = eficiencia;
 		this.caudal = caudal;
-		this.unidadZona = unidadZona;
+		this.cszu = cszu;
 		this.canalId = new Canal(canalId);
 	}
 
@@ -148,15 +152,27 @@ public class ProgramacionSemanal {
 		this.caudal = caudal;
 	}
 
-	public Integer getUnidadZona() {
-		return unidadZona;
+	public Integer getCszu() {
+		return cszu;
 	}
 
-	public void setUnidadZona(Integer unidadZona) {
-		this.unidadZona = unidadZona;
+	public void setCszu(Integer cszu) {
+		this.cszu = cszu;
 	}
 
-	
+	public Integer getTipo() {
+		return tipo;
+	}
 
-	
+	public void setTipo(Integer tipo) {
+		this.tipo = tipo;
+	}
+
+	@Override
+	public String toString() {
+		return "ProgramacionSemanal [id=" + id + ", lamina=" + lamina + ", area=" + area + ", fecha=" + fecha
+				+ ", eficiencia=" + eficiencia + ", caudal=" + caudal + ", cszu=" + cszu + ", tipo=" + tipo
+				+ ", canalId=" + canalId + ", capacidadCanal=" + capacidadCanal + "]";
+	}
+
 }

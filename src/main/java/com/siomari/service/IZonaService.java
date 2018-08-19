@@ -48,4 +48,11 @@ public interface IZonaService extends IService<Zona> {
 	 * @return nombre de la zona
 	 */
 	List<String> buscarNombrePorUnidadId(int id);
+	
+	/**
+	 * se buscaran las zonas que pertenescan a una unidad
+	 * @param id id de la unidad
+	 * @return id de la zona con su canal servidor
+	 */
+	List<Zona> buscarIdCanalServidorPorZonaId(int id);
 }

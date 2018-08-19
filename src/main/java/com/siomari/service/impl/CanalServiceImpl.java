@@ -331,4 +331,10 @@ public class CanalServiceImpl implements ICanalService {
 		return canalRepo.buscarPorDistrito();
 	}
 
+	@Override
+	public List<Integer> buscarCanalesServidos(int id) {
+		
+		return canalRepo.buscarCanalesServidos(id);
+	}
+
 }

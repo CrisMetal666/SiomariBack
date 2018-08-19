@@ -87,4 +87,12 @@ public interface IZonaRepository extends JpaRepository<Zona, Integer> {
 	 */
 	@Query("select z.nombre from Zona z where z.unidadId.id = ?1")
 	List<String> buscarNombrePorUnidadId(int id);
+	
+	/**
+	 * se buscaran las zonas que pertenescan a una unidad
+	 * @param id id de la unidad
+	 * @return id de la zona con su canal servidor
+	 */
+	@Query("select new com.siomari.model.Zona(z.id,z.canalServidor) from Zona z where z.unidadId.id = ?1")
+	List<Zona> buscarIdCanalServidorPorZonaId(int id);
 }

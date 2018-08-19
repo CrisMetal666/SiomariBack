@@ -44,4 +44,11 @@ public interface ISeccionService extends IService<Seccion> {
 	 * @return nombre de la seccion
 	 */
 	List<String> buscarNombrePorZonaId(int id);
+	
+	/**
+	 * se buscaran las secciones que pertenescan a una zona
+	 * @param id id de la zona
+	 * @return id de la seccion con su canal servidor
+	 */
+	List<Seccion> buscarIdCanalServidorPorZonaId(int id);
 }

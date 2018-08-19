@@ -44,4 +44,10 @@ public class SolicitudRiegoServiceImpl implements ISolicitudRiegoService {
 		return repo.buscarPorPredioIdYMes(id, fecha.getYear(), fecha.getMonthValue());
 	}
 
+	@Override
+	public List<Integer> buscarIdPredioPorCanalIdYRangoFecha(int id, LocalDate fecha1, LocalDate fecha2) {
+		
+		return repo.buscarIdPredioPorCanalIdYRangoFecha(id, fecha1, fecha2);
+	}
+
 }

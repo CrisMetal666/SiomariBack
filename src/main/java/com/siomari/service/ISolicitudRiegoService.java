@@ -1,5 +1,6 @@
 package com.siomari.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.siomari.model.SolicitudRiego;
@@ -34,5 +35,19 @@ public interface ISolicitudRiegoService {
 	 * @return solicitudes que se han hecho en el mes
 	 */
 	List<SolicitudRiego> buscarPorMes(int id, String strFecha);
+
+	/**
+	 * se buscaran los predios que han solicitado riego en un intervalo de tiempo
+	 * especificado
+	 * 
+	 * @param id
+	 *            id del canal
+	 * @param fecha1
+	 *            fecha inferior
+	 * @param fecha2
+	 *            fecha superior
+	 * @return id del predio
+	 */
+	List<Integer> buscarIdPredioPorCanalIdYRangoFecha(int id, LocalDate fecha1, LocalDate fecha2);
 
 }

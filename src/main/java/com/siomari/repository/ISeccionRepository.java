@@ -81,4 +81,12 @@ public interface ISeccionRepository extends JpaRepository<Seccion, Integer> {
 	 */
 	@Query("select s.nombre from Seccion s where s.zonaId.id = ?1")
 	List<String> buscarNombrePorZonaId(int id);
+	
+	/**
+	 * se buscaran las secciones que pertenescan a una zona
+	 * @param id id de la zona
+	 * @return id de la seccion con su canal servidor
+	 */
+	@Query("select new com.siomari.model.Seccion(s.id,s.canalServidor) from Seccion s where s.zonaId.id = ?1")
+	List<Seccion> buscarIdCanalServidorPorZonaId(int id);
 }

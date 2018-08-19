@@ -123,7 +123,7 @@ public interface ICanalRepository extends JpaRepository<Canal, Integer> {
 	@Query("select new com.siomari.model.Canal(c.id,c.nombre,c.codigo) from Canal c inner join c.lstSeccionCanal "
 			+ "sc where sc.seccionId.id = ?1")
 	List<Canal> buscarPorSeccionId(int id);
-	
+
 	/**
 	 * se buscara los canales pertenecientes a una zona
 	 * 
@@ -134,7 +134,7 @@ public interface ICanalRepository extends JpaRepository<Canal, Integer> {
 	@Query("select new com.siomari.model.Canal(c.id,c.nombre,c.codigo) from Canal c inner join c.lstSeccionCanal "
 			+ "sc where sc.seccionId.zonaId.id = ?1")
 	List<Canal> buscarPorZonaId(int id);
-	
+
 	/**
 	 * se buscara los canales pertenecientes a una unidad
 	 * 
@@ -145,7 +145,7 @@ public interface ICanalRepository extends JpaRepository<Canal, Integer> {
 	@Query("select new com.siomari.model.Canal(c.id,c.nombre,c.codigo) from Canal c inner join c.lstSeccionCanal "
 			+ "sc where sc.seccionId.zonaId.unidadId.id = ?1")
 	List<Canal> buscarPorUnidadId(int id);
-	
+
 	/**
 	 * se buscara todos los canales
 	 * 
@@ -153,4 +153,14 @@ public interface ICanalRepository extends JpaRepository<Canal, Integer> {
 	 */
 	@Query("select new com.siomari.model.Canal(c.id,c.nombre,c.codigo) from Canal c")
 	List<Canal> buscarPorDistrito();
+
+	/**
+	 * se buscaran los canales servidos por un canal
+	 * 
+	 * @param id
+	 *            id del canal
+	 * @return id de los canales servidos
+	 */
+	@Query("select c.id from Canal c where c.canalId.id = ?1")
+	List<Integer> buscarCanalesServidos(int id);
 }

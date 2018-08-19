@@ -138,4 +138,10 @@ public class SeccionServiceImpl implements ISeccionService {
 		return seccionRepo.buscarNombrePorZonaId(id);
 	}
 
+	@Override
+	public List<Seccion> buscarIdCanalServidorPorZonaId(int id) {
+		
+		return seccionRepo.buscarIdCanalServidorPorZonaId(id);
+	}
+
 }

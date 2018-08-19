@@ -25,38 +25,43 @@ public class Seccion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "nombre", length = 100, nullable = false)
 	private String nombre;
-	
+
 	@Column(name = "canal_servidor")
 	private Integer canalServidor;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "zona_id", nullable = false)
 	private Zona zonaId;
-	
+
 	@OneToMany(mappedBy = "seccionId", fetch = FetchType.LAZY)
 	private List<SeccionCanal> lstSeccionCanal;
-	
+
 	public Seccion() {
 	}
 
 	public Seccion(int id) {
 		this.id = id;
 	}
-	
+
+	public Seccion(int id, Integer canalServidor) {
+		this.id = id;
+		this.canalServidor = canalServidor;
+	}
+
 	public Seccion(int id, String nombre) {
 		this.id = id;
 		this.nombre = nombre;
 	}
-	
+
 	public Seccion(int id, String nombre, Zona zonaId) {
 		this.id = id;
 		this.nombre = nombre;
 		this.zonaId = zonaId;
 	}
-	
+
 	public Seccion(int id, String nombre, Zona zonaId, List<SeccionCanal> lstSeccionCanal) {
 		this.id = id;
 		this.nombre = nombre;
@@ -103,7 +108,5 @@ public class Seccion {
 	public void setCanalServidor(Integer canalServidor) {
 		this.canalServidor = canalServidor;
 	}
-	
-	
-	
+
 }
