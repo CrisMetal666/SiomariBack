@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import com.siomari.model.Canal;
 import com.siomari.model.ManejoAgua;
 import com.siomari.model.ProgramacionSemanal;
-import com.siomari.model.Seccion;
-import com.siomari.model.Zona;
 import com.siomari.repository.IProgramacionSemanalRepository;
 import com.siomari.service.ICanalService;
 import com.siomari.service.ICultivoPredioService;
@@ -92,17 +90,17 @@ public class ProgramacionSemanalServiceImpl implements IProgramacionSemanalServi
 		if (tipo == 1) {
 
 			idCanal = unidadService.buscarCanalServidorPorId(id);
-			programacion = this.calcularCaudalUnidad(id, idCanal, fecha);
+			programacion = this.calcularCaudalCanal(idCanal, fecha);
 
 		} else if (tipo == 2) {
 
 			idCanal = zonaService.buscarCanalServidorPorId(id);
-			programacion = this.calcularCaudalZona(id, idCanal, fecha);
+			programacion = this.calcularCaudalCanal(idCanal, fecha);
 
 		} else if (tipo == 3) {
 
 			idCanal = seccionService.buscarCanalServidorPorId(id);
-			programacion = this.calcularCaudalSeccion(idCanal, fecha);
+			programacion = this.calcularCaudalCanal(idCanal, fecha);
 
 		} else if (tipo == 4) {
 
@@ -209,113 +207,123 @@ public class ProgramacionSemanalServiceImpl implements IProgramacionSemanalServi
 		return result;
 	}
 
-	/**
-	 * se calculara el caudal que necesitara la unidad
-	 * 
-	 * @param id
-	 *            id de la unidad
-	 * @param canal
-	 *            id del canal servidor
-	 * @param fecha
-	 *            fecha en la que se iniciara la programacion semanal (Debe de ser
-	 *            un lunes)
-	 * @return caudal necesario para la unidad
-	 */
-	private ProgramacionSemanal calcularCaudalUnidad(int id, int canal, LocalDate fecha) {
+	// /**
+	// * se calculara el caudal que necesitara la unidad
+	// *
+	// * @param id
+	// * id de la unidad
+	// * @param canal
+	// * id del canal servidor
+	// * @param fecha
+	// * fecha en la que se iniciara la programacion semanal (Debe de ser
+	// * un lunes)
+	// * @return caudal necesario para la unidad
+	// */
+	// private ProgramacionSemanal calcularCaudalUnidad(int id, int canal, LocalDate
+	// fecha) {
+	//
+	// /*
+	// * consultamos las secciones de la zona con su respectivo canal servidor
+	// */
+	// List<Zona> lstZona = zonaService.buscarIdCanalServidorPorUnidadId(id);
+	//
+	// // almacenaremos los calculos de los caudales de las secciones
+	// List<ProgramacionSemanal> lstProgramacion = new ArrayList<>();
+	//
+	// for (Zona z : lstZona) {
+	//
+	// ProgramacionSemanal p = this.calcularCaudalZona(z.getId(),
+	// z.getCanalServidor(), fecha);
+	//
+	// /*
+	// * como solo estamos sumando los caudales de las zonas y la eficiencia no se
+	// * tiene en cuenta le asignmos una eficiencia de 1 para que pueda realizar los
+	// * calculos normalmente y sin tener errores con los valores
+	// */
+	// p.setEficiencia(1);
+	//
+	// lstProgramacion.add(p);
+	// }
+	//
+	// ProgramacionSemanal programacion = this.calculoCaudal(canal, fecha,
+	// lstProgramacion, false);
+	//
+	// if (programacion.getArea() != 0) {
+	//
+	// programacion.setLamina(programacion.getCaudal() * 604800 /
+	// (programacion.getArea() * 10000));
+	// }
+	//
+	// return programacion;
+	// }
 
-		/*
-		 * consultamos las secciones de la zona con su respectivo canal servidor
-		 */
-		List<Zona> lstZona = zonaService.buscarIdCanalServidorPorUnidadId(id);
-
-		// almacenaremos los calculos de los caudales de las secciones
-		List<ProgramacionSemanal> lstProgramacion = new ArrayList<>();
-
-		for (Zona z : lstZona) {
-
-			ProgramacionSemanal p = this.calcularCaudalZona(z.getId(), z.getCanalServidor(), fecha);
-
-			/*
-			 * como solo estamos sumando los caudales de las zonas y la eficiencia no se
-			 * tiene en cuenta le asignmos una eficiencia de 1 para que pueda realizar los
-			 * calculos normalmente y sin tener errores con los valores
-			 */
-			p.setEficiencia(1);
-
-			lstProgramacion.add(p);
-		}
-
-		ProgramacionSemanal programacion = this.calculoCaudal(canal, fecha, lstProgramacion, false);
-
-		if (programacion.getArea() != 0) {
-
-			programacion.setLamina(programacion.getCaudal() * 604800 / (programacion.getArea() * 10000));
-		}
-
-		return programacion;
-	}
-
-	/**
-	 * se calculara el caudal que necesitara la zona
-	 * 
-	 * @param id
-	 *            id de la zona
-	 * @param canal
-	 *            id del canal servidor
-	 * @param fecha
-	 *            fecha en la que se iniciara la programacion semanal (Debe de ser
-	 *            un lunes)
-	 * @return caudal necesario para la zona
-	 */
-	private ProgramacionSemanal calcularCaudalZona(int id, int canal, LocalDate fecha) {
-
-		/*
-		 * consultamos las secciones de la zona con su respectivo canal servidor
-		 */
-		List<Seccion> lstSeccion = seccionService.buscarIdCanalServidorPorZonaId(id);
-
-		// almacenaremos los calculos de los caudales de las secciones
-		List<ProgramacionSemanal> lstProgramacion = new ArrayList<>();
-
-		for (Seccion s : lstSeccion) {
-
-			ProgramacionSemanal p = this.buscarPorFechaYCanalId(fecha, s.getCanalServidor());
-
-			// nos aseguramos que exista la informacion antes de agregarla a la lista
-			if (p.getId() == 0)
-				continue;
-
-			lstProgramacion.add(p);
-		}
-
-		ProgramacionSemanal programacion = this.calculoCaudal(canal, fecha, lstProgramacion, false);
-
-		if (programacion.getArea() != 0) {
-
-			programacion.setLamina(programacion.getCaudal() * 604800 / (programacion.getArea() * 10000));
-		}
-
-		return programacion;
-	}
-
-	/**
-	 * se consultara la programacion que se le hizo al canal servidor del servidor y
-	 * calcular el caudal que neceista la seccion
-	 * 
-	 * @param canal
-	 *            id del canal servidor de la seccion
-	 * @param fecha
-	 *            fecha en la que se iniciara la programacion semanal (Debe de ser
-	 *            un lunes)
-	 * @return
-	 */
-	private ProgramacionSemanal calcularCaudalSeccion(int canal, LocalDate fecha) {
-
-		// primero verificamos que ya no este guardado el calculo del caudal
-		ProgramacionSemanal programacion = this.buscarPorFechaYCanalId(fecha, canal);
-
-		return programacion == null ? new ProgramacionSemanal() : programacion;
-	}
+	// /**
+	// * se calculara el caudal que necesitara la zona
+	// *
+	// * @param id
+	// * id de la zona
+	// * @param canal
+	// * id del canal servidor
+	// * @param fecha
+	// * fecha en la que se iniciara la programacion semanal (Debe de ser
+	// * un lunes)
+	// * @return caudal necesario para la zona
+	// */
+	// private ProgramacionSemanal calcularCaudalZona(int id, int canal, LocalDate
+	// fecha) {
+	//
+	// /*
+	// * consultamos las secciones de la zona con su respectivo canal servidor
+	// */
+	// List<Seccion> lstSeccion = seccionService.buscarIdCanalServidorPorZonaId(id);
+	//
+	// // almacenaremos los calculos de los caudales de las secciones
+	// List<ProgramacionSemanal> lstProgramacion = new ArrayList<>();
+	//
+	// for (Seccion s : lstSeccion) {
+	//
+	// ProgramacionSemanal p = this.buscarPorFechaYCanalId(fecha,
+	// s.getCanalServidor());
+	//
+	// // nos aseguramos que exista la informacion antes de agregarla a la lista
+	// if (p.getId() == 0)
+	// continue;
+	//
+	// lstProgramacion.add(p);
+	// }
+	//
+	// ProgramacionSemanal programacion = this.calculoCaudal(canal, fecha,
+	// lstProgramacion, false);
+	//
+	// if (programacion.getArea() != 0) {
+	//
+	// programacion.setLamina(programacion.getCaudal() * 604800 /
+	// (programacion.getArea() * 10000));
+	// }
+	//
+	// return programacion;
+	// }
+	//
+	// /**
+	// * se consultara la programacion que se le hizo al canal servidor del servidor
+	// y
+	// * calcular el caudal que neceista la seccion
+	// *
+	// * @param canal
+	// * id del canal servidor de la seccion
+	// * @param fecha
+	// * fecha en la que se iniciara la programacion semanal (Debe de ser
+	// * un lunes)
+	// * @return
+	// */
+	// private ProgramacionSemanal calcularCaudalSeccion(int canal, LocalDate fecha)
+	// {
+	//
+	// // primero verificamos que ya no este guardado el calculo del caudal
+	// ProgramacionSemanal programacion = this.buscarPorFechaYCanalId(fecha, canal);
+	//
+	// return programacion == null ? new ProgramacionSemanal() : programacion;
+	// }
 
 	/**
 	 * se sumaran los caudales de la programacion semanal de los canales servidos y
@@ -363,7 +371,7 @@ public class ProgramacionSemanalServiceImpl implements IProgramacionSemanalServi
 			 */
 			ProgramacionSemanal programacion = this.buscarPorFechaYCanalId(fecha, idCanal);
 
-			if (programacion.getId() == 0)
+			if (programacion == null)
 				continue;
 
 			lstProgramacion.add(programacion);

@@ -8,7 +8,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost/siomari_db?useSSL=false
     username: root
-    password: 
+    password: MrS;S6v<lbqv
   http:
     multipart:
       max-file-size: 100MB
